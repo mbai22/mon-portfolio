@@ -97,12 +97,7 @@ export default function Navbar() {
       <div className="navbar-container">
         {/* Logo */}
         <a href="#hero" className="navbar-logo animate-fadeInUp">
-          <div className="navbar-logo-icon">
-            <Code size={20} color="white" />
-          </div>
-          <span className="navbar-logo-text">
-            Willy<span className="text-orange">Dev</span>
-          </span>
+          <img src="/assets/logo-hero.png" alt="WillyDev" className="navbar-logo-img" />
         </a>
 
         {/* Desktop Navigation */}

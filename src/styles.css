@@ -214,15 +214,9 @@ section {
   text-decoration: none;
 }
 
-.navbar-logo-icon {
-  width: 40px;
+.navbar-logo-img {
   height: 40px;
-  border-radius: 50%;
-  background-color: var(--accent-orange);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  width: auto;
 }
 
 .navbar-logo-text {
@@ -3199,27 +3193,9 @@ section {
   margin-bottom: 24px;
 }
 
-.footer-brand-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--accent-orange);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.footer-brand-icon svg {
-  width: 20px;
-  height: 20px;
-  color: white;
-}
-
-.footer-brand-text {
-  font-size: 20px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: -0.5px;
+.footer-logo-img {
+  height: 50px;
+  width: auto;
 }
 
 .footer-description {

@@ -78,12 +78,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <a href="#hero" className="footer-brand">
-              <div className="footer-brand-icon">
-                <Code size={20} />
-              </div>
-              <span className="footer-brand-text">
-                Willy<span style={{ color: 'var(--accent-orange)' }}>Dev</span>
-              </span>
+              <img src="/assets/logo-hero.png" alt="WillyDev" className="footer-logo-img" />
             </a>
             <p className="footer-description">
               Développeur Full Stack basé au Tchad. Spécialisé en Angular, Laravel et React. Je crée des applications web modernes et performantes.
