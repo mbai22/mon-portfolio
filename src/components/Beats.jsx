@@ -7,7 +7,7 @@ const beats = [
   { id: 1, title: "N'djamena Nights", genre: "Afrobeat", bpm: 115, duration: "2:45", price: "50,000 FCFA", plays: "1.2k", Icon: Moon, color: "#fdb901" },
   { id: 2, title: "Sahara Drill", genre: "Drill", bpm: 140, duration: "3:12", price: "75,000 FCFA", plays: "856", Icon: Zap, color: "#7a00ff" },
   { id: 3, title: "Tchad Vibes", genre: "Afro-Fusion", bpm: 128, duration: "2:58", price: "60,000 FCFA", plays: "2.1k", Icon: Music, color: "#fdb901" },
-  { id: 4, title: "Kouno Dreams", genre: "Melodic Trap", bpm: 130, duration: "3:05", price: "55,000 FCFA", plays: "945", Icon: Sparkles, color: "#7a00ff" },
+  { id: 4, title: "Sahara Dreams", genre: "Melodic Trap", bpm: 130, duration: "3:05", price: "55,000 FCFA", plays: "945", Icon: Sparkles, color: "#7a00ff" },
   { id: 5, title: "Afro King", genre: "Afrobeat", bpm: 118, duration: "2:30", price: "65,000 FCFA", plays: "1.5k", Icon: Crown, color: "#fdb901" },
   { id: 6, title: "Street Anthem", genre: "Hip Hop", bpm: 95, duration: "3:20", price: "45,000 FCFA", plays: "723", Icon: Flame, color: "#7a00ff" }
 ];

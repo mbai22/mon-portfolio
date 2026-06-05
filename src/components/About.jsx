@@ -16,8 +16,8 @@ export default function About() {
           <div className="about-image-wrapper animate-slideInLeft">
             <div className="about-image">
               <img 
-                src="/assets/img/about_dan.jpeg" 
-                alt="Mbaihornom Willifred - Développeur Web"
+                src="/assets/img/about_willy.jpeg" 
+                alt="Willy Dev - Développeur Web"
                 className="about-image-img"
                 loading="lazy"
               />

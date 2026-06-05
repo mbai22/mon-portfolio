@@ -40,7 +40,7 @@ const translations = {
     about: {
       title: "L'Afrique dans chaque beat",
       subtitle: 'À Propos',
-      description: 'Je suis Djerakoula Dankoula Robin, connu sous le nom de Dan\'s Robi. Né le 18 septembre 2002 à Kouno, au sud du Tchad.',
+      description: 'Je suis Willy Dev, développeur Full Stack basé au Tchad. Passionné par la création d\'applications web modernes et performantes.',
       skills: ['Beatmaking', 'Topline', 'Arrangement', 'Mixing', 'Mastering', 'Production'],
       achievements: {
         beats: 'Beats Produits',
@@ -179,7 +179,7 @@ const translations = {
     about: {
       title: 'Africa in every beat',
       subtitle: 'About',
-      description: 'I am Djerakoula Dankoula Robin, known as Dan\'s Robi. Born September 18, 2002 in Kouno, southern Chad.',
+      description: 'I am Willy Dev, a Full Stack Developer based in Chad. Passionate about building modern and performant web applications.',
       skills: ['Beatmaking', 'Topline', 'Arrangement', 'Mixing', 'Mastering', 'Production'],
       achievements: {
         beats: 'Beats Produced',

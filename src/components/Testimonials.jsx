@@ -4,7 +4,7 @@ const testimonials = [
   {
     name: "Ahmed Mahamat",
     role: "CEO, Startup Tech",
-    content: "Mbaihornom a transformé notre vision en une application web performante. Son professionnalisme et sa maîtrise technique sont impressionnants. Notre plateforme est maintenant utilisée par des milliers d'utilisateurs.",
+    content: "Willy Dev a transformé notre vision en une application web performante. Son professionnalisme et sa maîtrise technique sont impressionnants. Notre plateforme est maintenant utilisée par des milliers d'utilisateurs.",
     rating: 5,
     image: "/assets/img/testimonial-1.jpg"
   },
