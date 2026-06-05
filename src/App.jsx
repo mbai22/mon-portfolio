@@ -1,12 +1,17 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import Beats from './components/Beats'
 import About from './components/About'
+import Skills from './components/Skills'
 import Portfolio from './components/Portfolio'
 import Services from './components/Services'
+import HowIWork from './components/HowIWork'
+import Testimonials from './components/Testimonials'
+import Clients from './components/Clients'
+import Blog from './components/Blog'
+import FAQ from './components/FAQ'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import CartDrawer from './components/CartDrawer'
+import WhatsAppWidget from './components/WhatsAppWidget'
 
 function App() {
   return (
@@ -14,14 +19,19 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <Beats />
         <About />
+        <Skills />
         <Portfolio />
         <Services />
+        <HowIWork />
+        <Testimonials />
+        <Clients />
+        <Blog />
+        <FAQ />
         <Contact />
       </main>
       <Footer />
-      <CartDrawer />
+      <WhatsAppWidget />
     </div>
   )
 }

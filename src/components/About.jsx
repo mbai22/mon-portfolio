@@ -1,13 +1,11 @@
-import { MapPin, Calendar, Award, Headphones, User, Flame } from 'lucide-react';
+import { MapPin, Calendar, Award, Code, User, Zap } from 'lucide-react';
 
 const achievements = [
-  { icon: Headphones, number: "200+", label: "Beats Produits" },
-  { icon: Award, number: "50+", label: "Artistes Collaborés" },
+  { icon: Code, number: "15+", label: "Projets livrés" },
+  { icon: Award, number: "10+", label: "Clients satisfaits" },
   { icon: MapPin, number: "Tchad", label: "Base à N'djamena" },
-  { icon: Calendar, number: "3 ans", label: "D'expérience" }
+  { icon: Calendar, number: "2 ans", label: "D'expérience" }
 ];
-
-const skills = ["Beatmaking", "Topline", "Arrangement", "Mixing", "Mastering", "Production"];
 
 export default function About() {
   return (
@@ -19,7 +17,7 @@ export default function About() {
             <div className="about-image">
               <img 
                 src="/assets/img/about_dan.jpeg" 
-                alt="Dan's Robi - Beatmaker & Producteur"
+                alt="Mbaihornom Willifred - Développeur Web"
                 className="about-image-img"
                 loading="lazy"
               />
@@ -28,11 +26,11 @@ export default function About() {
               {/* Floating Badge */}
               <div className="about-badge animate-fadeIn delay-300">
                 <div className="about-badge-icon">
-                  <Flame size={20} />
+                  <Zap size={20} />
                 </div>
                 <div>
-                  <p className="about-badge-title">En studio maintenant</p>
-                  <p className="about-badge-text">Disponible pour bookings</p>
+                  <p className="about-badge-title">Disponible maintenant</p>
+                  <p className="about-badge-text">Prêt pour vos projets</p>
                 </div>
               </div>
             </div>
@@ -46,31 +44,21 @@ export default function About() {
           <div className="about-content animate-slideInRight">
             <span className="section-label">À Propos</span>
             <h2 className="section-title" style={{ textAlign: 'left' }}>
-              L&apos;Afrique dans chaque <span className="text-orange">beat</span>
+              Des solutions web qui <span className="text-orange">transforment</span>
             </h2>
             
             <div>
               <p>
-                Je suis <strong>Djerakoula Dankoula Robin</strong>, connu sous le nom de 
-                <span className="text-orange" style={{ fontWeight: 600 }}> Dan&apos;s Robi</span>. 
-                Né le 18 septembre 2002 à Kouno, au sud du Tchad, j&apos;ai rapidement développé 
-                une passion pour la création musicale.
+                Je suis <strong>Willy Dev</strong>, développeur web spécialisé en Angular et Laravel. 
+                J&apos;accompagne les entreprises et entrepreneurs à créer des plateformes performantes, rapides et évolutives.
               </p>
               <p>
-                En seulement trois ans, je me suis imposé comme l&apos;une des figures montantes 
-                du beatmaking au Tchad. Mon style unique mêle les sonorités africaines 
-                traditionnelles aux genres urbains contemporains.
+                Ma mission ? Transformer vos idées en applications web modernes qui génèrent des résultats concrets. 
+                Je me concentre sur la qualité du code, l&apos;expérience utilisateur et la performance.
               </p>
               <p>
-                Mon ambition ? Porter la voix du Tchad sur la scène musicale internationale.
+                Chaque projet est une opportunité de repousser les limites et de créer quelque chose d&apos;exceptionnel.
               </p>
-            </div>
-
-            {/* Skills Tags */}
-            <div className="about-skills">
-              {skills.map((skill) => (
-                <span key={skill} className="about-skill">{skill}</span>
-              ))}
             </div>
 
             {/* Achievement Grid */}

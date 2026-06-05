@@ -1,14 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Menu, X, Music, ShoppingCart, Globe, ChevronRight } from 'lucide-react';
-import { useCart } from '../contexts/CartContext';
+import { Menu, X, Code, Globe, ChevronRight } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 
 const navLinks = [
   { name: 'Accueil', href: '#hero' },
-  { name: 'Beats', href: '#beats' },
-  { name: 'A Propos', href: '#about' },
+  { name: 'À Propos', href: '#about' },
+  { name: 'Compétences', href: '#skills' },
   { name: 'Portfolio', href: '#portfolio' },
   { name: 'Services', href: '#services' },
+  { name: 'Processus', href: '#how-i-work' },
+  { name: 'Témoignages', href: '#testimonials' },
+  { name: 'Clients', href: '#clients' },
+  { name: 'Blog', href: '#blog' },
+  { name: 'FAQ', href: '#faq' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -16,8 +20,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
-  const { cartCount, toggleCart } = useCart();
-  const { locale, toggleLocale, t } = useI18n();
+  const { locale, toggleLocale } = useI18n();
   
   // Refs pour le swipe
   const touchStartX = useRef(0);
@@ -95,10 +98,10 @@ export default function Navbar() {
         {/* Logo */}
         <a href="#hero" className="navbar-logo animate-fadeInUp">
           <div className="navbar-logo-icon">
-            <Music size={20} color="white" />
+            <Code size={20} color="white" />
           </div>
           <span className="navbar-logo-text">
-            DAN&apos;S<span className="text-orange">ROBI</span>
+            Willy<span className="text-orange">Dev</span>
           </span>
         </a>
 
@@ -110,7 +113,7 @@ export default function Navbar() {
             </a>
           ))}
           <a href="#contact" className="btn-primary" style={{ fontSize: '14px', padding: '12px 24px' }}>
-            Book Session
+            Me contacter
           </a>
           
           {/* Language Switcher */}
@@ -122,18 +125,6 @@ export default function Navbar() {
           >
             <Globe size={18} />
             <span className="navbar-lang-text">{locale.toUpperCase()}</span>
-          </button>
-          
-          {/* Cart Button */}
-          <button 
-            className="navbar-cart-btn" 
-            onClick={toggleCart}
-            aria-label="Ouvrir le panier"
-          >
-            <ShoppingCart size={20} />
-            {cartCount > 0 && (
-              <span className="navbar-cart-badge">{cartCount}</span>
-            )}
           </button>
         </div>
 
@@ -176,7 +167,7 @@ export default function Navbar() {
             style={{ display: 'block', textAlign: 'center', marginTop: '16px' }}
             onClick={() => setIsOpen(false)}
           >
-            Book Session
+            Me contacter
           </a>
         </div>
         

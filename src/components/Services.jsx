@@ -1,39 +1,39 @@
-import { Music, Mic2, Sliders, Wand2, Zap, Star, Check } from 'lucide-react';
+import { Monitor, Smartphone, Layers, Palette, Zap, Star, Check } from 'lucide-react';
 
 const services = [
   {
-    icon: Music,
-    title: "Beatmaking",
-    description: "Création de beats personnalisés dans tous les styles : Afrobeat, Drill, Trap, Hip Hop.",
-    price: "À partir de 45,000 FCFA",
-    features: ["Beat exclusif", "Stems inclus", "2 révisions", "Livraison 48h"],
+    icon: Monitor,
+    title: "Création de Sites Web",
+    description: "Sites vitrines, e-commerce ou plateformes sur mesure, modernes et performants.",
+    price: "À partir de 150,000 FCFA",
+    features: ["Design responsive", "SEO optimisé", "Performance rapide", "Support technique"],
     popular: true,
     color: "#fdb901"
   },
   {
-    icon: Mic2,
-    title: "Enregistrement",
-    description: "Sessions d'enregistrement professionnelles avec matériel haut de gamme.",
-    price: "À partir de 25,000 FCFA/session",
-    features: ["Studio équipé", "Ingénieur dédié", "Mix live", "Backup sécurisé"],
+    icon: Layers,
+    title: "Développement d'Apps",
+    description: "Applications web complexes avec Angular, Laravel et API REST.",
+    price: "À partir de 300,000 FCFA",
+    features: ["Architecture scalable", "Sécurité renforcée", "Tests inclus", "Documentation"],
     popular: false,
     color: "#7a00ff"
   },
   {
-    icon: Sliders,
-    title: "Mixing & Mastering",
-    description: "Mix professionnel et mastering prêt pour les plateformes.",
-    price: "À partir de 75,000 FCFA",
-    features: ["Mix multipiste", "Mastering pro", "Formats streaming", "Revision gratuite"],
+    icon: Smartphone,
+    title: "Refonte de Sites",
+    description: "Modernisation de sites existants pour améliorer UX et conversion.",
+    price: "À partir de 100,000 FCFA",
+    features: ["Audit complet", "Nouveau design", "Migration propre", "Formation incluse"],
     popular: false,
     color: "#fdb901"
   },
   {
-    icon: Wand2,
-    title: "Production Complète",
-    description: "Accompagnement de A à Z : composition, arrangement, enregistrement, mix.",
+    icon: Palette,
+    title: "UI/UX Design",
+    description: "Design d'interfaces utilisateur modernes et expériences optimales.",
     price: "Sur devis",
-    features: ["Production clé en main", "Direction artistique", "Booking sessions", "Promotion incluse"],
+    features: ["Maquettes Figma", "Prototypage", "Tests utilisateurs", "Design system"],
     popular: true,
     color: "#7a00ff"
   }
@@ -48,7 +48,7 @@ export default function Services() {
           <span className="section-label">Services</span>
           <h2 className="section-title">Ce que je <span className="text-orange">propose</span></h2>
           <p className="section-description">
-            Des services professionnels pour accompagner les artistes dans la réalisation de leurs projets.
+            Des services professionnels pour transformer vos idées en solutions web performantes.
           </p>
         </div>
 

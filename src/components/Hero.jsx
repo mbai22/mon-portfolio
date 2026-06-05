@@ -1,72 +1,83 @@
-import { Play, Calendar, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Code, Briefcase, Download, Circle, Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
 
 export default function Hero() {
   return (
     <section id="hero" className="hero">
-      {/* Background Effects */}
       <div className="hero-bg">
-        <img src="/assets/hero-bg.png" alt="Background" className="hero-bg-image" />
-        <div className="hero-orb hero-orb-1" />
-        <div className="hero-orb hero-orb-2" />
+        <div className="hero-gradient-1" />
+        <div className="hero-gradient-2" />
+        <div className="hero-grid-pattern" />
       </div>
 
-      {/* Content */}
-      <div className="hero-content">
-        {/* Badge */}
-        <div className="hero-badge animate-fadeInUp">
-          <span className="hero-badge-dot" />
-          <span className="hero-badge-text">Disponible pour collaborations</span>
+      <div className="hero-container">
+        <div className="hero-content">
+          {/* Left Side - Content */}
+          <div className="hero-left">
+            {/* Status Badge */}
+            <div className="hero-status-badge">
+              <div className="status-dot" />
+              <span className="status-text">Disponible pour nouveaux projets</span>
+            </div>
+
+            {/* Main Heading */}
+            <h1 className="hero-heading">
+              <span className="hero-heading-line">Développeur</span>
+              <span className="hero-heading-line hero-heading-accent">Full Stack</span>
+              <span className="hero-heading-line">Créatif</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="hero-subtitle">
+              Spécialisé en Angular, Laravel et React. Je transforme vos idées en applications web performantes et modernes.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="hero-cta-group">
+              <a href="#portfolio" className="btn-primary hero-btn-primary">
+                <Code size={20} />
+                Voir mes projets
+                <ArrowRight size={18} />
+              </a>
+              <a href="#contact" className="btn-secondary hero-btn-secondary">
+                <Mail size={20} />
+                Me contacter
+              </a>
+            </div>
+
+            {/* Secondary Actions */}
+            <div className="hero-secondary-actions">
+              <a href="/cv-willy-dev.pdf" download className="hero-link">
+                <Download size={16} />
+                Télécharger CV
+              </a>
+              <div className="hero-social-links">
+                <a href="#" className="hero-social-link" aria-label="GitHub">
+                  <Github size={20} />
+                </a>
+                <a href="#" className="hero-social-link" aria-label="LinkedIn">
+                  <Linkedin size={20} />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Visual Element */}
+          <div className="hero-right">
+            <img 
+              src="/assets/hero-bg.png" 
+              alt="Hero" 
+              className="hero-image"
+            />
+          </div>
         </div>
 
-        {/* Main Title */}
-        <h1 className="hero-title animate-fadeInUp delay-200">
-          DAN&apos;S <span className="text-orange">ROBI</span>
-        </h1>
-
-        {/* Subtitle */}
-        <p className="hero-subtitle animate-fadeInUp delay-300">
-          Crafting sounds that move Africa
-        </p>
-
-        {/* Description */}
-        <p className="hero-description animate-fadeInUp delay-400">
-          Beatmaker & Producteur musical tchadien. Spécialisé en Afrobeat, Drill et Trap.
-          Transformons votre vision en hits internationaux.
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="hero-buttons animate-fadeInUp delay-500">
-          <a href="#beats" className="btn-primary">
-            <Play size={18} style={{ transition: 'transform 0.3s' }} />
-            Écouter les Beats
-          </a>
-          <a href="#contact" className="btn-secondary">
-            <Calendar size={18} />
-            Book Session
-          </a>
+        {/* Scroll Indicator */}
+        <div className="hero-scroll-indicator">
+          <div className="scroll-mouse">
+            <div className="scroll-wheel" />
+          </div>
+          <span className="scroll-text">Scroll</span>
         </div>
-
-        {/* Stats */}
-        <div className="hero-stats animate-fadeInUp delay-600">
-          <div>
-            <div className="hero-stat-number">200+</div>
-            <div className="hero-stat-label">Beats créés</div>
-          </div>
-          <div>
-            <div className="hero-stat-number">50+</div>
-            <div className="hero-stat-label">Artistes</div>
-          </div>
-          <div>
-            <div className="hero-stat-number">3 ans</div>
-            <div className="hero-stat-label">Expérience</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="hero-scroll animate-fadeIn delay-800">
-        <span className="hero-scroll-text">Scroll</span>
-        <ChevronDown size={20} className="hero-scroll-icon" />
       </div>
     </section>
   );

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Music, Heart, ArrowUp, Instagram, Youtube, Facebook, Twitter, CheckCircle, Loader2, Send } from 'lucide-react';
+import { Code, ArrowUp, Github, Linkedin, Mail, CheckCircle, Loader2, Send, ExternalLink } from 'lucide-react';
 
 // Configuration Mailchimp - À remplacer par tes vraies valeurs
 const MAILCHIMP_URL = import.meta.env.VITE_MAILCHIMP_URL || 'https://youraccount.us1.list-manage.com/subscribe/post';
@@ -9,17 +9,17 @@ const MAILCHIMP_ID = import.meta.env.VITE_MAILCHIMP_ID || 'your_list_id';
 const footerLinks = {
   navigation: [
     { label: "Accueil", href: "#hero" },
-    { label: "Beats", href: "#beats" },
     { label: "À Propos", href: "#about" },
+    { label: "Compétences", href: "#skills" },
     { label: "Portfolio", href: "#portfolio" },
     { label: "Services", href: "#services" },
     { label: "Contact", href: "#contact" }
   ],
   services: [
-    { label: "Beatmaking", href: "#services" },
-    { label: "Production", href: "#services" },
-    { label: "Mixing", href: "#services" },
-    { label: "Mastering", href: "#services" }
+    { label: "Développement Web", href: "#services" },
+    { label: "Applications Mobiles", href: "#services" },
+    { label: "API REST", href: "#services" },
+    { label: "Maintenance", href: "#services" }
   ],
   legal: [
     { label: "Conditions d'utilisation", href: "#" },
@@ -29,10 +29,9 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Youtube, href: "#", label: "YouTube" },
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Twitter, href: "#", label: "Twitter" }
+  { icon: Github, href: "#", label: "GitHub" },
+  { icon: Linkedin, href: "#", label: "LinkedIn" },
+  { icon: Mail, href: "mailto:contact@willydev.com", label: "Email" }
 ];
 
 export default function Footer() {
@@ -80,14 +79,14 @@ export default function Footer() {
           <div>
             <a href="#hero" className="footer-brand">
               <div className="footer-brand-icon">
-                <Music size={20} />
+                <Code size={20} />
               </div>
               <span className="footer-brand-text">
-                DAN&apos;S<span style={{ color: '#fdb901' }}>ROBI</span>
+                Willy<span style={{ color: 'var(--accent-orange)' }}>Dev</span>
               </span>
             </a>
             <p className="footer-description">
-              Beatmaker & Producteur musical tchadien. Créateur de sons qui font vibrer l&apos;Afrique et le monde.
+              Développeur Full Stack basé au Tchad. Spécialisé en Angular, Laravel et React. Je crée des applications web modernes et performantes.
             </p>
             <div className="footer-social">
               {socialLinks.map((social) => (
@@ -167,7 +166,7 @@ export default function Footer() {
           <div className="footer-bottom-content">
             {/* Copyright */}
             <p className="footer-copyright">
-              © 2024 Dan&apos;s Robi. Fait par Chelka Concept
+              © 2024 WillyDev. Tous droits réservés.
             </p>
 
             {/* Legal Links */}

@@ -1,36 +1,102 @@
 import { useState } from 'react';
-import { Send, MessageCircle, Mail, MapPin, Phone, Clock, Instagram, Youtube, Facebook } from 'lucide-react';
+import { Send, MessageCircle, Mail, MapPin, Phone, Clock, Linkedin, Github, Twitter, AlertCircle, CheckCircle } from 'lucide-react';
 
 const socialLinks = [
-  { icon: Instagram, label: "Instagram", href: "#" },
-  { icon: Youtube, label: "YouTube", href: "#" },
-  { icon: Facebook, label: "Facebook", href: "#" }
+  { icon: Linkedin, label: "LinkedIn", href: "#" },
+  { icon: Github, label: "GitHub", href: "#" },
+  { icon: Twitter, label: "Twitter", href: "#" }
 ];
 
 const contactInfo = [
   { icon: MapPin, label: "Localisation", value: "N'djamena, Tchad" },
   { icon: Phone, label: "WhatsApp", value: "+235 62 08 27 85" },
-  { icon: Mail, label: "Email", value: "contact@dansrobi.com" },
+  { icon: Mail, label: "Email", value: "contact@willydev.com" },
   { icon: Clock, label: "Disponibilité", value: "Lun - Sam, 9h - 20h" }
 ];
+
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+};
+
+const validateName = (name) => {
+  return name.trim().length >= 2;
+};
+
+const validateMessage = (message) => {
+  return message.trim().length >= 10;
+};
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'name':
+        return validateName(value) ? '' : 'Le nom doit contenir au moins 2 caractères';
+      case 'email':
+        return validateEmail(value) ? '' : 'Email invalide';
+      case 'message':
+        return validateMessage(value) ? '' : 'Le message doit contenir au moins 10 caractères';
+      case 'subject':
+        return value ? '' : 'Veuillez sélectionner un sujet';
+      default:
+        return '';
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (touched[name]) {
+      setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate all fields
+    const newErrors = {};
+    Object.keys(formData).forEach(key => {
+      const error = validateField(key, formData[key]);
+      if (error) newErrors[key] = error;
+    });
+    
+    setErrors(newErrors);
+    setTouched({ name: true, email: true, subject: true, message: true });
+    
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+    
     setIsSubmitting(true);
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsSubmitting(false);
     setSubmitted(true);
     setFormData({ name: '', email: '', subject: '', message: '' });
+    setErrors({});
+    setTouched({});
     setTimeout(() => setSubmitted(false), 5000);
   };
 
-  const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const getFieldError = (fieldName) => {
+    return touched[fieldName] ? errors[fieldName] || null : null;
+  };
+
+  const isFieldValid = (fieldName) => {
+    return touched[fieldName] && !errors[fieldName] && formData[fieldName];
   };
 
   return (
@@ -44,7 +110,7 @@ export default function Contact() {
           <span className="section-label">Contact</span>
           <h2 className="section-title">Travaillons <span className="text-orange">ensemble</span></h2>
           <p className="section-description">
-            Prêt à créer quelque chose d&apos;incroyable ? Contactez-moi pour discuter de votre projet.
+            Prêt à transformer votre idée en projet web ? Contactez-moi pour discuter de vos besoins.
           </p>
         </div>
 
@@ -110,64 +176,89 @@ export default function Contact() {
                 <p className="contact-success-text">Je vous répondrai dans les plus brefs délais.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="contact-form">
+              <form onSubmit={handleSubmit} className="contact-form" noValidate>
                 <div className="contact-form-row">
                   <div className="contact-form-group">
                     <label className="contact-form-label">Nom</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="contact-form-input"
-                      placeholder="Votre nom"
-                    />
+                    <div className="contact-input-wrapper">
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        required
+                        className={`contact-form-input ${getFieldError('name') ? 'error' : ''} ${isFieldValid('name') ? 'success' : ''}`}
+                        placeholder="Votre nom"
+                      />
+                      {getFieldError('name') && <AlertCircle size={16} className="contact-input-icon error" />}
+                      {isFieldValid('name') && <CheckCircle size={16} className="contact-input-icon success" />}
+                    </div>
+                    {getFieldError('name') && <p className="contact-error-text">{getFieldError('name')}</p>}
                   </div>
                   <div className="contact-form-group">
                     <label className="contact-form-label">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="contact-form-input"
-                      placeholder="votre@email.com"
-                    />
+                    <div className="contact-input-wrapper">
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        required
+                        className={`contact-form-input ${getFieldError('email') ? 'error' : ''} ${isFieldValid('email') ? 'success' : ''}`}
+                        placeholder="votre@email.com"
+                      />
+                      {getFieldError('email') && <AlertCircle size={16} className="contact-input-icon error" />}
+                      {isFieldValid('email') && <CheckCircle size={16} className="contact-input-icon success" />}
+                    </div>
+                    {getFieldError('email') && <p className="contact-error-text">{getFieldError('email')}</p>}
                   </div>
                 </div>
 
                 <div className="contact-form-group">
                   <label className="contact-form-label">Sujet</label>
-                  <select
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="contact-form-select"
-                  >
-                    <option value="">Sélectionnez un sujet</option>
-                    <option value="beat">Achat de beat</option>
-                    <option value="production">Production complète</option>
-                    <option value="recording">Session d&apos;enregistrement</option>
-                    <option value="mixing">Mixing & Mastering</option>
-                    <option value="collab">Collaboration</option>
-                    <option value="other">Autre</option>
-                  </select>
+                  <div className="contact-input-wrapper">
+                    <select
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required
+                      className={`contact-form-select ${getFieldError('subject') ? 'error' : ''} ${isFieldValid('subject') ? 'success' : ''}`}
+                    >
+                      <option value="">Sélectionnez un sujet</option>
+                      <option value="website">Création de site web</option>
+                      <option value="app">Développement d'application</option>
+                      <option value="redesign">Refonte de site</option>
+                      <option value="consulting">Consulting technique</option>
+                      <option value="collab">Collaboration</option>
+                      <option value="quote">Demande de devis</option>
+                      <option value="other">Autre</option>
+                    </select>
+                    {getFieldError('subject') && <AlertCircle size={16} className="contact-input-icon error" />}
+                    {isFieldValid('subject') && <CheckCircle size={16} className="contact-input-icon success" />}
+                  </div>
+                  {getFieldError('subject') && <p className="contact-error-text">{getFieldError('subject')}</p>}
                 </div>
 
                 <div className="contact-form-group">
                   <label className="contact-form-label">Message</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={4}
-                    className="contact-form-textarea"
-                    placeholder="Décrivez votre projet..."
-                  />
+                  <div className="contact-input-wrapper">
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      required
+                      rows={4}
+                      className={`contact-form-textarea ${getFieldError('message') ? 'error' : ''} ${isFieldValid('message') ? 'success' : ''}`}
+                      placeholder="Décrivez votre projet..."
+                    />
+                    {getFieldError('message') && <AlertCircle size={16} className="contact-input-icon error" />}
+                    {isFieldValid('message') && <CheckCircle size={16} className="contact-input-icon success" />}
+                  </div>
+                  {getFieldError('message') && <p className="contact-error-text">{getFieldError('message')}</p>}
                 </div>
 
                 <button type="submit" disabled={isSubmitting} className="contact-form-submit">
