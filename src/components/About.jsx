@@ -35,9 +35,7 @@ export default function About() {
               </div>
             </div>
 
-            {/* Decorative Elements */}
-            <div className="about-decor-1" />
-            <div className="about-decor-2" />
+
           </div>
 
           {/* Content Side */}

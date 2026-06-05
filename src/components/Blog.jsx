@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
 
 const blogPosts = [
@@ -58,6 +59,22 @@ const blogPosts = [
 ];
 
 export default function Blog() {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const interval = setInterval(() => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= maxScroll - 10) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: el.querySelector('.blog-card').offsetWidth + 24, behavior: 'smooth' });
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="blog" className="blog-section">
       <div className="section-container">
@@ -67,7 +84,7 @@ export default function Blog() {
           Découvrez mes derniers articles sur le développement web, les bonnes pratiques et les nouvelles technologies.
         </p>
 
-        <div className="blog-grid">
+        <div ref={scrollRef} className="blog-grid">
           {blogPosts.map((post) => (
             <article key={post.id} className="blog-card">
               <div className="blog-image">

@@ -1,11 +1,7 @@
 export default function Hero() {
   return (
     <section id="hero" className="hero">
-      <div className="hero-bg">
-        <div className="hero-gradient-1" />
-        <div className="hero-gradient-2" />
-        <div className="hero-grid-pattern" />
-      </div>
+      <div className="hero-bg" />
 
       <div className="hero-container">
         <div className="hero-content">
@@ -27,14 +23,6 @@ export default function Hero() {
                 Me contacter
               </a>
             </div>
-          </div>
-
-          <div className="hero-right">
-            <img 
-              src="/assets/logo-hero.png" 
-              alt="WillyDev Logo" 
-              className="hero-image"
-            />
           </div>
         </div>
       </div>

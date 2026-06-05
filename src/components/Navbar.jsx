@@ -107,10 +107,6 @@ export default function Navbar() {
               {link.name}
             </a>
           ))}
-          <a href="#contact" className="btn-primary" style={{ fontSize: '14px', padding: '12px 24px' }}>
-            Me contacter
-          </a>
-          
           {/* Language Switcher */}
           <button 
             className="navbar-lang-btn" 
@@ -156,14 +152,6 @@ export default function Navbar() {
               {link.name}
             </a>
           ))}
-          <a
-            href="#contact"
-            className="btn-primary"
-            style={{ display: 'block', textAlign: 'center', marginTop: '16px' }}
-            onClick={() => setIsOpen(false)}
-          >
-            Me contacter
-          </a>
         </div>
         
         {/* Indicateur de swipe */}

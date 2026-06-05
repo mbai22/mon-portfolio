@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { Monitor, Smartphone, Layers, Palette, Zap, Star, Check } from 'lucide-react';
 
 const services = [
@@ -40,6 +41,22 @@ const services = [
 ];
 
 export default function Services() {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const interval = setInterval(() => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= maxScroll - 10) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: el.querySelector('.service-card').offsetWidth + 24, behavior: 'smooth' });
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="services" className="bg-primary">
       <div className="section-container">
@@ -53,7 +70,7 @@ export default function Services() {
         </div>
 
         {/* Services Grid */}
-        <div className="services-grid">
+        <div ref={scrollRef} className="services-grid">
           {services.map((service, index) => (
             <div key={service.title} className={`service-card ${service.popular ? 'popular' : ''}`} style={{ animationDelay: `${index * 100}ms` }}>
               {/* Popular Badge */}
