@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { Monitor, Smartphone, Layers, Palette, Zap, Star, Check } from 'lucide-react';
+import { Monitor, Smartphone, Layers, Palette, Zap, Star, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const services = [
   {
@@ -42,6 +42,15 @@ const services = [
 
 export default function Services() {
   const scrollRef = useRef(null);
+
+  const scroll = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector('.service-card');
+    if (!card) return;
+    const amount = card.offsetWidth + 24;
+    el.scrollBy({ left: dir * amount, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -115,6 +124,15 @@ export default function Services() {
               </a>
             </div>
           ))}
+        </div>
+
+        <div className="carousel-nav">
+          <button className="carousel-arrow" onClick={() => scroll(-1)} aria-label="Précédent">
+            <ChevronLeft size={20} />
+          </button>
+          <button className="carousel-arrow" onClick={() => scroll(1)} aria-label="Suivant">
+            <ChevronRight size={20} />
+          </button>
         </div>
       </div>
     </section>

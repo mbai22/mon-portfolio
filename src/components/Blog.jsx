@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Tag, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const blogPosts = [
   {
@@ -61,6 +61,15 @@ const blogPosts = [
 export default function Blog() {
   const scrollRef = useRef(null);
 
+  const scroll = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector('.blog-card');
+    if (!card) return;
+    const amount = card.offsetWidth + 24;
+    el.scrollBy({ left: dir * amount, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -117,6 +126,15 @@ export default function Blog() {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className="carousel-nav">
+          <button className="carousel-arrow" onClick={() => scroll(-1)} aria-label="Précédent">
+            <ChevronLeft size={20} />
+          </button>
+          <button className="carousel-arrow" onClick={() => scroll(1)} aria-label="Suivant">
+            <ChevronRight size={20} />
+          </button>
         </div>
       </div>
     </section>
