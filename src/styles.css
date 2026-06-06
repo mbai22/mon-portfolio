@@ -404,7 +404,7 @@ section {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: url('/assets/hero-bg.png') right center/cover no-repeat;
+  background: #f0f2f5;
   overflow: hidden;
 }
 
