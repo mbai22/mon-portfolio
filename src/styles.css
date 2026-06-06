@@ -408,6 +408,13 @@ section {
   overflow: hidden;
 }
 
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
 
 
 .hero-container {
@@ -656,6 +663,10 @@ section {
 }
 
 @media (max-width: 640px) {
+  .hero-bg {
+    background-position: 70% center;
+  }
+
   .hero {
     min-height: 100vh;
     padding-top: 80px;
