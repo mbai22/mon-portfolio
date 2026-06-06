@@ -408,13 +408,6 @@ section {
   overflow: hidden;
 }
 
-.hero-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.85);
-}
-
 
 
 .hero-container {
@@ -482,7 +475,7 @@ section {
 .hero-heading {
   font-size: 42px;
   font-weight: 800;
-  color: #1a1a2e;
+  color: white;
   line-height: 1.1;
   letter-spacing: -2px;
   display: flex;
@@ -517,7 +510,7 @@ section {
 
 .hero-subtitle {
   font-size: 16px;
-  color: #555;
+  color: rgba(255, 255, 255, 0.85);
   line-height: 1.7;
   max-width: 480px;
 }
@@ -558,15 +551,14 @@ section {
 }
 
 .hero-btn-secondary {
-  background: transparent;
-  color: #1a1a2e;
-  border: 2px solid #1a1a2e;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .hero-btn-secondary:hover {
-  background: #1a1a2e;
-  color: white;
-  border-color: #1a1a2e;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
 }
 
 .hero-secondary-actions {
@@ -580,7 +572,7 @@ section {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   font-size: 14px;
   transition: var(--transition);

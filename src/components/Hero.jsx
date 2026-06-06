@@ -8,11 +8,6 @@ export default function Hero() {
       <div className="hero-container">
         <div className="hero-content">
           <div className="hero-left">
-            <div className="hero-status-badge">
-              <div className="status-dot" />
-              <span className="status-text">Disponible pour nouveaux projets</span>
-            </div>
-
             <h1 className="hero-heading">
               <span className="hero-heading-line">Développeur</span>
               <span className="hero-heading-line hero-heading-accent">Full Stack</span>
@@ -25,7 +20,7 @@ export default function Hero() {
 
             <div className="hero-cta-group">
               <a href="#portfolio" className="btn-primary hero-btn-primary">
-                Voir mes projets
+                Mes projets
               </a>
               <a href="#contact" className="btn-secondary hero-btn-secondary">
                 Me contacter
