@@ -1,13 +1,22 @@
-import { Building2, Globe, Smartphone, Code, Database, Cloud } from 'lucide-react';
-
 const clients = [
-  { name: "TechCorp", icon: Building2 },
-  { name: "Global Solutions", icon: Globe },
-  { name: "MobileFirst", icon: Smartphone },
-  { name: "DevStudio", icon: Code },
-  { name: "DataFlow", icon: Database },
-  { name: "CloudSync", icon: Cloud }
+  { name: "TechCorp", initial: "TC", color: "#7D53FF" },
+  { name: "Global", initial: "GS", color: "#fdb901" },
+  { name: "MobileFirst", initial: "MF", color: "#22c55e" },
+  { name: "DevStudio", initial: "DS", color: "#ef4444" },
+  { name: "DataFlow", initial: "DF", color: "#3b82f6" },
+  { name: "CloudSync", initial: "CS", color: "#ec4899" }
 ];
+
+function LogoPlaceholder({ initial, color }) {
+  return (
+    <svg viewBox="0 0 120 40" width="120" height="40" fill="none">
+      <rect width="120" height="40" rx="8" fill={color} fillOpacity="0.1" />
+      <text x="60" y="26" textAnchor="middle" fill={color} fontSize="16" fontWeight="700" fontFamily="system-ui, sans-serif">
+        {initial}
+      </text>
+    </svg>
+  );
+}
 
 export default function Clients() {
   return (
@@ -23,9 +32,7 @@ export default function Clients() {
           <div className="clients-track">
             {[...clients, ...clients].map((client, index) => (
               <div key={index} className="client-slide">
-                <div className="client-slide-icon">
-                  <client.icon size={28} />
-                </div>
+                <LogoPlaceholder initial={client.initial} color={client.color} />
                 <span className="client-slide-name">{client.name}</span>
               </div>
             ))}
