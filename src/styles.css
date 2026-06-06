@@ -440,7 +440,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding-top: 60px;
+  padding-top: 100px;
 }
 
 .hero-status-badge {
@@ -638,6 +638,7 @@ section {
   .hero-left {
     align-items: center;
     justify-content: center;
+    padding-top: 80px;
   }
   
   .hero-secondary-actions {
@@ -671,6 +672,7 @@ section {
   
   .hero-left {
     gap: 20px;
+    padding-top: 60px;
   }
   
   .hero-status-badge {
