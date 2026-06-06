@@ -412,7 +412,7 @@ section {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.7));
 }
 
 
@@ -664,7 +664,7 @@ section {
 
 @media (max-width: 640px) {
   .hero-bg {
-    background-position: 80% center;
+    background-position: 75% center;
   }
 
   .hero {
