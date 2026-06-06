@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ExternalLink, Globe, Database, Layout, ShoppingBag, Code, Smartphone, Zap } from 'lucide-react';
 
 const projects = [
@@ -75,6 +75,31 @@ const filters = ["Tous", "Application Web", "Site E-commerce", "Site Vitrine", "
 export default function Portfolio() {
   const [activeFilter, setActiveFilter] = useState("Tous");
   const [hoveredId, setHoveredId] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef(null);
+
+  const scrollTo = (index) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector('.portfolio-card');
+    if (!card) return;
+    const amount = card.offsetWidth + 16;
+    el.scrollTo({ left: index * amount, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const card = el.querySelector('.portfolio-card');
+      if (!card) return;
+      const amount = card.offsetWidth + 16;
+      const index = Math.round(el.scrollLeft / amount);
+      setActiveIndex(index);
+    };
+    el.addEventListener('scroll', onScroll);
+    return () => el.removeEventListener('scroll', onScroll);
+  }, []);
 
   const filteredProjects = activeFilter === "Tous"
     ? projects
@@ -109,7 +134,7 @@ export default function Portfolio() {
         </div>
 
         {/* Projects Grid */}
-        <div className="portfolio-grid">
+        <div ref={scrollRef} className="portfolio-grid">
           {filteredProjects.map((project) => (
             <div
               key={project.id}
@@ -152,6 +177,18 @@ export default function Portfolio() {
                 </a>
               </div>
             </div>
+          ))}
+        </div>
+
+        {/* Navigation Dots */}
+        <div className="portfolio-dots">
+          {filteredProjects.map((_, index) => (
+            <button
+              key={index}
+              className={`portfolio-dot${index === activeIndex ? ' active' : ''}`}
+              onClick={() => scrollTo(index)}
+              aria-label={`Projet ${index + 1}`}
+            />
           ))}
         </div>
       </div>

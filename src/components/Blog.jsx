@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Calendar, Clock, ArrowRight, Tag, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const blogPosts = [
@@ -60,6 +60,7 @@ const blogPosts = [
 
 export default function Blog() {
   const scrollRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const scroll = (dir) => {
     const el = scrollRef.current;
@@ -69,6 +70,29 @@ export default function Blog() {
     const amount = card.offsetWidth + 24;
     el.scrollBy({ left: dir * amount, behavior: 'smooth' });
   };
+
+  const scrollTo = (index) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector('.blog-card');
+    if (!card) return;
+    const amount = card.offsetWidth + 24;
+    el.scrollTo({ left: index * amount, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const card = el.querySelector('.blog-card');
+      if (!card) return;
+      const amount = card.offsetWidth + 24;
+      const index = Math.round(el.scrollLeft / amount);
+      setActiveIndex(index);
+    };
+    el.addEventListener('scroll', onScroll);
+    return () => el.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -135,6 +159,18 @@ export default function Blog() {
           <button className="carousel-arrow" onClick={() => scroll(1)} aria-label="Suivant">
             <ChevronRight size={20} />
           </button>
+        </div>
+
+        {/* Navigation Dots */}
+        <div className="blog-dots">
+          {blogPosts.map((_, index) => (
+            <button
+              key={index}
+              className={`blog-dot${index === activeIndex ? ' active' : ''}`}
+              onClick={() => scrollTo(index)}
+              aria-label={`Article ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
