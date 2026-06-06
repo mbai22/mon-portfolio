@@ -4371,6 +4371,11 @@ section {
   .service-card {
     flex: 0 0 calc(100vw - 48px);
     scroll-snap-align: start;
+    padding-top: 36px;
+  }
+
+  .service-badge {
+    top: 8px;
   }
 
   .services-dots {
