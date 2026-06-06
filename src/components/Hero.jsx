@@ -20,7 +20,7 @@ export default function Hero() {
 
             <div className="hero-cta-group">
               <a href="#portfolio" className="btn-primary hero-btn-primary">
-                Mes projets
+                Voir mes projets
               </a>
               <a href="#contact" className="btn-secondary hero-btn-secondary">
                 Me contacter
