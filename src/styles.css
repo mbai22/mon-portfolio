@@ -543,14 +543,14 @@ section {
 }
 
 .hero-btn-primary {
-  background: var(--accent-orange);
-  color: white;
+  background: #c7ff00;
+  color: #1a1a2e;
   border: none;
 }
 
 .hero-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(125, 83, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(199, 255, 0, 0.3);
 }
 
 .hero-btn-secondary {
