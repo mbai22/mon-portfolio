@@ -1416,8 +1416,8 @@ section {
 }
 
 .skill-category-block {
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #2a2e3a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius-lg);
   padding: 24px;
   transition: var(--transition);
@@ -1431,7 +1431,7 @@ section {
 .skill-category-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: #7D53FF;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1458,20 +1458,20 @@ section {
 
 .skill-name {
   font-size: 15px;
-  color: #555555;
+  color: #b0b0b0;
   font-weight: 500;
 }
 
 .skill-level {
   font-size: 15px;
-  color: #1a1a2e;
+  color: #B6FF00;
   font-weight: 600;
 }
 
 .skill-progress-bar {
   width: 100%;
   height: 8px;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   overflow: hidden;
 }
