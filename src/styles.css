@@ -404,8 +404,15 @@ section {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: #f0f2f5;
+  background: url('/assets/hero-bg.png') center/cover no-repeat;
   overflow: hidden;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.85);
 }
 
 
