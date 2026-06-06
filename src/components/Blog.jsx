@@ -80,7 +80,7 @@ export default function Blog() {
       } else {
         el.scrollBy({ left: el.querySelector('.blog-card').offsetWidth + 24, behavior: 'smooth' });
       }
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 

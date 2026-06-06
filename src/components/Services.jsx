@@ -62,7 +62,7 @@ export default function Services() {
       } else {
         el.scrollBy({ left: el.querySelector('.service-card').offsetWidth + 24, behavior: 'smooth' });
       }
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
