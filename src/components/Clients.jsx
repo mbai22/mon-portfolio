@@ -1,22 +1,11 @@
 const clients = [
-  { name: "TechCorp", initial: "TC", color: "#7D53FF" },
-  { name: "Global", initial: "GS", color: "#fdb901" },
-  { name: "MobileFirst", initial: "MF", color: "#22c55e" },
-  { name: "DevStudio", initial: "DS", color: "#ef4444" },
-  { name: "DataFlow", initial: "DF", color: "#3b82f6" },
-  { name: "CloudSync", initial: "CS", color: "#ec4899" }
+  { name: "TechCorp", logo: "/assets/partenaires/1.png" },
+  { name: "Global", logo: "/assets/partenaires/2.png" },
+  { name: "MobileFirst", logo: "/assets/partenaires/3.png" },
+  { name: "DevStudio", logo: "/assets/partenaires/4.png" },
+  { name: "DataFlow", logo: "/assets/partenaires/5.png" },
+  { name: "CloudSync", logo: "/assets/partenaires/6.png" }
 ];
-
-function LogoPlaceholder({ initial, color }) {
-  return (
-    <svg viewBox="0 0 120 40" width="120" height="40" fill="none">
-      <rect width="120" height="40" rx="8" fill={color} fillOpacity="0.1" />
-      <text x="60" y="26" textAnchor="middle" fill={color} fontSize="16" fontWeight="700" fontFamily="system-ui, sans-serif">
-        {initial}
-      </text>
-    </svg>
-  );
-}
 
 export default function Clients() {
   return (
@@ -32,7 +21,7 @@ export default function Clients() {
           <div className="clients-track">
             {[...clients, ...clients].map((client, index) => (
               <div key={index} className="client-slide">
-                <LogoPlaceholder initial={client.initial} color={client.color} />
+                <img src={client.logo} alt={client.name} className="client-logo" />
                 <span className="client-slide-name">{client.name}</span>
               </div>
             ))}
