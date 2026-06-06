@@ -440,6 +440,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  padding-top: 60px;
 }
 
 .hero-status-badge {
