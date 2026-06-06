@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react';
 import { Star, Quote } from 'lucide-react';
 
 const testimonials = [
@@ -25,6 +26,48 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+  const scrollRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const scrollTo = (index) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector('.testimonial-card');
+    if (!card) return;
+    const amount = card.offsetWidth + 24;
+    el.scrollTo({ left: index * amount, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const card = el.querySelector('.testimonial-card');
+      if (!card) return;
+      const amount = card.offsetWidth + 24;
+      const index = Math.round(el.scrollLeft / amount);
+      setActiveIndex(index);
+    };
+    el.addEventListener('scroll', onScroll);
+    return () => el.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const interval = setInterval(() => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= maxScroll - 10) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        const card = el.querySelector('.testimonial-card');
+        if (!card) return;
+        el.scrollBy({ left: card.offsetWidth + 24, behavior: 'smooth' });
+      }
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="testimonials" className="bg-primary">
       <div className="section-container">
@@ -37,8 +80,8 @@ export default function Testimonials() {
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="testimonials-grid">
+        {/* Testimonials Carousel */}
+        <div className="testimonials-grid" ref={scrollRef}>
           {testimonials.map((testimonial, index) => (
             <div key={testimonial.name} className="testimonial-card" style={{ animationDelay: `${index * 150}ms` }}>
               {/* Quote Icon */}
@@ -74,6 +117,18 @@ export default function Testimonials() {
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+
+        {/* Navigation Dots */}
+        <div className="testimonials-dots">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              className={`testimonial-dot${index === activeIndex ? ' active' : ''}`}
+              onClick={() => scrollTo(index)}
+              aria-label={`Témoignage ${index + 1}`}
+            />
           ))}
         </div>
       </div>
