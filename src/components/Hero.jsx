@@ -10,12 +10,12 @@ export default function Hero() {
           <div className="hero-left">
             <h1 className="hero-heading">
               <span className="hero-heading-line">Développeur</span>
-              <span className="hero-heading-line hero-heading-accent">Full Stack</span>
-              <span className="hero-heading-line">Créatif</span>
+              <span className="hero-heading-line hero-heading-accent">D'applications</span>
+              <span className="hero-heading-line">Web et Mobile</span>
             </h1>
 
             <p className="hero-subtitle">
-              Spécialisé en Angular, Laravel et React. Je transforme vos idées en applications web performantes et modernes.
+              Avec Laravel, React et Angular. Je transforme vos idées en applications web performantes et modernes.
             </p>
 
             <div className="hero-cta-group">
