@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
 import { Monitor, Smartphone, Layers, Palette, Zap, Star, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useCarousel } from '../hooks/useCarousel';
 
 const services = [
   {
@@ -41,54 +41,7 @@ const services = [
 ];
 
 export default function Services() {
-  const scrollRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const scroll = (dir) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.querySelector('.service-card');
-    if (!card) return;
-    const amount = card.offsetWidth + 24;
-    el.scrollBy({ left: dir * amount, behavior: 'smooth' });
-  };
-
-  const scrollTo = (index) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.querySelector('.service-card');
-    if (!card) return;
-    const amount = card.offsetWidth + 24;
-    el.scrollTo({ left: index * amount, behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const card = el.querySelector('.service-card');
-      if (!card) return;
-      const amount = card.offsetWidth + 24;
-      const index = Math.round(el.scrollLeft / amount);
-      setActiveIndex(index);
-    };
-    el.addEventListener('scroll', onScroll);
-    return () => el.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const interval = setInterval(() => {
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (el.scrollLeft >= maxScroll - 10) {
-        el.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        el.scrollBy({ left: el.querySelector('.service-card').offsetWidth + 24, behavior: 'smooth' });
-      }
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
+  const { scrollRef, activeIndex, scroll, scrollTo } = useCarousel({ cardSelector: '.service-card' });
 
   return (
     <section id="services" className="bg-primary">

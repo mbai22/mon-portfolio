@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
 import { Star, Quote } from 'lucide-react';
+import { useCarousel } from '../hooks/useCarousel';
 
 const testimonials = [
   {
@@ -26,47 +26,7 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
-  const scrollRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const scrollTo = (index) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.querySelector('.testimonial-card');
-    if (!card) return;
-    const amount = card.offsetWidth + 24;
-    el.scrollTo({ left: index * amount, behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const card = el.querySelector('.testimonial-card');
-      if (!card) return;
-      const amount = card.offsetWidth + 24;
-      const index = Math.round(el.scrollLeft / amount);
-      setActiveIndex(index);
-    };
-    el.addEventListener('scroll', onScroll);
-    return () => el.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const interval = setInterval(() => {
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (el.scrollLeft >= maxScroll - 10) {
-        el.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        const card = el.querySelector('.testimonial-card');
-        if (!card) return;
-        el.scrollBy({ left: card.offsetWidth + 24, behavior: 'smooth' });
-      }
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
+  const { scrollRef, activeIndex, scrollTo } = useCarousel({ cardSelector: '.testimonial-card' });
 
   return (
     <section id="testimonials" className="bg-primary">

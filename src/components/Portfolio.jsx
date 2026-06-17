@@ -1,36 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
+import { useCarousel } from '../hooks/useCarousel';
 import { projects, filters } from '../data/projects';
 
 export default function Portfolio() {
   const [activeFilter, setActiveFilter] = useState("Tous");
   const [hoveredId, setHoveredId] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const scrollRef = useRef(null);
-
-  const scrollTo = (index) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.querySelector('.portfolio-card');
-    if (!card) return;
-    const amount = card.offsetWidth + 16;
-    el.scrollTo({ left: index * amount, behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const card = el.querySelector('.portfolio-card');
-      if (!card) return;
-      const amount = card.offsetWidth + 16;
-      const index = Math.round(el.scrollLeft / amount);
-      setActiveIndex(index);
-    };
-    el.addEventListener('scroll', onScroll);
-    return () => el.removeEventListener('scroll', onScroll);
-  }, []);
+  const { scrollRef, activeIndex, scrollTo } = useCarousel({ cardSelector: '.portfolio-card', gap: 16 });
 
   const filteredProjects = activeFilter === "Tous"
     ? projects

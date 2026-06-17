@@ -1,0 +1,47 @@
+
+/* Projects Page */
+.projects-page {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+}
+
+.projects-page-header {
+  padding: 120px 0 60px;
+  text-align: center;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding-bottom: 80px;
+}
+
+@media (min-width: 640px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.project-card {
+  position: relative;
+  background-color: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.project-card:hover {
+  border-color: rgba(253, 185, 1, 0.3);
+}
+
+.text-center {
+  text-align: center;
+}

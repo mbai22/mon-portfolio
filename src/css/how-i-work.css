@@ -1,0 +1,156 @@
+/* ========================================
+   HOW I WORK SECTION
+   ======================================== */
+
+#how-i-work {
+  background-color: #ffffff;
+}
+
+#how-i-work .section-title {
+  color: #1a1a2e;
+}
+
+#how-i-work .section-description {
+  color: #555555;
+}
+
+.how-i-work-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-bottom: 64px;
+}
+
+@media (min-width: 768px) {
+  .how-i-work-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .how-i-work-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+.how-i-work-card {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: var(--border-radius-lg);
+  padding: 32px 24px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .how-i-work-card {
+    padding: 40px 32px;
+  }
+}
+
+.how-i-work-card:hover {
+  border-color: rgba(253, 185, 1, 0.5);
+  transform: translateY(-4px);
+}
+
+.how-i-work-number {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.05);
+  line-height: 1;
+}
+
+.how-i-work-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--accent-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  color: white;
+}
+
+@media (min-width: 640px) {
+  .how-i-work-icon {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.how-i-work-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+@media (min-width: 640px) {
+  .how-i-work-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.how-i-work-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 640px) {
+  .how-i-work-title {
+    font-size: 20px;
+  }
+}
+
+.how-i-work-description {
+  font-size: 14px;
+  color: #555555;
+  line-height: 1.6;
+}
+
+@media (min-width: 640px) {
+  .how-i-work-description {
+    font-size: 16px;
+  }
+}
+
+.how-i-work-arrow {
+  position: absolute;
+  top: 50%;
+  right: -16px;
+  transform: translateY(-50%);
+  color: var(--accent-violet);
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .how-i-work-arrow {
+    display: flex;
+  }
+}
+
+.how-i-work-cta {
+  text-align: center;
+  padding: 48px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.how-i-work-cta-text {
+  font-size: 18px;
+  color: #555555;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 640px) {
+  .how-i-work-cta-text {
+    font-size: 20px;
+  }
+}
+

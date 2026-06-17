@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
 import { Calendar, Clock, ArrowRight, Tag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useCarousel } from '../hooks/useCarousel';
 
 const blogPosts = [
   {
@@ -59,54 +59,7 @@ const blogPosts = [
 ];
 
 export default function Blog() {
-  const scrollRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const scroll = (dir) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.querySelector('.blog-card');
-    if (!card) return;
-    const amount = card.offsetWidth + 24;
-    el.scrollBy({ left: dir * amount, behavior: 'smooth' });
-  };
-
-  const scrollTo = (index) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const card = el.querySelector('.blog-card');
-    if (!card) return;
-    const amount = card.offsetWidth + 24;
-    el.scrollTo({ left: index * amount, behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const card = el.querySelector('.blog-card');
-      if (!card) return;
-      const amount = card.offsetWidth + 24;
-      const index = Math.round(el.scrollLeft / amount);
-      setActiveIndex(index);
-    };
-    el.addEventListener('scroll', onScroll);
-    return () => el.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const interval = setInterval(() => {
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (el.scrollLeft >= maxScroll - 10) {
-        el.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        el.scrollBy({ left: el.querySelector('.blog-card').offsetWidth + 24, behavior: 'smooth' });
-      }
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
+  const { scrollRef, activeIndex, scroll, scrollTo } = useCarousel({ cardSelector: '.blog-card' });
 
   return (
     <section id="blog" className="blog-section">
