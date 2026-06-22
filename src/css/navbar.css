@@ -1,3 +1,147 @@
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: var(--transition);
+  padding: 24px 0;
+}
+
+.navbar.scrolled {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  padding: 16px 0;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (min-width: 640px) {
+  .navbar-container {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navbar-container {
+    padding: 0 48px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .navbar-container {
+    padding: 0 80px;
+  }
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.navbar-logo-img {
+  height: 40px;
+  width: auto;
+}
+
+.navbar-logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .navbar-logo-text {
+    font-size: 20px;
+  }
+}
+
+.navbar-links {
+  display: none;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .navbar-links {
+    display: flex;
+  }
+}
+
+.navbar-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.navbar-link:hover {
+  color: white;
+}
+
+.navbar-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: white;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: var(--border-radius-full);
+  transition: var(--transition);
+}
+
+.navbar-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 1024px) {
+  .navbar-menu-btn {
+    display: none;
+  }
+}
+
+.navbar-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-full);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navbar-lang-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.navbar-lang-text {
+  min-width: 24px;
+  text-align: center;
+}
+
 /* Mobile Menu */
 .navbar-mobile-menu {
   display: none;
