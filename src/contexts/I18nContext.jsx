@@ -12,7 +12,7 @@ const translations = {
     hero: {
       badge: 'Disponible pour missions',
       subtitle: 'Développeur Full Stack',
-      description: 'Création d\'applications web modernes et performantes avec Laravel, React et Angular.',
+      description: 'Création d\'applications web, de designs UI/UX et de contenus vidéo professionnels.',
       stats: {
         projects: 'Projets réalisés',
         clients: 'Clients',
@@ -21,8 +21,8 @@ const translations = {
     },
     about: {
       title: 'À propos de moi',
-      description: 'Je suis Willy Dev, développeur Full Stack basé au Tchad. Passionné par la création d\'applications web modernes et performantes.',
-      skills: ['Laravel', 'React', 'Angular', 'Node.js', 'UI/UX Design', 'DevOps'],
+      description: 'Je suis Willy Dev, développeur web, designer UI/UX et vidéaste basé au Tchad. Passionné par la création numérique sous toutes ses formes.',
+      skills: ['Laravel', 'React', 'Angular', 'Figma', 'Premiere Pro', 'After Effects'],
       achievements: {
         projects: 'Projets Livrés',
         clients: 'Clients Satisfaits',
@@ -32,7 +32,7 @@ const translations = {
     },
     services: {
       title: 'Ce que je propose',
-      description: 'Des services professionnels pour transformer vos idées en solutions web performantes.',
+      description: 'Des services professionnels en développement web, design graphique et production vidéo.',
       cta: 'Réserver',
     },
     contact: {
@@ -83,7 +83,7 @@ const translations = {
     hero: {
       badge: 'Available for missions',
       subtitle: 'Full Stack Developer',
-      description: 'Building modern and performant web applications with Laravel, React and Angular.',
+      description: 'Building web applications, UI/UX designs and professional video content.',
       stats: {
         projects: 'Projects Done',
         clients: 'Clients',
@@ -92,8 +92,8 @@ const translations = {
     },
     about: {
       title: 'About me',
-      description: 'I am Willy Dev, a Full Stack Developer based in Chad. Passionate about building modern and performant web applications.',
-      skills: ['Laravel', 'React', 'Angular', 'Node.js', 'UI/UX Design', 'DevOps'],
+      description: 'I am Willy Dev, a web developer, UI/UX designer and video maker based in Chad. Passionate about digital creation in all its forms.',
+      skills: ['Laravel', 'React', 'Angular', 'Figma', 'Premiere Pro', 'After Effects'],
       achievements: {
         projects: 'Projects Delivered',
         clients: 'Happy Clients',
@@ -103,7 +103,7 @@ const translations = {
     },
     services: {
       title: 'What I offer',
-      description: 'Professional services to turn your ideas into performant web solutions.',
+      description: 'Professional services in web development, graphic design and video production.',
       cta: 'Book Now',
     },
     contact: {

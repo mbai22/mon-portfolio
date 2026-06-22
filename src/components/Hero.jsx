@@ -10,12 +10,12 @@ export default function Hero() {
           <div className="hero-left">
             <h1 className="hero-heading">
               <span className="hero-heading-line">Développeur</span>
-              <span className="hero-heading-line hero-heading-accent">D'applications</span>
-              <span className="hero-heading-line">Web et Mobile</span>
+              <span className="hero-heading-line hero-heading-accent">Web & Mobile</span>
+              <span className="hero-heading-line">Designer & Vidéaste</span>
             </h1>
 
             <p className="hero-subtitle">
-              Avec Laravel, React et Angular. Je transforme vos idées en applications web performantes et modernes.
+              Je conçois des applications web performantes, des designs UI/UX soignés et des contenus vidéo percutants pour donner vie à vos idées.
             </p>
 
             <div className="hero-cta-group">

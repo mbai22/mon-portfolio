@@ -1,4 +1,4 @@
-import { Monitor, Smartphone, Layers, Palette, Zap, Star, Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Monitor, Smartphone, Layers, Palette, Camera, Film, Zap, Star, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useCarousel } from '../hooks/useCarousel';
 
 const services = [
@@ -36,6 +36,24 @@ const services = [
     price: "Sur devis",
     features: ["Maquettes Figma", "Prototypage", "Tests utilisateurs", "Design system"],
     popular: true,
+    color: "#7a00ff"
+  },
+  {
+    icon: Camera,
+    title: "Design Graphique",
+    description: "Logos, chartes graphiques, visuels pour réseaux sociaux et identité de marque.",
+    price: "Sur devis",
+    features: ["Logo & branding", "Chartes graphiques", "Visuels réseaux", "Supports print"],
+    popular: false,
+    color: "#fdb901"
+  },
+  {
+    icon: Film,
+    title: "Production Vidéo",
+    description: "Montage vidéo, motion design, clips promotionnels et contenu pour réseaux sociaux.",
+    price: "Sur devis",
+    features: ["Montage professionnel", "Motion design", "Color grading", "Habillage sonore"],
+    popular: false,
     color: "#7a00ff"
   }
 ];

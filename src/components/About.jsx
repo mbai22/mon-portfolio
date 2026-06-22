@@ -1,10 +1,12 @@
-import { MapPin, Calendar, Award, Code, User, Zap } from 'lucide-react';
+import { MapPin, Calendar, Award, Code, Palette, Camera, Zap } from 'lucide-react';
 
 const achievements = [
-  { icon: Code, number: "15+", label: "Projets livrés" },
+  { icon: Code, number: "15+", label: "Projets web" },
+  { icon: Palette, number: "20+", label: "Designs réalisés" },
+  { icon: Camera, number: "50+", label: "Vidéos produites" },
   { icon: Award, number: "10+", label: "Clients satisfaits" },
   { icon: MapPin, number: "Tchad", label: "Base à N'djamena" },
-  { icon: Calendar, number: "2 ans", label: "D'expérience" }
+  { icon: Calendar, number: "3 ans", label: "D'expérience" }
 ];
 
 export default function About() {
@@ -47,15 +49,15 @@ export default function About() {
             
             <div>
               <p>
-                Je suis <strong>Willy Dev</strong>, développeur web spécialisé en Angular et Laravel. 
-                J&apos;accompagne les entreprises et entrepreneurs à créer des plateformes performantes, rapides et évolutives.
+                Je suis <strong>Willy Dev</strong>, développeur web, designer UI/UX et vidéaste basé au Tchad.
+                Je crée des applications performantes, des designs élégants et des vidéos engageantes pour les marques et entrepreneurs.
               </p>
               <p>
-                Ma mission ? Transformer vos idées en applications web modernes qui génèrent des résultats concrets. 
-                Je me concentre sur la qualité du code, l&apos;expérience utilisateur et la performance.
+                Ma mission ? Transformer vos idées en solutions concrètes — que ce soit une plateforme web, une identité visuelle ou un contenu vidéo professionnel.
+                Je mise sur la qualité, la créativité et l'impact.
               </p>
               <p>
-                Chaque projet est une opportunité de repousser les limites et de créer quelque chose d&apos;exceptionnel.
+                Chaque projet est une opportunité de repousser les limites et de créer quelque chose d'exceptionnel.
               </p>
             </div>
 

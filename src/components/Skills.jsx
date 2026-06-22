@@ -15,6 +15,18 @@ const skillsByCategory = {
     { name: "Git", level: 85 },
     { name: "Docker", level: 70 },
     { name: "CI/CD", level: 75 }
+  ],
+  Design: [
+    { name: "UI/UX Design", level: 85 },
+    { name: "Figma", level: 90 },
+    { name: "Photoshop", level: 80 },
+    { name: "Illustrator", level: 75 }
+  ],
+  Vidéo: [
+    { name: "Montage Vidéo", level: 85 },
+    { name: "Motion Design", level: 75 },
+    { name: "Premiere Pro", level: 85 },
+    { name: "After Effects", level: 70 }
   ]
 };
 
