@@ -32,7 +32,7 @@ const footerLinks = {
 const socialLinks = [
   { icon: Github, href: "https://github.com/mbai22", label: "GitHub" },
   { icon: Linkedin, href: "https://www.linkedin.com/in/mba%C3%AFhornomwillifred/", label: "LinkedIn" },
-  { icon: Mail, href: "mailto:contact@willydev.com", label: "Email" }
+  { icon: Mail, href: "mailto:contact@willydev.online", label: "Email" }
 ];
 
 export default function Footer() {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, MessageCircle, Mail, MapPin, Phone, Clock, Linkedin, Github, AlertCircle, CheckCircle } from 'lucide-react';
+import { Send, MessageCircle, Mail, MapPin, Phone, Clock, Linkedin, Github } from 'lucide-react';
 
 const socialLinks = [
   { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/mba%C3%AFhornomwillifred/" },
@@ -10,22 +10,20 @@ const contactInfo = [
   { icon: MapPin, label: "Localisation", value: "N'djamena, Tchad" },
   { icon: Phone, label: "WhatsApp Tchad", value: "+235 63 93 57 84" },
   { icon: Phone, label: "WhatsApp Cameroun", value: "+237 69 55 77 792" },
-  { icon: Mail, label: "Email", value: "contact@willydev.com" },
+  { icon: Mail, label: "Email", value: "contact@willydev.online" },
   { icon: Clock, label: "Disponibilité", value: "Lun - Sam, 9h - 20h" }
 ];
 
-const validateEmail = (email) => {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-};
-
-const validateName = (name) => {
-  return name.trim().length >= 2;
-};
-
-const validateMessage = (message) => {
-  return message.trim().length >= 10;
-};
+const subjectOptions = [
+  { value: '', label: 'Sélectionnez un sujet' },
+  { value: 'website', label: 'Création de site web' },
+  { value: 'app', label: "Développement d'application" },
+  { value: 'redesign', label: 'Refonte de site' },
+  { value: 'consulting', label: 'Consulting technique' },
+  { value: 'collab', label: 'Collaboration' },
+  { value: 'quote', label: 'Demande de devis' },
+  { value: 'other', label: 'Autre' },
+];
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -33,26 +31,22 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
+  const [serverError, setServerError] = useState('');
 
   const validateField = (name, value) => {
     switch (name) {
-      case 'name':
-        return validateName(value) ? '' : 'Le nom doit contenir au moins 2 caractères';
-      case 'email':
-        return validateEmail(value) ? '' : 'Email invalide';
-      case 'message':
-        return validateMessage(value) ? '' : 'Le message doit contenir au moins 10 caractères';
-      case 'subject':
-        return value ? '' : 'Veuillez sélectionner un sujet';
-      default:
-        return '';
+      case 'name': return value.trim().length >= 2 ? '' : 'Le nom doit contenir au moins 2 caractères';
+      case 'email': return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : 'Email invalide';
+      case 'message': return value.trim().length >= 10 ? '' : 'Le message doit contenir au moins 10 caractères';
+      case 'subject': return value ? '' : 'Veuillez sélectionner un sujet';
+      default: return '';
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setServerError('');
     if (touched[name]) {
       setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
     }
@@ -66,46 +60,52 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate all fields
+    setServerError('');
+
     const newErrors = {};
     Object.keys(formData).forEach(key => {
       const error = validateField(key, formData[key]);
       if (error) newErrors[key] = error;
     });
-    
+
     setErrors(newErrors);
     setTouched({ name: true, email: true, subject: true, message: true });
-    
-    if (Object.keys(newErrors).length > 0) {
-      return;
-    }
-    
+
+    if (Object.keys(newErrors).length > 0) return;
+
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setSubmitted(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setErrors({});
-    setTouched({});
-    setTimeout(() => setSubmitted(false), 5000);
-  };
 
-  const getFieldError = (fieldName) => {
-    return touched[fieldName] ? errors[fieldName] || null : null;
-  };
+    try {
+      const res = await fetch('/send-email.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-  const isFieldValid = (fieldName) => {
-    return touched[fieldName] && !errors[fieldName] && formData[fieldName];
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Erreur lors de l'envoi");
+      }
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setErrors({});
+      setTouched({});
+      setTimeout(() => setSubmitted(false), 6000);
+    } catch (err) {
+      setServerError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section id="contact" className="bg-primary contact-section">
       <div className="contact-bg">
-        <img src="/assets/contact.png" alt="Background" className="contact-bg-image" />
+        <img src="/assets/contact.png" alt="" className="contact-bg-image" />
       </div>
       <div className="section-container">
-        {/* Section Header */}
         <div className="section-header">
           <span className="section-label">Contact</span>
           <h2 className="section-title">Travaillons <span className="text-orange">ensemble</span></h2>
@@ -115,7 +115,6 @@ export default function Contact() {
         </div>
 
         <div className="contact-grid">
-          {/* Contact Info */}
           <div className="animate-slideInLeft">
             <div>
               <h3 className="contact-info-title">Informations</h3>
@@ -134,14 +133,8 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Quick WhatsApp */}
             <div className="contact-whatsapp-group">
-              <a
-                href="https://wa.me/23563935784"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-whatsapp"
-              >
+              <a href="https://wa.me/23563935784" target="_blank" rel="noopener noreferrer" className="contact-whatsapp">
                 <div className="contact-whatsapp-icon">
                   <MessageCircle size={24} />
                 </div>
@@ -150,12 +143,7 @@ export default function Contact() {
                   <p className="contact-whatsapp-text">+235 63 93 57 84</p>
                 </div>
               </a>
-              <a
-                href="https://wa.me/237695577792"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-whatsapp"
-              >
+              <a href="https://wa.me/237695577792" target="_blank" rel="noopener noreferrer" className="contact-whatsapp">
                 <div className="contact-whatsapp-icon">
                   <MessageCircle size={24} />
                 </div>
@@ -166,7 +154,6 @@ export default function Contact() {
               </a>
             </div>
 
-            {/* Social Links */}
             <div>
               <p className="contact-social-title">Suivez-moi</p>
               <div className="contact-social-links">
@@ -179,7 +166,6 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Contact Form */}
           <div className="contact-form-wrapper animate-slideInRight">
             <h3 className="contact-form-title">Envoyer un message</h3>
 
@@ -193,94 +179,80 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="contact-form" noValidate>
-                <div className="contact-form-row">
-                  <div className="contact-form-group">
-                    <label className="contact-form-label">Nom</label>
-                    <div className="contact-input-wrapper">
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                        className={`contact-form-input ${getFieldError('name') ? 'error' : ''} ${isFieldValid('name') ? 'success' : ''}`}
-                        placeholder="Votre nom"
-                      />
-                      {getFieldError('name') && <AlertCircle size={16} className="contact-input-icon error" />}
-                      {isFieldValid('name') && <CheckCircle size={16} className="contact-input-icon success" />}
-                    </div>
-                    {getFieldError('name') && <p className="contact-error-text">{getFieldError('name')}</p>}
+                {serverError && (
+                  <div className="contact-server-error">
+                    <p>{serverError}</p>
                   </div>
-                  <div className="contact-form-group">
-                    <label className="contact-form-label">Email</label>
-                    <div className="contact-input-wrapper">
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                        className={`contact-form-input ${getFieldError('email') ? 'error' : ''} ${isFieldValid('email') ? 'success' : ''}`}
-                        placeholder="votre@email.com"
-                      />
-                      {getFieldError('email') && <AlertCircle size={16} className="contact-input-icon error" />}
-                      {isFieldValid('email') && <CheckCircle size={16} className="contact-input-icon success" />}
-                    </div>
-                    {getFieldError('email') && <p className="contact-error-text">{getFieldError('email')}</p>}
-                  </div>
+                )}
+
+                <div className="contact-form-group">
+                  <label className="contact-form-label" htmlFor="name">Nom complet</label>
+                  <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`contact-form-input ${touched[name] && errors[name] ? 'error' : ''} ${touched[name] && !errors[name] && formData.name ? 'success' : ''}`}
+                    placeholder="Jean Dupont"
+                  />
+                  {touched[name] && errors[name] && <p className="contact-error-text">{errors[name]}</p>}
+                </div>
+                <div className="contact-form-group">
+                  <label className="contact-form-label" htmlFor="email">Adresse email</label>
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`contact-form-input ${touched.email && errors.email ? 'error' : ''} ${touched.email && !errors.email && formData.email ? 'success' : ''}`}
+                    placeholder="jean@exemple.com"
+                  />
+                  {touched.email && errors.email && <p className="contact-error-text">{errors.email}</p>}
                 </div>
 
                 <div className="contact-form-group">
-                  <label className="contact-form-label">Sujet</label>
-                  <div className="contact-input-wrapper">
-                    <select
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      required
-                      className={`contact-form-select ${getFieldError('subject') ? 'error' : ''} ${isFieldValid('subject') ? 'success' : ''}`}
-                    >
-                      <option value="">Sélectionnez un sujet</option>
-                      <option value="website">Création de site web</option>
-                      <option value="app">Développement d'application</option>
-                      <option value="redesign">Refonte de site</option>
-                      <option value="consulting">Consulting technique</option>
-                      <option value="collab">Collaboration</option>
-                      <option value="quote">Demande de devis</option>
-                      <option value="other">Autre</option>
-                    </select>
-                    {getFieldError('subject') && <AlertCircle size={16} className="contact-input-icon error" />}
-                    {isFieldValid('subject') && <CheckCircle size={16} className="contact-input-icon success" />}
-                  </div>
-                  {getFieldError('subject') && <p className="contact-error-text">{getFieldError('subject')}</p>}
+                  <label className="contact-form-label" htmlFor="subject">Sujet</label>
+                  <select
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`contact-form-select ${touched.subject && errors.subject ? 'error' : ''} ${touched.subject && !errors.subject && formData.subject ? 'success' : ''}`}
+                  >
+                    {subjectOptions.map(opt => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                  </select>
+                  {touched.subject && errors.subject && <p className="contact-error-text">{errors.subject}</p>}
                 </div>
 
                 <div className="contact-form-group">
-                  <label className="contact-form-label">Message</label>
-                  <div className="contact-input-wrapper">
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      required
-                      rows={4}
-                      className={`contact-form-textarea ${getFieldError('message') ? 'error' : ''} ${isFieldValid('message') ? 'success' : ''}`}
-                      placeholder="Décrivez votre projet..."
-                    />
-                    {getFieldError('message') && <AlertCircle size={16} className="contact-input-icon error" />}
-                    {isFieldValid('message') && <CheckCircle size={16} className="contact-input-icon success" />}
+                  <label className="contact-form-label" htmlFor="message">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    rows={5}
+                    className={`contact-form-textarea ${touched.message && errors.message ? 'error' : ''} ${touched.message && !errors.message && formData.message ? 'success' : ''}`}
+                    placeholder="Décrivez votre projet en détail..."
+                  />
+                  <div className="contact-form-footer">
+                    {touched.message && errors.message && <p className="contact-error-text">{errors.message}</p>}
+                    <span className="contact-char-count">{formData.message.length} caractères</span>
                   </div>
-                  {getFieldError('message') && <p className="contact-error-text">{getFieldError('message')}</p>}
                 </div>
 
                 <button type="submit" disabled={isSubmitting} className="contact-form-submit">
                   {isSubmitting ? (
                     <>
-                      <div style={{ width: '20px', height: '20px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid white', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                      <div className="animate-spin" style={{ width: '20px', height: '20px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid white', borderRadius: '50%' }} />
                       Envoi en cours...
                     </>
                   ) : (
@@ -295,11 +267,6 @@ export default function Contact() {
           </div>
         </div>
       </div>
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </section>
   );
 }
