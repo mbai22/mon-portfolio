@@ -71,7 +71,7 @@ export default function HowIWork() {
           <p className="how-i-work-cta-text">
             Prêt à démarrer votre projet ?
           </p>
-          <a href="#contact" className="btn-primary">
+          <a href="#contact" onClick={(e) => { e.preventDefault(); window.location.hash = '#/'; setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className="btn-primary">
             Discutons ensemble
           </a>
         </div>

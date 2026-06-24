@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Code, Globe, ChevronRight } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 
@@ -21,6 +22,22 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [swipeOffset, setSwipeOffset] = useState(0);
   const { locale, toggleLocale } = useI18n();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === '/' || location.pathname === '';
+
+  const handleNavClick = (href, closeMenu = true) => {
+    const sectionId = href.replace('#', '');
+    if (closeMenu) setIsOpen(false);
+    if (isHome) {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  };
   
   // Refs pour le swipe
   const touchStartX = useRef(0);
@@ -96,14 +113,14 @@ export default function Navbar() {
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
-        <a href="#hero" className="navbar-logo animate-fadeInUp">
+        <a href="#hero" onClick={(e) => { e.preventDefault(); handleNavClick('#hero', false); }} className="navbar-logo animate-fadeInUp">
           <img src="/assets/logo-hero.png" alt="WillyDev" className="navbar-logo-img" />
         </a>
 
         {/* Desktop Navigation */}
         <div className="navbar-links animate-fadeInUp delay-100">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="navbar-link">
+            <a key={link.name} href={link.href} onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }} className="navbar-link">
               {link.name}
             </a>
           ))}
@@ -147,7 +164,7 @@ export default function Navbar() {
               href={link.href}
               className="navbar-mobile-link"
               style={{ animationDelay: `${index * 50}ms` }}
-              onClick={() => setIsOpen(false)}
+              onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
             >
               {link.name}
             </a>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Code, ArrowUp, Github, Linkedin, Mail, CheckCircle, Loader2, Send, ExternalLink } from 'lucide-react';
 
 // Configuration Mailchimp - À remplacer par tes vraies valeurs
@@ -38,9 +39,16 @@ export default function Footer() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const navigate = useNavigate();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavClick = (sectionId) => (e) => {
+    e.preventDefault();
+    navigate('/');
+    setTimeout(() => document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' }), 50);
   };
 
   const handleNewsletterSubmit = async (e) => {
@@ -77,7 +85,7 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Brand */}
           <div>
-            <a href="#hero" className="footer-brand">
+            <a href="#hero" onClick={handleNavClick('hero')} className="footer-brand">
               <img src="/assets/logo-hero.png" alt="WillyDev" className="footer-logo-img" />
             </a>
             <p className="footer-description">
@@ -98,7 +106,7 @@ export default function Footer() {
             <ul className="footer-links">
               {footerLinks.navigation.map((link) => (
                 <li key={link.label} className="footer-link">
-                  <a href={link.href}>{link.label}</a>
+                  <a href={link.href} onClick={handleNavClick(link.href.replace('#', ''))}>{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -110,7 +118,7 @@ export default function Footer() {
             <ul className="footer-links">
               {footerLinks.services.map((link) => (
                 <li key={link.label} className="footer-link">
-                  <a href={link.href}>{link.label}</a>
+                  <a href={link.href} onClick={handleNavClick(link.href.replace('#', ''))}>{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -120,7 +128,7 @@ export default function Footer() {
           <div>
             <h4 className="footer-title">Restez informé</h4>
             <p className="footer-newsletter-text">
-              Recevez les nouveaux beats et actualités directement dans votre boîte mail.
+              Recevez mes actualités directement dans votre boîte mail.
             </p>
             {isSubscribed ? (
               <div className="footer-success">

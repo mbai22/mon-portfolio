@@ -1,6 +1,19 @@
 import { Download } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+function scrollToSection(id) {
+  setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 50);
+}
 
 export default function Hero() {
+  const navigate = useNavigate();
+
+  const handleClick = (sectionId) => (e) => {
+    e.preventDefault();
+    navigate('/');
+    scrollToSection(sectionId);
+  };
+
   return (
     <section id="hero" className="hero">
       <div className="hero-bg" />
@@ -19,10 +32,10 @@ export default function Hero() {
             </p>
 
             <div className="hero-cta-group">
-              <a href="#portfolio" className="btn-primary hero-btn-primary">
+              <a href="#portfolio" onClick={handleClick('portfolio')} className="btn-primary hero-btn-primary">
                 Voir mes projets
               </a>
-              <a href="#contact" className="btn-secondary hero-btn-secondary">
+              <a href="#contact" onClick={handleClick('contact')} className="btn-secondary hero-btn-secondary">
                 Me contacter
               </a>
             </div>

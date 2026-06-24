@@ -113,7 +113,7 @@ export default function Services() {
               </div>
 
               {/* CTA */}
-              <a href="#contact" className={`service-btn ${service.popular ? 'popular' : ''}`}>
+              <a href="#contact" onClick={(e) => { e.preventDefault(); window.location.hash = '#/'; setTimeout(() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }), 50); }} className={`service-btn ${service.popular ? 'popular' : ''}`}>
                 <Zap size={16} />
                 Réserver
               </a>
