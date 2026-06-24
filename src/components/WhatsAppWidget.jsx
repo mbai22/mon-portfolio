@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { MessageCircle, Phone } from 'lucide-react';
+import { Phone } from 'lucide-react';
+import WhatsAppIcon from './WhatsAppIcon';
 
 const numbers = [
   { label: "Tchad", number: "23563935784" },
@@ -34,7 +35,7 @@ export default function WhatsAppWidget() {
         aria-label="Contacter sur WhatsApp"
       >
         <div className="whatsapp-icon">
-          <MessageCircle size={28} />
+          <WhatsAppIcon size={28} />
         </div>
         <span className="whatsapp-tooltip">Discuter sur WhatsApp</span>
       </button>
