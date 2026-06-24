@@ -1,21 +1,43 @@
-import { MessageCircle } from 'lucide-react';
+import { useState } from 'react';
+import { MessageCircle, Phone } from 'lucide-react';
+
+const numbers = [
+  { label: "Tchad", number: "23563935784" },
+  { label: "Cameroun", number: "237695577792" },
+];
 
 export default function WhatsAppWidget() {
-  const whatsappNumber = '+235123456789'; // Remplacez par votre numéro WhatsApp
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Bonjour%20!%20Je%20suis%20intéressé%20par%20vos%20services.`;
+  const [open, setOpen] = useState(false);
 
   return (
-    <a
-      href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="whatsapp-widget"
-      aria-label="Contacter sur WhatsApp"
-    >
-      <div className="whatsapp-icon">
-        <MessageCircle size={28} />
-      </div>
-      <span className="whatsapp-tooltip">Discuter sur WhatsApp</span>
-    </a>
+    <div className="whatsapp-widget-container">
+      {open && (
+        <div className="whatsapp-menu">
+          {numbers.map((item) => (
+            <a
+              key={item.label}
+              href={`https://wa.me/${item.number}?text=Bonjour%20!%20Je%20suis%20int%C3%A9ress%C3%A9%20par%20vos%20services.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="whatsapp-option"
+              onClick={() => setOpen(false)}
+            >
+              <Phone size={14} />
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
+      <button
+        className="whatsapp-widget"
+        onClick={() => setOpen(!open)}
+        aria-label="Contacter sur WhatsApp"
+      >
+        <div className="whatsapp-icon">
+          <MessageCircle size={28} />
+        </div>
+        <span className="whatsapp-tooltip">Discuter sur WhatsApp</span>
+      </button>
+    </div>
   );
 }
