@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Send, MessageCircle, Mail, MapPin, Phone, Clock, Linkedin, Github, Twitter, AlertCircle, CheckCircle } from 'lucide-react';
+import { Send, MessageCircle, Mail, MapPin, Phone, Clock, Linkedin, Github, AlertCircle, CheckCircle } from 'lucide-react';
 
 const socialLinks = [
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Github, label: "GitHub", href: "#" },
-  { icon: Twitter, label: "Twitter", href: "#" }
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/mba%C3%AFhornomwillifred/" },
+  { icon: Github, label: "GitHub", href: "https://github.com/mbai22" },
 ];
 
 const contactInfo = [
