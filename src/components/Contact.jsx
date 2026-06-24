@@ -8,7 +8,8 @@ const socialLinks = [
 
 const contactInfo = [
   { icon: MapPin, label: "Localisation", value: "N'djamena, Tchad" },
-  { icon: Phone, label: "WhatsApp", value: "+235 62 08 27 85" },
+  { icon: Phone, label: "WhatsApp Tchad", value: "+235 63 93 57 84" },
+  { icon: Phone, label: "WhatsApp Cameroun", value: "+237 69 55 77 792" },
   { icon: Mail, label: "Email", value: "contact@willydev.com" },
   { icon: Clock, label: "Disponibilité", value: "Lun - Sam, 9h - 20h" }
 ];
@@ -134,20 +135,36 @@ export default function Contact() {
             </div>
 
             {/* Quick WhatsApp */}
-            <a
-              href="https://wa.me/23562082785"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact-whatsapp"
-            >
-              <div className="contact-whatsapp-icon">
-                <MessageCircle size={24} />
-              </div>
-              <div>
-                <p className="contact-whatsapp-title">WhatsApp Direct</p>
-                <p className="contact-whatsapp-text">Réponse rapide garantie</p>
-              </div>
-            </a>
+            <div className="contact-whatsapp-group">
+              <a
+                href="https://wa.me/23563935784"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-whatsapp"
+              >
+                <div className="contact-whatsapp-icon">
+                  <MessageCircle size={24} />
+                </div>
+                <div>
+                  <p className="contact-whatsapp-title">WhatsApp Tchad</p>
+                  <p className="contact-whatsapp-text">+235 63 93 57 84</p>
+                </div>
+              </a>
+              <a
+                href="https://wa.me/237695577792"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-whatsapp"
+              >
+                <div className="contact-whatsapp-icon">
+                  <MessageCircle size={24} />
+                </div>
+                <div>
+                  <p className="contact-whatsapp-title">WhatsApp Cameroun</p>
+                  <p className="contact-whatsapp-text">+237 69 55 77 792</p>
+                </div>
+              </a>
+            </div>
 
             {/* Social Links */}
             <div>
