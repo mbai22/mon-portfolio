@@ -2,45 +2,116 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#7d53ff" />
-    
+
     <!-- Primary Meta Tags -->
-    <title>WillyDev | Développeur Full Stack</title>
-    <meta name="title" content="WillyDev | Développeur Full Stack" />
-    <meta name="description" content="WillyDev - Développeur Full Stack basé au Tchad. Spécialisé en Angular, Laravel et React. Je crée des applications web modernes et performantes." />
-    <meta name="keywords" content="développeur web, full stack, angular, laravel, react, tchad, ndjamena, portfolio" />
-    <meta name="author" content="WillyDev" />
-    <meta name="theme-color" content="#7d53ff" />
-    
-    <!-- Open Graph / Facebook -->
+    <title>Willy Dev | Développeur web & designer à N'Djamena, Tchad</title>
+    <meta name="description" content="Willy Dev, développeur web full stack, designer UI/UX et vidéaste à N'Djamena (Tchad). Sites vitrines, e-commerce et applications web sur mesure avec Angular, Laravel et React." />
+    <meta name="author" content="Willy Dev" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://willydev.online/" />
+
+    <!-- Icons & PWA -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1e222d" />
+
+    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://willydev.com/" />
-    <meta property="og:title" content="WillyDev | Développeur Full Stack" />
-    <meta property="og:description" content="Développeur Full Stack basé au Tchad. Spécialisé en Angular, Laravel et React." />
-    <meta property="og:image" content="https://willydev.com/og-image.jpg" />
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://willydev.com/" />
-    <meta property="twitter:title" content="WillyDev | Développeur Full Stack" />
-    <meta property="twitter:description" content="Développeur Full Stack basé au Tchad. Spécialisé en Angular, Laravel et React." />
-    <meta property="twitter:image" content="https://willydev.com/og-image.jpg" />
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://willydev.com/" />
-    
-    <!-- Fonts -->
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Willy Dev" />
+    <meta property="og:url" content="https://willydev.online/" />
+    <meta property="og:title" content="Willy Dev | Développeur web & designer à N'Djamena, Tchad" />
+    <meta property="og:description" content="Sites vitrines, e-commerce et applications web sur mesure, design UI/UX et production vidéo." />
+    <meta property="og:image" content="https://willydev.online/assets/img/about_willy.jpeg" />
+    <meta property="og:image:width" content="810" />
+    <meta property="og:image:height" content="1080" />
+    <meta property="og:image:alt" content="Portrait de Willy, développeur web à N'Djamena" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Willy Dev | Développeur web & designer à N'Djamena, Tchad" />
+    <meta name="twitter:description" content="Sites vitrines, e-commerce et applications web sur mesure, design UI/UX et production vidéo." />
+    <meta name="twitter:image" content="https://willydev.online/assets/img/about_willy.jpeg" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://willydev.online/#website",
+            "url": "https://willydev.online/",
+            "name": "Willy Dev",
+            "inLanguage": "fr-FR",
+            "publisher": { "@id": "https://willydev.online/#person" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://willydev.online/#person",
+            "name": "Willy Dev",
+            "jobTitle": "Développeur web full stack, designer UI/UX et vidéaste",
+            "url": "https://willydev.online/",
+            "image": "https://willydev.online/assets/img/about_willy.jpeg",
+            "email": "mailto:contact@willydev.online",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "N'Djamena",
+              "addressCountry": "TD"
+            },
+            "knowsAbout": ["Angular", "Laravel", "React", "PHP", "UI/UX Design", "Figma", "Montage vidéo"],
+            "sameAs": [
+              "https://github.com/mbai22",
+              "https://www.linkedin.com/in/mba%C3%AFhornomwillifred/"
+            ]
+          },
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://willydev.online/#service",
+            "name": "Willy Dev",
+            "url": "https://willydev.online/",
+            "image": "https://willydev.online/assets/img/about_willy.jpeg",
+            "email": "contact@willydev.online",
+            "telephone": "+23563935784",
+            "founder": { "@id": "https://willydev.online/#person" },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "N'Djamena",
+              "addressCountry": "TD"
+            },
+            "areaServed": "Tchad",
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+              "opens": "09:00",
+              "closes": "20:00"
+            },
+            "makesOffer": [
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Création de sites web" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Développement d'applications web" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Refonte de sites" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "UI/UX Design" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Design graphique" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Production vidéo" } }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <!-- Performance: start loading the hero portrait (LCP) and fonts early -->
+    <link rel="preload" as="image" href="/assets/img/willy-hero.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>Willy Dev, développeur web & designer à N'Djamena, Tchad</h1>
+      <p>Création de sites vitrines, e-commerce et applications web sur mesure (Angular, Laravel, React), design UI/UX et production vidéo. Contact : contact@willydev.online</p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

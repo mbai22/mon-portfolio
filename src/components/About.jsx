@@ -9,12 +9,12 @@ const stats = [
 ];
 
 const partners = [
-  { name: "TechCorp", logo: "/assets/partenaires/1.png" },
-  { name: "Global", logo: "/assets/partenaires/2.png" },
-  { name: "MobileFirst", logo: "/assets/partenaires/3.png" },
-  { name: "DevStudio", logo: "/assets/partenaires/4.png" },
-  { name: "DataFlow", logo: "/assets/partenaires/5.png" },
-  { name: "CloudSync", logo: "/assets/partenaires/6.png" },
+  { name: "Partenaire WD", logo: "/assets/partenaires/1.png" },
+  { name: "Partenaire e.", logo: "/assets/partenaires/2.png" },
+  { name: "Success Media TV", logo: "/assets/partenaires/3.png" },
+  { name: "GameZone", logo: "/assets/partenaires/4.png" },
+  { name: "Cunicole Sahel", logo: "/assets/partenaires/5.png" },
+  { name: "mab Grocery Store", logo: "/assets/partenaires/6.png" },
 ];
 
 export default function About() {

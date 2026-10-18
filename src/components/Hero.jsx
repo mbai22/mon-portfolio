@@ -23,12 +23,12 @@ export default function Hero() {
         </div>
 
         <div className="hero-photo">
-          <img src="/assets/img/willy-hero.webp" alt="Willy, développeur web basé à N'Djamena" />
+          <img src="/assets/img/willy-hero.webp" alt="Willy, développeur web basé à N'Djamena" width="1334" height="2000" fetchPriority="high" />
         </div>
 
         <aside className="hero-right">
           <div className="hero-block">
-            <h2 className="hero-block-title">À propos</h2>
+            <p className="hero-block-title">À propos</p>
             <p>Développeur full stack, designer UI/UX et vidéaste basé à N'Djamena, au Tchad.</p>
             <a href="#about" onClick={goTo('about')} className="link-arrow">
               En savoir plus <ArrowRight size={14} />
@@ -36,7 +36,7 @@ export default function Hero() {
           </div>
 
           <div className="hero-block">
-            <h2 className="hero-block-title">Mon travail</h2>
+            <p className="hero-block-title">Mon travail</p>
             <p>Sites vitrines, e-commerce et applications web avec Angular, Laravel et React.</p>
             <a href="#portfolio" onClick={goTo('portfolio')} className="link-arrow">
               Voir le portfolio <ArrowRight size={14} />
@@ -44,7 +44,7 @@ export default function Hero() {
           </div>
 
           <div className="hero-block hero-follow">
-            <h2 className="hero-block-title">Suivez-moi</h2>
+            <p className="hero-block-title">Suivez-moi</p>
             <div className="social-row">
               {socialLinks.map((social) => (
                 <a

@@ -2,10 +2,11 @@
   "name": "WillyDev - Développeur Full Stack",
   "short_name": "WillyDev",
   "description": "Portfolio de Willy, développeur Full Stack spécialisé en Angular, Laravel et React.",
+  "lang": "fr",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#7D53FF",
+  "background_color": "#1e222d",
+  "theme_color": "#1e222d",
   "orientation": "portrait-primary",
   "icons": [
     {
