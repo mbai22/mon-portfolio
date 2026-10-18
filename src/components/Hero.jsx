@@ -10,10 +10,9 @@ export default function Hero() {
       <div className="container hero-grid">
         <div className="hero-left">
           <span className="hero-line" aria-hidden="true" />
-          <h1 className="hero-title display">
+          <h1 className="hero-title">
             Je suis Willy,<br />
-            <span className="text-primary">Développeur web</span><br />
-            & designer
+            Développeur Web
           </h1>
           <p className="hero-text">
             Je conçois des applications web performantes, des designs UI/UX soignés et des contenus vidéo percutants pour donner vie à vos idées.
@@ -24,13 +23,7 @@ export default function Hero() {
         </div>
 
         <div className="hero-photo">
-          <div className="hero-photo-frame">
-            <img src="/assets/img/about_willy.jpeg" alt="Willy, développeur web basé à N'Djamena" />
-          </div>
-          <div className="hero-badge">
-            <span className="hero-badge-dot" aria-hidden="true" />
-            Disponible pour missions
-          </div>
+          <img src="/assets/img/willy-hero.webp" alt="Willy, développeur web basé à N'Djamena" />
         </div>
 
         <aside className="hero-right">
