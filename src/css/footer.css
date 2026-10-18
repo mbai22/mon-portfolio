@@ -1,5 +1,5 @@
 .footer {
-  background-color: var(--green-900);
+  background-color: var(--bg-primary);
   padding: clamp(64px, 9vw, 104px) 0 40px;
 }
 
@@ -21,8 +21,8 @@
   gap: 28px;
   padding: 18px;
   border-radius: var(--radius);
-  background-color: var(--lime);
-  color: var(--green-900);
+  background-color: var(--primary);
+  color: var(--white);
   transition: transform var(--transition);
 }
 
@@ -51,6 +51,7 @@
   height: 22px;
   border-radius: 6px;
   background-color: var(--white);
+  color: var(--ink);
 }
 
 .footer-cta-arrow {
@@ -60,7 +61,7 @@
   width: 42px;
   height: 42px;
   border-radius: 8px;
-  background-color: var(--green-900);
+  background-color: var(--bg-primary);
   color: var(--white);
 }
 
@@ -114,7 +115,7 @@
 }
 
 .footer-links a:hover {
-  color: var(--green-700);
+  color: var(--primary);
 }
 
 .footer-bottom {

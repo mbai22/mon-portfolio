@@ -13,7 +13,7 @@ export default function Portfolio() {
     : projects.filter(p => p.type === activeFilter);
 
   return (
-    <section id="portfolio" className="section section-cream">
+    <section id="portfolio" className="section section-light">
       <div className="container">
         <div className="section-head">
           <Eyebrow>Réalisations</Eyebrow>

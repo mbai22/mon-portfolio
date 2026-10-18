@@ -51,7 +51,8 @@
 }
 
 .service-card.featured {
-  background-color: var(--lime);
+  background-color: var(--primary);
+  color: var(--white);
 }
 
 .service-title {
@@ -66,7 +67,7 @@
 }
 
 .service-card.featured .service-description {
-  color: rgba(12, 42, 18, 0.75);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .service-price {
@@ -145,4 +146,16 @@
   .services-tabs-wrap {
     margin-top: -16px;
   }
+}
+
+.service-card.featured .service-price {
+  color: var(--ink);
+}
+
+.service-card.featured .service-btn {
+  background-color: var(--bg-primary);
+}
+
+.service-card.featured .service-btn:hover {
+  background-color: var(--bg-card);
 }

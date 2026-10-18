@@ -102,7 +102,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section section-cream contact-section">
+    <section id="contact" className="section section-light contact-section">
       <div className="container contact-grid">
         <div className="contact-intro">
           <Eyebrow>Contact</Eyebrow>

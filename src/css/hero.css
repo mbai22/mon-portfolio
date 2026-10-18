@@ -2,8 +2,8 @@
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(60% 70% at 50% 40%, rgba(212, 242, 26, 0.08), transparent 70%),
-    var(--green-950);
+    radial-gradient(60% 70% at 50% 40%, rgba(125, 83, 255, 0.08), transparent 70%),
+    var(--bg-secondary);
   padding-top: 76px;
 }
 
@@ -28,7 +28,7 @@
   width: 56px;
   height: 4px;
   border-radius: 2px;
-  background-color: var(--lime);
+  background-color: var(--primary);
 }
 
 .hero-title {
@@ -48,14 +48,14 @@
   height: 68px;
   margin-top: 12px;
   border-radius: 50%;
-  background-color: var(--lime);
-  color: var(--green-900);
+  background-color: var(--primary);
+  color: var(--white);
   transition: transform var(--transition), background-color var(--transition);
 }
 
 .hero-scroll:hover {
   transform: translateY(4px);
-  background-color: var(--lime-dark);
+  background-color: var(--primary-dark);
 }
 
 .hero-photo {
@@ -67,7 +67,7 @@
   aspect-ratio: 4 / 5;
   border-radius: 999px 999px 0 0;
   overflow: hidden;
-  background-color: var(--green-800);
+  background-color: var(--bg-card);
 }
 
 .hero-photo-frame img {
@@ -88,7 +88,7 @@
   padding: 8px 16px;
   white-space: nowrap;
   border-radius: var(--radius-full);
-  background-color: var(--green-900);
+  background-color: var(--bg-primary);
   border: 1px solid var(--line-on-dark);
   font-size: 0.8125rem;
   font-weight: 500;
@@ -98,8 +98,8 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--lime);
-  box-shadow: 0 0 0 4px rgba(212, 242, 26, 0.2);
+  background-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(182, 255, 0, 0.2);
 }
 
 .hero-right {

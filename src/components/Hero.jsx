@@ -12,7 +12,7 @@ export default function Hero() {
           <span className="hero-line" aria-hidden="true" />
           <h1 className="hero-title display">
             Je suis Willy,<br />
-            <span className="text-lime">Développeur web</span><br />
+            <span className="text-primary">Développeur web</span><br />
             & designer
           </h1>
           <p className="hero-text">

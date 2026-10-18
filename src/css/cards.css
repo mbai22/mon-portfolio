@@ -37,7 +37,7 @@
   bottom: 12px;
   padding: 5px 12px;
   border-radius: var(--radius-full);
-  background-color: rgba(12, 42, 18, 0.85);
+  background-color: rgba(36, 40, 52, 0.85);
   color: var(--white);
   font-size: 0.75rem;
   font-weight: 500;
@@ -89,7 +89,7 @@
 }
 
 .media-card-meta-accent {
-  color: var(--green-700);
+  color: var(--primary);
   font-weight: 500;
 }
 

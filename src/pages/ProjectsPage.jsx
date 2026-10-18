@@ -35,7 +35,7 @@ export default function ProjectsPage() {
         </div>
       </header>
 
-      <section className="section section-cream">
+      <section className="section section-light">
         <div className="container cards-grid">
           {filteredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />

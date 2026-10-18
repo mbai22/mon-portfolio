@@ -24,21 +24,21 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background-color: var(--green-800);
+  background-color: var(--bg-card);
   transition: background-color var(--transition), color var(--transition);
 }
 
 .skills-arrow:hover {
-  background-color: var(--green-700);
+  background-color: #353a48;
 }
 
 .skills-arrow-primary {
-  background-color: var(--lime);
-  color: var(--green-900);
+  background-color: var(--primary);
+  color: var(--white);
 }
 
 .skills-arrow-primary:hover {
-  background-color: var(--lime-dark);
+  background-color: var(--primary-dark);
 }
 
 .skills-track {
@@ -59,7 +59,7 @@
   scroll-snap-align: start;
   padding: 28px;
   border-radius: var(--radius-lg);
-  background-color: var(--green-900);
+  background-color: var(--bg-primary);
   border: 1px solid var(--line-on-dark);
 }
 
@@ -77,8 +77,8 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background-color: var(--lime);
-  color: var(--green-900);
+  background-color: var(--primary);
+  color: var(--white);
 }
 
 .skill-card-title {
@@ -115,7 +115,7 @@
 .skill-bar-fill {
   height: 100%;
   border-radius: 2px;
-  background-color: var(--lime);
+  background-color: var(--accent);
 }
 
 @media (max-width: 1024px) {

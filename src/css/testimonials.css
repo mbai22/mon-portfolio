@@ -10,7 +10,7 @@
   gap: 20px;
   padding: 28px;
   border-radius: var(--radius-lg);
-  background-color: var(--green-800);
+  background-color: var(--bg-card);
   border: 1px solid var(--line-on-dark);
 }
 
@@ -23,11 +23,11 @@
 .testimonial-rating {
   display: flex;
   gap: 3px;
-  color: var(--lime);
+  color: var(--accent);
 }
 
 .testimonial-quote {
-  color: var(--lime);
+  color: var(--accent);
   opacity: 0.5;
 }
 
@@ -50,7 +50,7 @@
   height: 44px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: var(--green-700);
+  background-color: var(--primary);
 }
 
 .testimonial-name {

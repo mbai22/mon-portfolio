@@ -30,7 +30,7 @@ const blogPosts = [
 
 export default function Blog() {
   return (
-    <section id="blog" className="section section-cream">
+    <section id="blog" className="section section-light">
       <div className="container">
         <div className="section-head">
           <Eyebrow>Blog & conseils</Eyebrow>

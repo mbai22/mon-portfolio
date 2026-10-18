@@ -39,7 +39,7 @@
 .about-stat-number {
   font-size: clamp(3rem, 5vw, 4rem);
   line-height: 1;
-  color: var(--lime);
+  color: var(--accent);
 }
 
 .about-stat-label {
@@ -79,7 +79,7 @@
 .about-partners-list li {
   padding: 6px 4px;
   border-radius: var(--radius);
-  background-color: var(--cream);
+  background-color: var(--bg-light);
   transition: transform var(--transition);
 }
 
