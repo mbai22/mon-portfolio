@@ -1,0 +1,125 @@
+/* Image cards shared by portfolio, projects page and blog */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.media-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--ink);
+}
+
+.media-card-image {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--line-on-light);
+}
+
+.media-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.media-card:hover .media-card-image img {
+  transform: scale(1.04);
+}
+
+.media-card-tag {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background-color: rgba(12, 42, 18, 0.85);
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.media-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background-color: var(--white);
+}
+
+.media-card-kicker {
+  font-size: 1.125rem;
+}
+
+.media-card-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.media-card-text {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.media-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-on-light);
+}
+
+.media-card-title,
+.media-card-text {
+  margin-bottom: 8px;
+}
+
+.media-card-meta {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.media-card-meta-accent {
+  color: var(--green-700);
+  font-weight: 500;
+}
+
+.media-card .circle-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.cards-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.projects-page-header {
+  padding: calc(76px + 64px) 0 64px;
+}
+
+.projects-page-header .section-head {
+  margin-bottom: 0;
+}
+
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

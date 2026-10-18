@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, X, ChevronsRight } from 'lucide-react';
+import Eyebrow from './Eyebrow';
+import { useSectionNav } from '../hooks/useSectionNav';
 
 const faqData = [
   {
@@ -29,43 +31,48 @@ const faqData = [
 ];
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+  const [openIndex, setOpenIndex] = useState(0);
+  const goTo = useSectionNav();
 
   return (
-    <section id="faq" className="faq-section">
-      <div className="section-container">
-        <span className="section-label">FAQ</span>
-        <h2 className="section-title">Questions Fréquentes</h2>
-        <p className="section-description">
-          Vous avez des questions ? Voici les réponses aux questions les plus courantes.
-        </p>
+    <section id="faq" className="section section-cream faq-section">
+      <div className="container faq-grid">
+        <div className="faq-intro">
+          <Eyebrow>FAQ</Eyebrow>
+          <h2 className="section-title">Questions fréquentes</h2>
 
-        <div className="faq-grid">
-          {faqData.map((faq, index) => (
-            <div key={index} className="faq-item">
-              <button
-                className="faq-question"
-                onClick={() => toggleFAQ(index)}
-                aria-expanded={openIndex === index}
-              >
-                <span className="faq-question-text">{faq.question}</span>
-                {openIndex === index ? (
-                  <ChevronUp size={20} className="faq-icon" />
-                ) : (
-                  <ChevronDown size={20} className="faq-icon" />
-                )}
-              </button>
-              <div
-                className={`faq-answer ${openIndex === index ? 'open' : ''}`}
-              >
-                <p className="faq-answer-text">{faq.answer}</p>
+          <div className="faq-help">
+            <h3 className="faq-help-title display">Encore des questions ?</h3>
+            <p>Écrivez-moi à tout moment, je vous réponds rapidement.</p>
+            <a href="#contact" onClick={goTo('contact')} className="faq-help-btn">
+              <span className="faq-help-btn-label">Contact</span>
+              <span className="circle-icon"><ChevronsRight size={16} /></span>
+            </a>
+          </div>
+        </div>
+
+        <div className="faq-list">
+          {faqData.map((faq, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <div key={faq.question} className={`faq-item${isOpen ? ' open' : ''}`}>
+                <button
+                  className="faq-question"
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${index}`}
+                >
+                  <span className="faq-question-text display">{faq.question}</span>
+                  <span className="faq-icon" aria-hidden="true">
+                    {isOpen ? <X size={14} /> : <Plus size={14} />}
+                  </span>
+                </button>
+                <div id={`faq-answer-${index}`} className="faq-answer" hidden={!isOpen}>
+                  <p>{faq.answer}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

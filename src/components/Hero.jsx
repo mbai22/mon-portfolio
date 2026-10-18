@@ -1,53 +1,73 @@
-import { Download } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-
-function scrollToSection(id) {
-  setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 50);
-}
+import { ArrowDown, ArrowRight } from 'lucide-react';
+import { useSectionNav } from '../hooks/useSectionNav';
+import { socialLinks } from '../data/social';
 
 export default function Hero() {
-  const navigate = useNavigate();
-
-  const handleClick = (sectionId) => (e) => {
-    e.preventDefault();
-    navigate('/');
-    scrollToSection(sectionId);
-  };
+  const goTo = useSectionNav();
 
   return (
     <section id="hero" className="hero">
-      <div className="hero-bg" />
+      <div className="container hero-grid">
+        <div className="hero-left">
+          <span className="hero-line" aria-hidden="true" />
+          <h1 className="hero-title display">
+            Je suis Willy,<br />
+            <span className="text-lime">Développeur web</span><br />
+            & designer
+          </h1>
+          <p className="hero-text">
+            Je conçois des applications web performantes, des designs UI/UX soignés et des contenus vidéo percutants pour donner vie à vos idées.
+          </p>
+          <a href="#about" onClick={goTo('about')} className="hero-scroll" aria-label="Défiler vers la section À propos">
+            <ArrowDown size={26} />
+          </a>
+        </div>
 
-      <div className="hero-container">
-        <div className="hero-content">
-          <div className="hero-left">
-            <h1 className="hero-heading">
-              <span className="hero-heading-line">Développeur</span>
-              <span className="hero-heading-line hero-heading-accent">Web & Mobile</span>
-              <span className="hero-heading-line">Designer & Vidéaste</span>
-            </h1>
-
-            <p className="hero-subtitle">
-              Je conçois des applications web performantes, des designs UI/UX soignés et des contenus vidéo percutants pour donner vie à vos idées.
-            </p>
-
-            <div className="hero-cta-group">
-              <a href="#portfolio" onClick={handleClick('portfolio')} className="btn-primary hero-btn-primary">
-                Voir mes projets
-              </a>
-              <a href="#contact" onClick={handleClick('contact')} className="btn-secondary hero-btn-secondary">
-                Me contacter
-              </a>
-            </div>
-
-            <div className="hero-secondary-actions">
-              <a href="/cv-willy-dev.pdf" download className="hero-link">
-                <Download size={16} />
-                Télécharger CV
-              </a>
-            </div>
+        <div className="hero-photo">
+          <div className="hero-photo-frame">
+            <img src="/assets/img/about_willy.jpeg" alt="Willy, développeur web basé à N'Djamena" />
+          </div>
+          <div className="hero-badge">
+            <span className="hero-badge-dot" aria-hidden="true" />
+            Disponible pour missions
           </div>
         </div>
+
+        <aside className="hero-right">
+          <div className="hero-block">
+            <h2 className="hero-block-title">À propos</h2>
+            <p>Développeur full stack, designer UI/UX et vidéaste basé à N'Djamena, au Tchad.</p>
+            <a href="#about" onClick={goTo('about')} className="link-arrow">
+              En savoir plus <ArrowRight size={14} />
+            </a>
+          </div>
+
+          <div className="hero-block">
+            <h2 className="hero-block-title">Mon travail</h2>
+            <p>Sites vitrines, e-commerce et applications web avec Angular, Laravel et React.</p>
+            <a href="#portfolio" onClick={goTo('portfolio')} className="link-arrow">
+              Voir le portfolio <ArrowRight size={14} />
+            </a>
+          </div>
+
+          <div className="hero-block hero-follow">
+            <h2 className="hero-block-title">Suivez-moi</h2>
+            <div className="social-row">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  className="social-link"
+                  aria-label={social.label}
+                  target={social.href.startsWith('http') ? '_blank' : undefined}
+                  rel="noopener noreferrer"
+                >
+                  <social.icon size={16} />
+                </a>
+              ))}
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
   );

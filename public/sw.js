@@ -1,4 +1,4 @@
-const CACHE_NAME = 'willydev-v2';
+const CACHE_NAME = 'willydev-v3';
 const RUNTIME_CACHE = 'willydev-runtime';
 
 const urlsToCache = [

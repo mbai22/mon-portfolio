@@ -1,14 +1,11 @@
 import { useState } from 'react';
-import { Send, Mail, MapPin, Clock, Linkedin, Github } from 'lucide-react';
-
-const socialLinks = [
-  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/mba%C3%AFhornomwillifred/" },
-  { icon: Github, label: "GitHub", href: "https://github.com/mbai22" },
-];
+import { Send, Mail, MapPin, Clock, ChevronsRight } from 'lucide-react';
+import Eyebrow from './Eyebrow';
+import { socialLinks, CONTACT_EMAIL } from '../data/social';
 
 const contactInfo = [
-  { icon: MapPin, label: "Localisation", value: "N'djamena, Tchad" },
-  { icon: Mail, label: "Email", value: "contact@willydev.online" },
+  { icon: MapPin, label: "Localisation", value: "N'Djamena, Tchad" },
+  { icon: Mail, label: "Email", value: CONTACT_EMAIL },
   { icon: Clock, label: "Disponibilité", value: "Lun - Sam, 9h - 20h" }
 ];
 
@@ -98,70 +95,72 @@ export default function Contact() {
     }
   };
 
+  const fieldClass = (name) => {
+    if (!touched[name]) return 'contact-form-input';
+    if (errors[name]) return 'contact-form-input error';
+    return formData[name] ? 'contact-form-input success' : 'contact-form-input';
+  };
+
   return (
-    <section id="contact" className="bg-primary contact-section">
-      <div className="contact-bg">
-        <img src="/assets/contact.png" alt="" className="contact-bg-image" />
-      </div>
-      <div className="section-container">
-        <div className="section-header">
-          <span className="section-label">Contact</span>
-          <h2 className="section-title">Travaillons <span className="text-orange">ensemble</span></h2>
-          <p className="section-description">
+    <section id="contact" className="section section-cream contact-section">
+      <div className="container contact-grid">
+        <div className="contact-intro">
+          <Eyebrow>Contact</Eyebrow>
+          <h2 className="section-title">Travaillons ensemble</h2>
+          <p className="section-text">
             Prêt à transformer votre idée en projet web ? Contactez-moi pour discuter de vos besoins.
           </p>
+
+          <ul className="contact-info-list">
+            {contactInfo.map((item) => (
+              <li key={item.label} className="contact-info-item">
+                <span className="contact-info-icon">
+                  <item.icon size={18} />
+                </span>
+                <div>
+                  <p className="contact-info-label">{item.label}</p>
+                  <p className="contact-info-value">{item.value}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="social-row contact-social">
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                className="social-link"
+                aria-label={social.label}
+                target={social.href.startsWith('http') ? '_blank' : undefined}
+                rel="noopener noreferrer"
+              >
+                <social.icon size={16} />
+              </a>
+            ))}
+          </div>
         </div>
 
-        <div className="contact-grid">
-          <div className="animate-slideInLeft">
-            <div>
-              <h3 className="contact-info-title">Informations</h3>
-              <div className="contact-info-list">
-                {contactInfo.map((item) => (
-                  <div key={item.label} className="contact-info-item">
-                    <div className="contact-info-icon">
-                      <item.icon size={20} />
-                    </div>
-                    <div>
-                      <p className="contact-info-label">{item.label}</p>
-                      <p className="contact-info-value">{item.value}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+        <div className="contact-card">
+          <h3 className="contact-card-title display">Envoyer un message</h3>
+
+          {submitted ? (
+            <div className="contact-success" role="status">
+              <span className="contact-success-icon">
+                <Send size={28} />
+              </span>
+              <h4 className="contact-success-title display">Message envoyé !</h4>
+              <p>Je vous répondrai dans les plus brefs délais.</p>
             </div>
-
-            <div>
-              <p className="contact-social-title">Suivez-moi</p>
-              <div className="contact-social-links">
-                {socialLinks.map((social) => (
-                  <a key={social.label} href={social.href} className="contact-social-link" aria-label={social.label}>
-                    <social.icon size={20} />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="contact-form-wrapper animate-slideInRight">
-            <h3 className="contact-form-title">Envoyer un message</h3>
-
-            {submitted ? (
-              <div className="contact-success">
-                <div className="contact-success-icon">
-                  <Send size={32} />
+          ) : (
+            <form onSubmit={handleSubmit} className="contact-form" noValidate>
+              {serverError && (
+                <div className="contact-server-error" role="alert">
+                  <p>{serverError}</p>
                 </div>
-                <h4 className="contact-success-title">Message envoyé !</h4>
-                <p className="contact-success-text">Je vous répondrai dans les plus brefs délais.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="contact-form" noValidate>
-                {serverError && (
-                  <div className="contact-server-error">
-                    <p>{serverError}</p>
-                  </div>
-                )}
+              )}
 
+              <div className="contact-form-row">
                 <div className="contact-form-group">
                   <label className="contact-form-label" htmlFor="name">Nom complet</label>
                   <input
@@ -171,10 +170,10 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={`contact-form-input ${touched[name] && errors[name] ? 'error' : ''} ${touched[name] && !errors[name] && formData.name ? 'success' : ''}`}
+                    className={fieldClass('name')}
                     placeholder="Jean Dupont"
                   />
-                  {touched[name] && errors[name] && <p className="contact-error-text">{errors[name]}</p>}
+                  {touched.name && errors.name && <p className="contact-error-text">{errors.name}</p>}
                 </div>
                 <div className="contact-form-group">
                   <label className="contact-form-label" htmlFor="email">Adresse email</label>
@@ -185,63 +184,56 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={`contact-form-input ${touched.email && errors.email ? 'error' : ''} ${touched.email && !errors.email && formData.email ? 'success' : ''}`}
+                    className={fieldClass('email')}
                     placeholder="jean@exemple.com"
                   />
                   {touched.email && errors.email && <p className="contact-error-text">{errors.email}</p>}
                 </div>
+              </div>
 
-                <div className="contact-form-group">
-                  <label className="contact-form-label" htmlFor="subject">Sujet</label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className={`contact-form-select ${touched.subject && errors.subject ? 'error' : ''} ${touched.subject && !errors.subject && formData.subject ? 'success' : ''}`}
-                  >
-                    {subjectOptions.map(opt => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
-                  {touched.subject && errors.subject && <p className="contact-error-text">{errors.subject}</p>}
+              <div className="contact-form-group">
+                <label className="contact-form-label" htmlFor="subject">Sujet</label>
+                <select
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={fieldClass('subject')}
+                >
+                  {subjectOptions.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+                {touched.subject && errors.subject && <p className="contact-error-text">{errors.subject}</p>}
+              </div>
+
+              <div className="contact-form-group">
+                <label className="contact-form-label" htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  rows={5}
+                  className={fieldClass('message')}
+                  placeholder="Décrivez votre projet en détail..."
+                />
+                <div className="contact-form-footer">
+                  {touched.message && errors.message ? <p className="contact-error-text">{errors.message}</p> : <span />}
+                  <span className="contact-char-count">{formData.message.length} caractères</span>
                 </div>
+              </div>
 
-                <div className="contact-form-group">
-                  <label className="contact-form-label" htmlFor="message">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    rows={5}
-                    className={`contact-form-textarea ${touched.message && errors.message ? 'error' : ''} ${touched.message && !errors.message && formData.message ? 'success' : ''}`}
-                    placeholder="Décrivez votre projet en détail..."
-                  />
-                  <div className="contact-form-footer">
-                    {touched.message && errors.message && <p className="contact-error-text">{errors.message}</p>}
-                    <span className="contact-char-count">{formData.message.length} caractères</span>
-                  </div>
-                </div>
-
-                <button type="submit" disabled={isSubmitting} className="contact-form-submit">
-                  {isSubmitting ? (
-                    <>
-                      <div className="animate-spin" style={{ width: '20px', height: '20px', border: '2px solid rgba(255,255,255,0.3)', borderTop: '2px solid white', borderRadius: '50%' }} />
-                      Envoi en cours...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={20} />
-                      Envoyer le message
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
+              <button type="submit" disabled={isSubmitting} className="btn-pill contact-submit">
+                {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
+                <span className="circle-icon">
+                  {isSubmitting ? <span className="contact-spinner animate-spin" /> : <ChevronsRight size={16} />}
+                </span>
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </section>

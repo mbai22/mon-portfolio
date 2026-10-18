@@ -1,5 +1,5 @@
 import { Star, Quote } from 'lucide-react';
-import { useCarousel } from '../hooks/useCarousel';
+import Eyebrow from './Eyebrow';
 
 const testimonials = [
   {
@@ -26,69 +26,36 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
-  const { scrollRef, activeIndex, scrollTo } = useCarousel({ cardSelector: '.testimonial-card' });
-
   return (
-    <section id="testimonials" className="bg-primary">
-      <div className="section-container">
-        {/* Section Header */}
-        <div className="section-header">
-          <span className="section-label">Témoignages</span>
-          <h2 className="section-title">Ce que disent mes <span className="text-orange">clients</span></h2>
-          <p className="section-description">
-            La satisfaction de mes clients est ma priorité absolue.
-          </p>
+    <section id="testimonials" className="section section-dark">
+      <div className="container">
+        <div className="section-head">
+          <Eyebrow>Témoignages</Eyebrow>
+          <h2 className="section-title">Ce que disent mes clients</h2>
         </div>
 
-        {/* Testimonials Carousel */}
-        <div className="testimonials-grid" ref={scrollRef}>
-          {testimonials.map((testimonial, index) => (
-            <div key={testimonial.name} className="testimonial-card" style={{ animationDelay: `${index * 150}ms` }}>
-              {/* Quote Icon */}
-              <div className="testimonial-quote">
-                <Quote size={32} />
-              </div>
-
-              {/* Rating */}
-              <div className="testimonial-rating">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} size={16} fill="#fdb901" color="#fdb901" />
-                ))}
-              </div>
-
-              {/* Content */}
-              <p className="testimonial-content">{testimonial.content}</p>
-
-              {/* Author */}
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.parentElement.innerHTML = testimonial.name.charAt(0);
-                    }}
-                  />
+        <div className="testimonials-grid">
+          {testimonials.map((testimonial) => (
+            <figure key={testimonial.name} className="testimonial-card">
+              <div className="testimonial-top">
+                <div className="testimonial-rating" aria-label={`${testimonial.rating} étoiles sur 5`}>
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} size={14} fill="currentColor" />
+                  ))}
                 </div>
+                <Quote size={28} className="testimonial-quote" aria-hidden="true" />
+              </div>
+
+              <blockquote className="testimonial-content">{testimonial.content}</blockquote>
+
+              <figcaption className="testimonial-author">
+                <img src={testimonial.image} alt="" className="testimonial-avatar" loading="lazy" />
                 <div>
                   <p className="testimonial-name">{testimonial.name}</p>
                   <p className="testimonial-role">{testimonial.role}</p>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation Dots */}
-        <div className="testimonials-dots">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              className={`testimonial-dot${index === activeIndex ? ' active' : ''}`}
-              onClick={() => scrollTo(index)}
-              aria-label={`Témoignage ${index + 1}`}
-            />
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>

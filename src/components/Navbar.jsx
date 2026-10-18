@@ -1,191 +1,74 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Code, Globe, ChevronRight } from 'lucide-react';
-import { useI18n } from '../contexts/I18nContext';
+import { useEffect, useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { useSectionNav } from '../hooks/useSectionNav';
 
 const navLinks = [
-  { name: 'Accueil', href: '#hero' },
-  { name: 'À Propos', href: '#about' },
-  { name: 'Compétences', href: '#skills' },
-  { name: 'Portfolio', href: '#portfolio' },
-  { name: 'Services', href: '#services' },
-  { name: 'Processus', href: '#how-i-work' },
-  { name: 'Témoignages', href: '#testimonials' },
-  { name: 'Clients', href: '#clients' },
-  { name: 'Blog', href: '#blog' },
-  { name: 'FAQ', href: '#faq' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Accueil', id: 'hero' },
+  { name: 'À propos', id: 'about' },
+  { name: 'Compétences', id: 'skills' },
+  { name: 'Services', id: 'services' },
+  { name: 'Portfolio', id: 'portfolio' },
+  { name: 'Blog', id: 'blog' },
+  { name: 'FAQ', id: 'faq' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [swipeOffset, setSwipeOffset] = useState(0);
-  const { locale, toggleLocale } = useI18n();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const isHome = location.pathname === '/' || location.pathname === '';
+  const goTo = useSectionNav();
 
-  const handleNavClick = (href, closeMenu = true) => {
-    const sectionId = href.replace('#', '');
-    if (closeMenu) setIsOpen(false);
-    if (isHome) {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      navigate('/');
-      setTimeout(() => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    }
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }, [isOpen]);
+
+  const handleClick = (id) => (e) => {
+    setIsOpen(false);
+    goTo(id)(e);
   };
-  
-  // Refs pour le swipe
-  const touchStartX = useRef(0);
-  const touchCurrentX = useRef(0);
-  const isSwiping = useRef(false);
-  const menuRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Handlers pour le swipe
-  const handleTouchStart = useCallback((e) => {
-    const touch = e.touches[0];
-    touchStartX.current = touch.clientX;
-    touchCurrentX.current = touch.clientX;
-    isSwiping.current = true;
-  }, []);
-
-  const handleTouchMove = useCallback((e) => {
-    if (!isSwiping.current) return;
-    
-    const touch = e.touches[0];
-    touchCurrentX.current = touch.clientX;
-    const diff = touchCurrentX.current - touchStartX.current;
-    
-    // Swipe vers la gauche pour fermer le menu (quand ouvert)
-    if (isOpen && diff < 0) {
-      setSwipeOffset(Math.max(-100, diff));
-    }
-    // Swipe vers la droite pour ouvrir (depuis le bord gauche)
-    else if (!isOpen && touchStartX.current < 30 && diff > 0) {
-      setSwipeOffset(Math.min(diff, 100));
-    }
-  }, [isOpen]);
-
-  const handleTouchEnd = useCallback(() => {
-    if (!isSwiping.current) return;
-    isSwiping.current = false;
-    
-    const diff = touchCurrentX.current - touchStartX.current;
-    const threshold = 80; // Seuil pour déclencher l'action
-    
-    if (isOpen && diff < -threshold) {
-      // Swipe gauche -> fermer
-      setIsOpen(false);
-    } else if (!isOpen && touchStartX.current < 30 && diff > threshold) {
-      // Swipe droite depuis bord -> ouvrir
-      setIsOpen(true);
-    }
-    
-    setSwipeOffset(0);
-  }, [isOpen]);
-
-  // Gestionnaire global pour le swipe d'ouverture
-  useEffect(() => {
-    const handleGlobalTouchStart = (e) => {
-      // Seulement si on est près du bord gauche et que le menu est fermé
-      if (!isOpen && e.touches[0].clientX < 30) {
-        touchStartX.current = e.touches[0].clientX;
-      }
-    };
-
-    document.addEventListener('touchstart', handleGlobalTouchStart, { passive: true });
-    return () => document.removeEventListener('touchstart', handleGlobalTouchStart);
-  }, [isOpen]);
 
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-      <div className="navbar-container">
-        {/* Logo */}
-        <a href="#hero" onClick={(e) => { e.preventDefault(); handleNavClick('#hero', false); }} className="navbar-logo animate-fadeInUp">
-          <img src="/assets/logo-hero.png" alt="WillyDev" className="navbar-logo-img" />
+    <nav className={`navbar${scrolled || isOpen ? ' scrolled' : ''}`}>
+      <div className="container navbar-inner">
+        <a href="#hero" onClick={handleClick('hero')} className="navbar-logo">
+          <img src="/assets/logo-hero.png" alt="WillyDev" />
         </a>
 
-        {/* Desktop Navigation */}
-        <div className="navbar-links animate-fadeInUp delay-100">
+        <div className="navbar-links">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }} className="navbar-link">
+            <a key={link.id} href={`#${link.id}`} onClick={handleClick(link.id)} className="navbar-link">
               {link.name}
             </a>
           ))}
-          {/* Language Switcher */}
-          <button 
-            className="navbar-lang-btn" 
-            onClick={toggleLocale}
-            aria-label="Changer de langue"
-            title={locale === 'fr' ? 'Switch to English' : 'Passer en français'}
-          >
-            <Globe size={18} />
-            <span className="navbar-lang-text">{locale.toUpperCase()}</span>
-          </button>
         </div>
 
-        {/* Mobile/Tablet Menu Button */}
+        <a href="#contact" onClick={handleClick('contact')} className="navbar-cta">
+          Me contacter
+        </a>
+
         <button
-          className="navbar-menu-btn"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          className="navbar-toggle"
+          onClick={() => setIsOpen((open) => !open)}
+          aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          aria-expanded={isOpen}
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* Mobile/Tablet Menu */}
-      <div 
-        ref={menuRef}
-        className={`navbar-mobile-menu ${isOpen ? 'open' : ''}`}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        style={{
-          transform: isOpen ? `translateX(${swipeOffset}px)` : `translateX(calc(-100% + ${Math.max(0, swipeOffset)}px))`,
-        }}
-      >
-        <div className="navbar-mobile-container">
-          {navLinks.map((link, index) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="navbar-mobile-link"
-              style={{ animationDelay: `${index * 50}ms` }}
-              onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
-            >
-              {link.name}
-            </a>
-          ))}
-        </div>
-        
-        {/* Indicateur de swipe */}
-        <div className="navbar-swipe-indicator">
-          <ChevronRight size={20} />
-        </div>
+      <div className={`navbar-mobile${isOpen ? ' open' : ''}`}>
+        {[...navLinks, { name: 'Contact', id: 'contact' }].map((link) => (
+          <a key={link.id} href={`#${link.id}`} onClick={handleClick(link.id)} className="navbar-mobile-link display">
+            {link.name}
+          </a>
+        ))}
       </div>
-
-      {/* Zone de swipe invisible sur le bord gauche */}
-      {!isOpen && (
-        <div 
-          className="navbar-swipe-zone"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        />
-      )}
     </nav>
   );
 }
