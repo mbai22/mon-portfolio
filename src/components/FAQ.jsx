@@ -6,7 +6,11 @@ import { useSectionNav } from '../hooks/useSectionNav';
 const faqData = [
   {
     question: "Quels services proposez-vous ?",
-    answer: "Je propose des services de développement web complet : création de sites vitrines, applications web, e-commerce, refonte de sites existants, et développement d'API REST. Je travaille avec les technologies modernes comme Angular, Laravel, React et PHP."
+    answer: "Je propose le développement d'applications web et mobiles, la création de sites internet (vitrines, e-commerce), la refonte de sites existants et le développement d'API REST, avec Angular, Laravel, React et PHP. Je réalise aussi vos projets de design graphique (logo, identité visuelle, supports print et réseaux sociaux) et de montage vidéo."
+  },
+  {
+    question: "Faites-vous aussi du design graphique et du montage vidéo ?",
+    answer: "Oui. En plus du développement, je crée des logos, des identités visuelles, des affiches et des visuels pour les réseaux sociaux, et je réalise le montage de vos vidéos : spots publicitaires, clips, motion design et contenus courts pour Facebook, Instagram ou TikTok."
   },
   {
     question: "Combien coûte un projet web ?",

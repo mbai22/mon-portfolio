@@ -48,7 +48,7 @@ export default function Footer() {
                 <img src="/assets/logo-hero.png" alt="WillyDev" />
               </a>
               <p className="footer-description">
-                Développeur full stack, designer UI/UX et vidéaste basé au Tchad. Je crée des applications web modernes et performantes.
+                Développement d'applications web et mobiles, design graphique et montage vidéo à N'Djamena, au Tchad.
               </p>
               <div className="social-row footer-social">
                 {socialLinks.map((social) => (

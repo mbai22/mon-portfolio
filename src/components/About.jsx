@@ -28,8 +28,8 @@ export default function About() {
             <Eyebrow>À propos</Eyebrow>
             <h2 className="section-title">Des solutions digitales qui font la différence</h2>
             <p className="section-text">
-              Je suis <strong>Willy Dev</strong>, développeur web, designer UI/UX et vidéaste basé au Tchad.
-              Je crée des applications performantes, des designs élégants et des vidéos engageantes pour les marques et les entrepreneurs.
+              Je suis <strong>Willy Dev</strong>, développeur web et mobile, graphiste et monteur vidéo basé à N'Djamena, au Tchad.
+              Je crée des sites internet et des applications web et mobiles performants, des identités visuelles soignées et des vidéos engageantes pour les marques et les entrepreneurs.
             </p>
             <a href="#contact" onClick={goTo('contact')} className="link-arrow">
               Discutons de votre projet <ArrowRight size={14} />

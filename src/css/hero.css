@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: 1.15fr 1fr 0.75fr;
   gap: 40px;
-  min-height: min(calc(100vh - 76px), 800px);
+  min-height: clamp(720px, calc(100vh - 76px), 880px);
 }
 
 .hero-left,
@@ -44,7 +44,7 @@
 }
 
 .hero-text {
-  max-width: 360px;
+  max-width: 290px;
   font-size: 0.9375rem;
   color: var(--muted-on-dark);
 }
@@ -67,14 +67,29 @@
   background-color: var(--primary-dark);
 }
 
-/* Cut-out portrait anchored to the bottom of the hero, centred behind the text columns */
+/* Cut-out portrait anchored to the bottom of the hero, centred behind the text columns.
+   The image has ~12% transparent space above the head, so it is taller than the grid
+   and that empty band slides up under the navbar. */
 .hero-photo {
   position: absolute;
   left: 50%;
   bottom: 0;
-  height: calc(100% + 24px);
+  height: calc(100% + 110px);
   transform: translateX(-50%);
   pointer-events: none;
+}
+
+.hero-photo::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 18%;
+  width: 90%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(125, 83, 255, 0.28), transparent 65%);
+  z-index: -1;
 }
 
 .hero-photo img {
@@ -158,21 +173,67 @@
   }
 }
 
+/* Mobile: the portrait fills the first screen as a background, a dark gradient
+   overlay sits on top of it and the heading block is laid over the image. */
 @media (max-width: 768px) {
   .hero-grid {
+    position: static;
     grid-template-columns: 1fr;
   }
 
-  .hero-left {
-    padding: 40px 0 8px;
+  .hero-photo {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 100vh;
+    height: 100svh;
+    display: block;
   }
 
-  .hero-photo {
-    grid-column: 1;
-    grid-row: 2;
+  .hero-photo::before {
+    display: none;
+  }
+
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(30, 34, 45, 0.45) 0%,
+      rgba(30, 34, 45, 0.1) 22%,
+      rgba(30, 34, 45, 0.35) 45%,
+      rgba(30, 34, 45, 0.88) 70%,
+      var(--bg-secondary) 100%
+    );
   }
 
   .hero-photo img {
-    height: min(60vh, 460px);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .hero-left {
+    justify-content: flex-end;
+    min-height: calc(100vh - 76px);
+    min-height: calc(100svh - 76px);
+    padding: 0 0 40px;
+    gap: 16px;
+  }
+
+  .hero-title {
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-text {
+    max-width: 420px;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .hero-scroll {
+    width: 60px;
+    height: 60px;
+    margin-top: 8px;
   }
 }

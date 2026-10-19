@@ -12,10 +12,10 @@ export default function Hero() {
           <span className="hero-line" aria-hidden="true" />
           <h1 className="hero-title">
             Je suis Willy,<br />
-            Développeur Web
+            Développeur Web & Mobile
           </h1>
           <p className="hero-text">
-            Je conçois des applications web performantes, des designs UI/UX soignés et des contenus vidéo percutants pour donner vie à vos idées.
+            Développement d'applications web et mobiles, design graphique et montage vidéo à N'Djamena : je donne vie à vos idées.
           </p>
           <a href="#about" onClick={goTo('about')} className="hero-scroll" aria-label="Défiler vers la section À propos">
             <ArrowDown size={26} />
@@ -23,7 +23,7 @@ export default function Hero() {
         </div>
 
         <div className="hero-photo">
-          <img src="/assets/img/willy-hero.webp" alt="Willy, développeur web basé à N'Djamena" width="1334" height="2000" fetchPriority="high" />
+          <img src="/assets/img/willy-hero.webp" alt="Willy, développeur web et mobile, graphiste et monteur vidéo à N'Djamena" width="1334" height="2000" fetchPriority="high" />
         </div>
 
         <aside className="hero-right">
@@ -37,7 +37,7 @@ export default function Hero() {
 
           <div className="hero-block">
             <p className="hero-block-title">Mon travail</p>
-            <p>Sites vitrines, e-commerce et applications web avec Angular, Laravel et React.</p>
+            <p>Sites internet, applications web et mobiles, design graphique et montage vidéo.</p>
             <a href="#portfolio" onClick={goTo('portfolio')} className="link-arrow">
               Voir le portfolio <ArrowRight size={14} />
             </a>
