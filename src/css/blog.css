@@ -1,0 +1,125 @@
+/* Blog cards: the title link stretches over the whole card */
+.media-card {
+  position: relative;
+}
+
+.media-card-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+}
+
+.media-card-link:focus-visible {
+  outline: none;
+}
+
+.media-card-link:focus-visible::after {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.media-card:has(.media-card-link):hover .media-card-title {
+  color: var(--primary);
+}
+
+.cards-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Article page */
+.article-container {
+  max-width: 800px;
+}
+
+.article-header {
+  padding: calc(76px + 56px) 0 56px;
+}
+
+.article-header .article-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.article-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.04;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.article-meta {
+  color: var(--muted-on-dark);
+  font-size: 0.9375rem;
+}
+
+.article-main {
+  padding-bottom: 24px;
+}
+
+.article-cover {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  background-color: var(--line-on-light);
+  transform: translateY(-32px);
+  margin-bottom: 8px;
+}
+
+.article-body {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.article-body > * + * {
+  margin-top: 1.1em;
+}
+
+.article-body h2 {
+  margin-top: 1.8em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  line-height: 1.15;
+}
+
+.article-body ul {
+  padding-left: 1.3em;
+}
+
+.article-body li + li {
+  margin-top: 0.5em;
+}
+
+.article-body li::marker {
+  color: var(--primary);
+}
+
+.article-cta {
+  margin-top: 40px;
+}
+
+.article-more {
+  padding-top: 48px;
+}
+
+.article-more-title {
+  margin-bottom: 32px;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+@media (max-width: 640px) {
+  .cards-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .article-cover {
+    transform: translateY(-20px);
+  }
+}

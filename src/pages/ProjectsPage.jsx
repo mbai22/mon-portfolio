@@ -2,9 +2,16 @@ import { useEffect, useState } from 'react';
 import Eyebrow from '../components/Eyebrow';
 import ProjectCard from '../components/ProjectCard';
 import { projects, filters } from '../data/projects';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function ProjectsPage() {
   const [activeFilter, setActiveFilter] = useState("Tous");
+
+  usePageMeta({
+    title: "Réalisations : applications web et mobiles, sites internet | Willy Dev",
+    description: "Découvrez les projets de Willy Dev à N'Djamena : applications web et mobiles, sites internet, design graphique et montage vidéo.",
+    path: '/projets',
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);

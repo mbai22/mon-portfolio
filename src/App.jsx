@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -12,8 +12,12 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import WhatsAppWidget from './components/WhatsAppWidget'
 import ProjectsPage from './pages/ProjectsPage'
+import BlogPostPage from './pages/BlogPostPage'
+import { usePageMeta } from './hooks/usePageMeta'
 
 function Home() {
+  usePageMeta({ path: '/' })
+
   return (
     <main>
       <Hero />
@@ -31,15 +35,17 @@ function Home() {
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projets" element={<ProjectsPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="*" element={<Home />} />
       </Routes>
       <Footer />
       <WhatsAppWidget />
-    </HashRouter>
+    </BrowserRouter>
   )
 }
 

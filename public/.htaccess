@@ -1,0 +1,32 @@
+# Hostinger (LiteSpeed / Apache): single-page app routing for React Router (BrowserRouter).
+# Real files and folders (send-email.php, robots.txt, sitemap.xml, /assets, sw.js...) are
+# served as-is; every other path (/projets, /blog/mon-article...) falls back to index.html.
+Options -MultiViews
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Force HTTPS and the bare domain so only one version gets indexed
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://willydev.online%{REQUEST_URI} [L,R=301]
+
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Missing static files stay 404 instead of returning the app
+  RewriteRule ^assets/ - [L,R=404]
+
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Always revalidate the HTML shell so a new deploy is picked up
+  <FilesMatch "^(index\.html|sw\.js)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

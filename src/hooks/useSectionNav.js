@@ -14,7 +14,16 @@ export function useSectionNav() {
       scroll();
     } else {
       navigate('/');
-      setTimeout(scroll, 100);
+      // Wait for the home page to render (up to ~2 s) before scrolling
+      let tries = 0;
+      const waitForSection = () => {
+        if (document.getElementById(id)) {
+          requestAnimationFrame(scroll);
+        } else if (tries++ < 120) {
+          requestAnimationFrame(waitForSection);
+        }
+      };
+      requestAnimationFrame(waitForSection);
     }
   }, [navigate, pathname]);
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'willydev-v3';
+const CACHE_NAME = 'willydev-v4';
 const RUNTIME_CACHE = 'willydev-runtime';
 
 const urlsToCache = [
@@ -41,6 +41,15 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (request.method !== 'GET') {
+    return;
+  }
+
+  // Pages (/, /projets, /blog/...): network first so a new deploy is picked up,
+  // cached app shell only when offline
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() => caches.match('/index.html'))
+    );
     return;
   }
 
