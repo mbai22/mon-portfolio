@@ -13,9 +13,39 @@
 export const designCategories = ['Réseaux sociaux', 'Affiche & flyer', 'Carte de visite', 'Logo', 'Identité visuelle'];
 
 const VIA_NOU = 'Via Nou Rajaonha, community manager';
+const CUNICOLE = 'Ferme Cunicole Sahel';
 const DESIGN_DIR = '/assets/portfolio/design';
 
+// Ferme Cunicole Sahel : identité visuelle et campagne réseaux sociaux
+const cunicole = (slug, title, category) => ({
+  id: `cunicole-sahel-${slug}`,
+  title,
+  client: CUNICOLE,
+  category,
+  image: `${DESIGN_DIR}/cunicole-sahel-${slug}.webp`,
+});
+
+const cunicoleWorks = [
+  cunicole('logo', 'Logo Cunicole Sahel', 'Logo'),
+  cunicole('logo-lapin', 'Logo Cunicole Sahel, version avec lapin', 'Logo'),
+  cunicole('photo-de-profil', 'Photo de profil aux couleurs de la ferme', 'Identité visuelle'),
+  cunicole('couverture-facebook', 'Couverture Facebook « Bienvenue à la Ferme Cunicole Sahel »', 'Réseaux sociaux'),
+  cunicole('post-bienvenue', 'Publication « Bienvenue à la Ferme Cunicole Sahel »', 'Réseaux sociaux'),
+  cunicole('post-bienvenue-eleveuse', 'Publication de bienvenue avec l’éleveuse', 'Réseaux sociaux'),
+  cunicole('post-promo', 'Affiche promotion « Réduction spéciale pour nos abonnés »', 'Affiche & flyer'),
+  cunicole('post-lapins-disponibles', 'Publication « Lapins disponibles »', 'Réseaux sociaux'),
+  cunicole('post-100-naturel', 'Publication « C’est 100 % naturel »', 'Réseaux sociaux'),
+  cunicole('post-gout-du-vrai', 'Publication « Le goût du vrai »', 'Réseaux sociaux'),
+  cunicole('post-aujourdhui-a-la-ferme', 'Publication « Aujourd’hui à la ferme »', 'Réseaux sociaux'),
+  cunicole('post-bon-elevage', 'Publication « Un bon lapin vient d’un bon élevage »', 'Réseaux sociaux'),
+  cunicole('post-ferme-locale', 'Publication « Tu veux soutenir une ferme locale ? »', 'Réseaux sociaux'),
+  cunicole('post-vision-travail-passion', 'Publication « Une vision, du travail, de la passion »', 'Réseaux sociaux'),
+  cunicole('post-grandis-avec-nous', 'Publication « Abonne-toi et grandis avec nous »', 'Réseaux sociaux'),
+  cunicole('post-lapins-commande', 'Publication photo avec bandeau de commande', 'Réseaux sociaux'),
+];
+
 export const designWorks = [
+  ...cunicoleWorks,
   {
     id: 'via-nou-post-instagram-mockup',
     title: "Publication Instagram « L'impact au-delà des mots »",
