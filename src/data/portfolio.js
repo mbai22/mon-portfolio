@@ -44,7 +44,30 @@ const cunicoleWorks = [
   cunicole('post-lapins-commande', 'Publication photo avec bandeau de commande', 'Réseaux sociaux'),
 ];
 
+// GameZone (salle de jeux vidéo, quartier Habbena) : identité visuelle et affiches de tournois
+const gamezone = (slug, title, category) => ({
+  id: `gamezone-${slug}`,
+  title,
+  client: 'GameZone, salle de jeux vidéo',
+  category,
+  image: `${DESIGN_DIR}/gamezone-${slug}.webp`,
+});
+
+const gamezoneWorks = [
+  gamezone('planche-identite-visuelle', 'Identité visuelle GameZone : enseigne, sweat, mugs et couleurs', 'Identité visuelle'),
+  gamezone('logo', 'Logo GameZone avec slogan', 'Logo'),
+  gamezone('logo-sans-slogan', 'Logo GameZone', 'Logo'),
+  gamezone('mockup-enseigne', 'Enseigne lumineuse GameZone', 'Identité visuelle'),
+  gamezone('mockup-mugs', 'Mugs aux couleurs de GameZone', 'Identité visuelle'),
+  gamezone('affiche-temple-du-gaming', 'Affiche « Le temple du gaming à N’Djamena »', 'Affiche & flyer'),
+  gamezone('tournois-trois-jeux', 'Affiche « Tournois gaming réguliers »', 'Affiche & flyer'),
+  gamezone('tournoi-call-of-duty', 'Affiche tournoi Call of Duty', 'Affiche & flyer'),
+  gamezone('tournoi-mortal-kombat', 'Affiche tournoi Mortal Kombat', 'Affiche & flyer'),
+  gamezone('tournoi-pes-fc', 'Affiche tournoi PES / FC', 'Affiche & flyer'),
+];
+
 export const designWorks = [
+  ...gamezoneWorks,
   ...cunicoleWorks,
   {
     id: 'via-nou-post-instagram-mockup',
