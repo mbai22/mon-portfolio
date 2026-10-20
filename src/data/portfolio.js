@@ -68,6 +68,13 @@ const gamezoneWorks = [
 
 export const designWorks = [
   ...gamezoneWorks,
+  {
+    id: 'evotech-tchad-affiche-formation-maintenance',
+    title: 'Affiche « Formation en maintenance informatique »',
+    client: 'Evotech Tchad',
+    category: 'Affiche & flyer',
+    image: `${DESIGN_DIR}/evotech-tchad-affiche-formation-maintenance.webp`,
+  },
   ...cunicoleWorks,
   {
     id: 'via-nou-post-instagram-mockup',
