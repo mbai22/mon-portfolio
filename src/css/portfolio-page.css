@@ -130,50 +130,49 @@
 }
 
 /* Design graphique */
+/* Masonry: every visual keeps its own proportions (square post, tall flyer, wide cover) */
 .pf-design-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  columns: 3;
+  column-gap: 16px;
 }
 
 .pf-design-item {
-  position: relative;
-  aspect-ratio: 1;
+  display: block;
+  width: 100%;
+  margin-bottom: 16px;
+  break-inside: avoid;
   overflow: hidden;
   border-radius: var(--radius-lg);
   background-color: var(--bg-card);
+  border: 1px solid var(--line-on-dark);
   text-align: left;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.pf-design-item:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
 }
 
 .pf-design-item img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  height: auto;
 }
 
-.pf-design-item:hover img {
-  transform: scale(1.05);
-}
-
-/* Logos are shown whole on white instead of cropped */
-.pf-design-item.is-logo {
+/* Logos are shown whole on white, in a square tile */
+.pf-design-item.is-logo img {
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: 14%;
   background-color: var(--white);
 }
 
-.pf-design-item.is-logo img {
-  object-fit: contain;
-  padding: 12% 12% 28%;
-}
-
+/* Caption sits under the visual so it never hides part of the design */
 .pf-design-caption {
-  position: absolute;
-  inset: auto 0 0 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 40px 18px 16px;
-  background: linear-gradient(to top, rgba(30, 34, 45, 0.9), transparent);
+  padding: 14px 16px 16px;
   color: var(--white);
 }
 
@@ -305,7 +304,7 @@
 
 @media (max-width: 1024px) {
   .pf-design-grid {
-    grid-template-columns: repeat(2, 1fr);
+    columns: 2;
   }
 }
 
@@ -319,14 +318,8 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   .pf-design-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .pf-design-caption {
-    padding: 28px 12px 10px;
-    font-size: 0.8125rem;
+    columns: 1;
   }
 }

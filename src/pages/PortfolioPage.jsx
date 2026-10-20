@@ -7,6 +7,11 @@ import { designWorks, designCategories, videoWorks, videoCategories } from '../d
 import { usePageMeta } from '../hooks/usePageMeta';
 import { useSectionNav } from '../hooks/useSectionNav';
 
+// Filter tabs only list categories that actually have work in them
+const usedCategories = (categories, works) => ['Tous', ...categories.filter((c) => works.some((w) => w.category === c))];
+const designFilters = usedCategories(designCategories, designWorks);
+const videoFilters = usedCategories(videoCategories, videoWorks);
+
 const sections = [
   { id: 'realisations-code', label: 'Développement', icon: Code2, count: projects.length },
   { id: 'realisations-design', label: 'Design graphique', icon: PenTool, count: designWorks.length },
@@ -188,11 +193,11 @@ export default function PortfolioPage() {
         <div className="container">
           <SectionHead
             eyebrow="Design graphique"
-            title="Logos, identités visuelles et supports"
-            text="Logos, chartes graphiques, affiches, flyers et visuels pour les réseaux sociaux."
+            title="Visuels, flyers et supports de communication"
+            text="Publications et couvertures pour les réseaux sociaux, flyers, cartes de visite et identités visuelles."
           >
             {designWorks.length > 0 && (
-              <FilterTabs options={['Tous', ...designCategories]} active={design.active} onChange={design.setActive} />
+              <FilterTabs options={designFilters} active={design.active} onChange={design.setActive} />
             )}
           </SectionHead>
           {designWorks.length > 0 ? (
@@ -204,7 +209,7 @@ export default function PortfolioPage() {
                   onClick={() => setOpenWork(work)}
                   aria-label={`Agrandir : ${work.title}`}
                 >
-                  <img src={work.image} alt={work.title} loading="lazy" />
+                  <img src={work.image} alt={`${work.title}, ${work.category.toLowerCase()} réalisé pour ${work.client}`} loading="lazy" />
                   <span className="pf-design-caption">
                     <span className="pf-design-category">{work.category}</span>
                     <span className="pf-design-title">{work.title}</span>
@@ -230,7 +235,7 @@ export default function PortfolioPage() {
             text="Montage, motion design, spots publicitaires et contenus courts pour Facebook, Instagram et TikTok."
           >
             {videoWorks.length > 0 && (
-              <FilterTabs options={['Tous', ...videoCategories]} active={video.active} onChange={video.setActive} />
+              <FilterTabs options={videoFilters} active={video.active} onChange={video.setActive} />
             )}
           </SectionHead>
           {videoWorks.length > 0 ? (
