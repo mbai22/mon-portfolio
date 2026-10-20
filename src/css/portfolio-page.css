@@ -1,0 +1,332 @@
+/* Page /portfolio : en-tête, raccourcis vers les 3 sections, design et vidéo */
+.pf-hero {
+  padding: calc(76px + 64px) 0 72px;
+}
+
+.pf-hero .section-head {
+  margin-bottom: 0;
+}
+
+.pf-jump {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 760px;
+  margin-top: 16px;
+}
+
+.pf-jump-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background-color: var(--bg-card);
+  border: 1px solid var(--line-on-dark);
+  text-align: left;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.pf-jump-link:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.pf-jump-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.pf-jump-label {
+  flex: 1;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.pf-jump-count {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.pf-jump-count.soon {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted-on-dark);
+}
+
+.pf-section {
+  scroll-margin-top: 64px;
+}
+
+.pf-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.pf-head-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 620px;
+}
+
+/* Empty state while a category has no work yet */
+.pf-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: clamp(40px, 6vw, 64px) 24px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  border: 1.5px dashed var(--line-on-light);
+  color: var(--muted);
+}
+
+.section-dark .pf-empty {
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--muted-on-dark);
+}
+
+.pf-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.pf-empty-title {
+  font-size: 1.75rem;
+  color: var(--ink);
+}
+
+.section-dark .pf-empty-title {
+  color: var(--white);
+}
+
+.pf-empty p {
+  max-width: 440px;
+  margin-bottom: 12px;
+}
+
+/* Design graphique */
+.pf-design-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pf-design-item {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-card);
+  text-align: left;
+}
+
+.pf-design-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.pf-design-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Logos are shown whole on white instead of cropped */
+.pf-design-item.is-logo {
+  background-color: var(--white);
+}
+
+.pf-design-item.is-logo img {
+  object-fit: contain;
+  padding: 12% 12% 28%;
+}
+
+.pf-design-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 40px 18px 16px;
+  background: linear-gradient(to top, rgba(30, 34, 45, 0.9), transparent);
+  color: var(--white);
+}
+
+.pf-design-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.pf-design-title {
+  font-weight: 600;
+}
+
+.pf-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: rgba(15, 17, 23, 0.92);
+}
+
+.pf-lightbox figure {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: min(1000px, 100%);
+  max-height: 100%;
+}
+
+.pf-lightbox img {
+  max-height: calc(100vh - 120px);
+  width: auto;
+  margin: 0 auto;
+  border-radius: var(--radius);
+  object-fit: contain;
+}
+
+.pf-lightbox figcaption {
+  text-align: center;
+  color: var(--muted-on-dark);
+}
+
+.pf-lightbox figcaption strong {
+  color: var(--white);
+}
+
+.pf-lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--bg-card);
+  color: var(--white);
+}
+
+/* Montage vidéo */
+.pf-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.pf-video {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pf-video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-primary);
+}
+
+.pf-video-frame iframe,
+.pf-video-frame video,
+.pf-video-poster,
+.pf-video-poster img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+
+.pf-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--white);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition);
+}
+
+.pf-video-poster:hover .pf-video-play {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.pf-video-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background-color: var(--white);
+  color: var(--ink);
+}
+
+@media (max-width: 1024px) {
+  .pf-design-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .pf-jump {
+    grid-template-columns: 1fr;
+  }
+
+  .pf-video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .pf-design-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .pf-design-caption {
+    padding: 28px 12px 10px;
+    font-size: 0.8125rem;
+  }
+}

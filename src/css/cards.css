@@ -104,14 +104,6 @@
   margin-top: 48px;
 }
 
-.projects-page-header {
-  padding: calc(76px + 64px) 0 64px;
-}
-
-.projects-page-header .section-head {
-  margin-bottom: 0;
-}
-
 @media (max-width: 1024px) {
   .cards-grid {
     grid-template-columns: repeat(2, 1fr);

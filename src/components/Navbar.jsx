@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useSectionNav } from '../hooks/useSectionNav';
 
+// `id` scrolls to a home-page section, `to` opens a separate page
 const navLinks = [
   { name: 'Accueil', id: 'hero' },
   { name: 'À propos', id: 'about' },
   { name: 'Compétences', id: 'skills' },
   { name: 'Services', id: 'services' },
-  { name: 'Portfolio', id: 'portfolio' },
+  { name: 'Portfolio', to: '/portfolio' },
   { name: 'Blog', id: 'blog' },
   { name: 'FAQ', id: 'faq' },
 ];
@@ -33,6 +35,16 @@ export default function Navbar() {
     goTo(id)(e);
   };
 
+  const renderLink = (link, className) => (link.to ? (
+    <NavLink key={link.name} to={link.to} onClick={() => setIsOpen(false)} className={className}>
+      {link.name}
+    </NavLink>
+  ) : (
+    <a key={link.name} href={`#${link.id}`} onClick={handleClick(link.id)} className={className}>
+      {link.name}
+    </a>
+  ));
+
   return (
     <nav className={`navbar${scrolled || isOpen ? ' scrolled' : ''}`}>
       <div className="container navbar-inner">
@@ -41,11 +53,7 @@ export default function Navbar() {
         </a>
 
         <div className="navbar-links">
-          {navLinks.map((link) => (
-            <a key={link.id} href={`#${link.id}`} onClick={handleClick(link.id)} className="navbar-link">
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => renderLink(link, 'navbar-link'))}
         </div>
 
         <a href="#contact" onClick={handleClick('contact')} className="navbar-cta">
@@ -63,11 +71,7 @@ export default function Navbar() {
       </div>
 
       <div className={`navbar-mobile${isOpen ? ' open' : ''}`}>
-        {[...navLinks, { name: 'Contact', id: 'contact' }].map((link) => (
-          <a key={link.id} href={`#${link.id}`} onClick={handleClick(link.id)} className="navbar-mobile-link display">
-            {link.name}
-          </a>
-        ))}
+        {[...navLinks, { name: 'Contact', id: 'contact' }].map((link) => renderLink(link, 'navbar-mobile-link display'))}
       </div>
     </nav>
   );

@@ -12,6 +12,7 @@ import './css/faq.css'
 import './css/contact.css'
 import './css/footer.css'
 import './css/blog.css'
+import './css/portfolio-page.css'
 import App from './App.jsx'
 import { I18nProvider } from './contexts/I18nContext.jsx'
 

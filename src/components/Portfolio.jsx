@@ -38,8 +38,8 @@ export default function Portfolio() {
         </div>
 
         <div className="cards-cta">
-          <Link to="/projets" className="btn-pill">
-            Voir tous les projets
+          <Link to="/portfolio" className="btn-pill">
+            Voir tout le portfolio
             <span className="circle-icon"><ChevronsRight size={16} /></span>
           </Link>
         </div>

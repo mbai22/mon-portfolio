@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ArrowDown, ArrowRight } from 'lucide-react';
 import { useSectionNav } from '../hooks/useSectionNav';
 import { socialLinks } from '../data/social';
@@ -38,9 +39,9 @@ export default function Hero() {
           <div className="hero-block">
             <p className="hero-block-title">Mon travail</p>
             <p>Sites internet, applications web et mobiles, design graphique et montage vidéo.</p>
-            <a href="#portfolio" onClick={goTo('portfolio')} className="link-arrow">
+            <Link to="/portfolio" className="link-arrow">
               Voir le portfolio <ArrowRight size={14} />
-            </a>
+            </Link>
           </div>
 
           <div className="hero-block hero-follow">

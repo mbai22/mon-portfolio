@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -11,7 +11,7 @@ import FAQ from './components/FAQ'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import WhatsAppWidget from './components/WhatsAppWidget'
-import ProjectsPage from './pages/ProjectsPage'
+import PortfolioPage from './pages/PortfolioPage'
 import BlogPostPage from './pages/BlogPostPage'
 import { usePageMeta } from './hooks/usePageMeta'
 
@@ -39,7 +39,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/projets" element={<ProjectsPage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/projets" element={<Navigate to="/portfolio" replace />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="*" element={<Home />} />
       </Routes>

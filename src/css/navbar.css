@@ -54,8 +54,13 @@
   transition: color var(--transition);
 }
 
-.navbar-link:hover {
+.navbar-link:hover,
+.navbar-link.active {
   color: var(--white);
+}
+
+.navbar-mobile-link.active {
+  color: var(--primary);
 }
 
 .navbar-cta {

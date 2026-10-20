@@ -44,7 +44,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Pages (/, /projets, /blog/...): network first so a new deploy is picked up,
+  // Pages (/, /portfolio, /blog/...): network first so a new deploy is picked up,
   // cached app shell only when offline
   if (request.mode === 'navigate') {
     event.respondWith(

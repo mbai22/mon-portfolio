@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ArrowUpRight, Mail } from 'lucide-react';
 import WhatsAppIcon from './WhatsAppIcon';
 import { useSectionNav } from '../hooks/useSectionNav';
@@ -11,7 +12,7 @@ const footerLinks = {
     { label: "Services", id: "services" }
   ],
   more: [
-    { label: "Portfolio", id: "portfolio" },
+    { label: "Portfolio", to: "/portfolio" },
     { label: "Blog", id: "blog" },
     { label: "FAQ", id: "faq" },
     { label: "Contact", id: "contact" }
@@ -81,8 +82,10 @@ export default function Footer() {
               <h3 className="footer-title display">Plus</h3>
               <ul className="footer-links">
                 {footerLinks.more.map((link) => (
-                  <li key={link.id}>
-                    <a href={`#${link.id}`} onClick={goTo(link.id)}>{link.label}</a>
+                  <li key={link.label}>
+                    {link.to
+                      ? <Link to={link.to}>{link.label}</Link>
+                      : <a href={`#${link.id}`} onClick={goTo(link.id)}>{link.label}</a>}
                   </li>
                 ))}
               </ul>
