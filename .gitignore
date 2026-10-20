@@ -23,3 +23,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Zips of dist/ prepared for Hostinger
+*.zip
