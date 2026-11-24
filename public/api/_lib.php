@@ -42,6 +42,19 @@ function admin_config(): array
         return $config;
     }
     $file = private_root() . '/willydev-admin.php';
+
+    // Setup helper: a willydev-admin.php uploaded into public_html (e.g. with the
+    // hPanel file manager or the Hostinger API, which only write there) is moved
+    // out of the web root the first time the API runs.
+    $dropped = web_root() . '/willydev-admin.php';
+    if (is_file($dropped)) {
+        if (@rename($dropped, $file)) {
+            @chmod($file, 0600);
+        } elseif (!is_file($file)) {
+            $file = $dropped; // could not move it: still usable (Apache blocks direct access)
+        }
+    }
+
     $config = is_file($file) ? (require $file) : [];
     if (!is_array($config)) {
         $config = [];

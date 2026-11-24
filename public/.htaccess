@@ -5,6 +5,11 @@
 Options -MultiViews
 DirectoryIndex index.html
 
+# Admin password config dropped here during setup (moved out by api/_lib.php): never served
+<Files "willydev-admin.php">
+  Require all denied
+</Files>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
