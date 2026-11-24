@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /send-email.php
+Disallow: /admin
+Disallow: /api/
 
 Sitemap: https://willydev.online/sitemap.xml

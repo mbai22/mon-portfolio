@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:api": "php -S localhost:8787 -t public",
+    "admin:password": "node scripts/admin-password.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.460.0",

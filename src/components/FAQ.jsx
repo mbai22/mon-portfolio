@@ -2,41 +2,12 @@ import { useState } from 'react';
 import { Plus, X, ChevronsRight } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import { useSectionNav } from '../hooks/useSectionNav';
-
-const faqData = [
-  {
-    question: "Quels services proposez-vous ?",
-    answer: "Je propose le développement d'applications web et mobiles, la création de sites internet (vitrines, e-commerce), la refonte de sites existants et le développement d'API REST, avec Angular, Laravel, React et PHP. Je réalise aussi vos projets de design graphique (logo, identité visuelle, supports print et réseaux sociaux) et de montage vidéo."
-  },
-  {
-    question: "Faites-vous aussi du design graphique et du montage vidéo ?",
-    answer: "Oui. En plus du développement, je crée des logos, des identités visuelles, des affiches et des visuels pour les réseaux sociaux, et je réalise le montage de vos vidéos : spots publicitaires, clips, motion design et contenus courts pour Facebook, Instagram ou TikTok."
-  },
-  {
-    question: "Combien coûte un projet web ?",
-    answer: "Le coût d'un projet dépend de sa complexité, des fonctionnalités demandées et du délai. Je propose des tarifs compétitifs adaptés à chaque budget. Contactez-moi pour un devis personnalisé gratuit."
-  },
-  {
-    question: "Combien de temps prend le développement d'un site ?",
-    answer: "Le délai varie selon le projet : un site vitrine simple peut prendre 1-2 semaines, une application web plus complexe 4-8 semaines, et un e-commerce complet 6-12 semaines. Je vous donnerai une estimation précise après analyse de vos besoins."
-  },
-  {
-    question: "Assurez-vous la maintenance après la livraison ?",
-    answer: "Oui, je propose des contrats de maintenance pour assurer la sécurité, les mises à jour et les améliorations continues de votre site. Je reste disponible pour le support technique même après la livraison."
-  },
-  {
-    question: "Travaillez-vous avec des clients internationaux ?",
-    answer: "Absolument ! Je travaille avec des clients du monde entier grâce aux outils de collaboration en ligne. La communication se fait par email, vidéoconférence et plateformes de gestion de projet."
-  },
-  {
-    question: "Comment procédons-nous pour démarrer un projet ?",
-    answer: "Le processus commence par un appel de découverte pour comprendre vos besoins, suivi d'une proposition détaillée avec devis. Une fois validé, nous commençons le développement avec des points réguliers pour suivre l'avancement."
-  }
-];
+import { useContent } from '../content/useContent';
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
   const goTo = useSectionNav();
+  const { faq: faqData } = useContent();
 
   return (
     <section id="faq" className="section section-dark faq-section">

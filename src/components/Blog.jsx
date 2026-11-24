@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { ChevronsRight } from 'lucide-react';
 import Eyebrow from './Eyebrow';
-import { posts, formatDate } from '../data/posts';
+import { formatDate } from '../data/posts';
+import { usePosts } from '../content/useContent';
 
 export default function Blog() {
+  const posts = usePosts().slice(0, 6);
+
   return (
     <section id="blog" className="section section-light">
       <div className="container">

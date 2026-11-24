@@ -2,21 +2,12 @@ import { useEffect, useState } from 'react';
 import { Code2, PenTool, Clapperboard, Play, X, ChevronsRight } from 'lucide-react';
 import Eyebrow from '../components/Eyebrow';
 import ProjectCard from '../components/ProjectCard';
-import { projects, filters } from '../data/projects';
-import { designWorks, designCategories, videoWorks, videoCategories } from '../data/portfolio';
+import { useContent, useProjects } from '../content/useContent';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { useSectionNav } from '../hooks/useSectionNav';
 
 // Filter tabs only list categories that actually have work in them
 const usedCategories = (categories, works) => ['Tous', ...categories.filter((c) => works.some((w) => w.category === c))];
-const designFilters = usedCategories(designCategories, designWorks);
-const videoFilters = usedCategories(videoCategories, videoWorks);
-
-const sections = [
-  { id: 'realisations-code', label: 'Développement', icon: Code2, count: projects.length },
-  { id: 'realisations-design', label: 'Design graphique', icon: PenTool, count: designWorks.length },
-  { id: 'realisations-video', label: 'Montage vidéo', icon: Clapperboard, count: videoWorks.length },
-];
 
 function useFilter(items, key, allLabel = 'Tous') {
   const [active, setActive] = useState(allLabel);
@@ -130,6 +121,15 @@ function VideoCard({ video }) {
 }
 
 export default function PortfolioPage() {
+  const { projects, filters } = useProjects();
+  const { designWorks, designCategories, videoWorks, videoCategories } = useContent();
+  const designFilters = usedCategories(designCategories, designWorks);
+  const videoFilters = usedCategories(videoCategories, videoWorks);
+  const sections = [
+    { id: 'realisations-code', label: 'Développement', icon: Code2, count: projects.length },
+    { id: 'realisations-design', label: 'Design graphique', icon: PenTool, count: designWorks.length },
+    { id: 'realisations-video', label: 'Montage vidéo', icon: Clapperboard, count: videoWorks.length },
+  ];
   const code = useFilter(projects, 'type');
   const design = useFilter(designWorks, 'category');
   const video = useFilter(videoWorks, 'category');

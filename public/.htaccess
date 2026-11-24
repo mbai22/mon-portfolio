@@ -16,6 +16,9 @@ DirectoryIndex index.html
   # The projects page moved to /portfolio
   RewriteRule ^projets/?$ /portfolio [L,R=301]
 
+  # Images uploaded from /admin are stored outside public_html (see api/image.php)
+  RewriteRule ^uploads/(\d{4}/\d{2}/[a-z0-9-]+\.(?:jpg|png|webp|gif))$ api/image.php?f=$1 [L]
+
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d

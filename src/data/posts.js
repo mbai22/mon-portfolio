@@ -174,14 +174,15 @@ const articles = [
   },
 ];
 
-// `photo` is an Unsplash photo id: 1600 px cover for the article, smaller thumbnail for cards
-export const posts = articles.map((post) => ({
-  ...post,
-  image: unsplash(post.photo, 1600, 900),
-  thumb: unsplash(post.photo, 800, 500),
-}));
+// Article cover: either `image` (URL, e.g. an upload from /admin) or `photo` (Unsplash photo id).
+// Unsplash covers get a 1600 px version for the article and a lighter one for cards.
+export const normalizePost = (post) => {
+  const image = post.image || (post.photo ? unsplash(post.photo, 1600, 900) : '');
+  const thumb = post.photo && !post.image ? unsplash(post.photo, 800, 500) : image;
+  return { ...post, body: Array.isArray(post.body) ? post.body : [], image, thumb };
+};
 
-export const getPost = (slug) => posts.find((post) => post.slug === slug);
+export { articles };
 
 export const formatDate = (iso) =>
   new Date(`${iso}T12:00:00`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });

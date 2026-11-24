@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { ChevronsRight } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import ProjectCard from './ProjectCard';
-import { projects, filters } from '../data/projects';
+import { useProjects } from '../content/useContent';
 
 export default function Portfolio() {
+  const { projects, filters } = useProjects();
   const [activeFilter, setActiveFilter] = useState("Tous");
 
   const filteredProjects = activeFilter === "Tous"

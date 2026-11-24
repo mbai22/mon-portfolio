@@ -1,4 +1,4 @@
-const CACHE_NAME = 'willydev-v4';
+const CACHE_NAME = 'willydev-v5';
 const RUNTIME_CACHE = 'willydev-runtime';
 
 const urlsToCache = [
@@ -41,6 +41,11 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (request.method !== 'GET') {
+    return;
+  }
+
+  // Live content edited in /admin: always from the network, never cached
+  if (url.pathname.startsWith('/api/')) {
     return;
   }
 

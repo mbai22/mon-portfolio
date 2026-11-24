@@ -1,0 +1,5 @@
+# Admin API: only the public endpoints are reachable; helpers stay private
+Options -Indexes
+<Files "_lib.php">
+  Require all denied
+</Files>

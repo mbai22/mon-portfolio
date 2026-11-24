@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -14,6 +15,10 @@ import WhatsAppWidget from './components/WhatsAppWidget'
 import PortfolioPage from './pages/PortfolioPage'
 import BlogPostPage from './pages/BlogPostPage'
 import { usePageMeta } from './hooks/usePageMeta'
+import { ContentProvider } from './content/ContentContext'
+
+// The admin is its own bundle: visitors never download it
+const AdminApp = lazy(() => import('./admin/AdminApp'))
 
 function Home() {
   usePageMeta({ path: '/' })
@@ -33,9 +38,9 @@ function Home() {
   )
 }
 
-function App() {
+function PublicSite() {
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -46,6 +51,28 @@ function App() {
       </Routes>
       <Footer />
       <WhatsAppWidget />
+    </>
+  )
+}
+
+function Shell() {
+  const { pathname } = useLocation()
+  if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+    return (
+      <Suspense fallback={<div className="admin-boot" aria-busy="true" />}>
+        <AdminApp />
+      </Suspense>
+    )
+  }
+  return <PublicSite />
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ContentProvider>
+        <Shell />
+      </ContentProvider>
     </BrowserRouter>
   )
 }

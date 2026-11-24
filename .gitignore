@@ -26,3 +26,7 @@ dist-ssr
 
 # Zips of dist/ prepared for Hostinger
 *.zip
+
+# Admin: local password config and edited content/uploads (never committed)
+willydev-admin.php
+willydev-data/

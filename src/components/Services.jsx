@@ -2,74 +2,13 @@ import { useState } from 'react';
 import { ChevronsRight } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import { useSectionNav } from '../hooks/useSectionNav';
-
-const categories = [
-  {
-    id: "web",
-    label: "Web",
-    services: [
-      {
-        title: "Création de sites web",
-        description: "Sites vitrines, e-commerce ou plateformes sur mesure : un site internet moderne, rapide et bien référencé sur Google.",
-        price: "150 000",
-        features: ["Design responsive", "SEO optimisé", "Performance rapide", "Support technique"],
-        featured: true
-      },
-      {
-        title: "Applications web & mobiles",
-        description: "Développement d'applications web et mobiles sur mesure (Android, iOS, web) avec Angular, React, Laravel et API REST.",
-        price: "300 000",
-        features: ["Architecture scalable", "Sécurité renforcée", "Tests inclus", "Documentation"]
-      }
-    ]
-  },
-  {
-    id: "design",
-    label: "Design",
-    services: [
-      {
-        title: "UI/UX Design",
-        description: "Design d'interfaces web et mobiles (UI/UX) : maquettes Figma, prototypes et parcours utilisateurs.",
-        features: ["Maquettes Figma", "Prototypage", "Tests utilisateurs", "Design system"],
-        featured: true
-      },
-      {
-        title: "Design graphique",
-        description: "Design graphique : logos, identité visuelle, affiches, flyers et visuels pour réseaux sociaux.",
-        features: ["Logo & branding", "Chartes graphiques", "Visuels réseaux", "Supports print"]
-      }
-    ]
-  },
-  {
-    id: "more",
-    label: "Refonte & vidéo",
-    services: [
-      {
-        title: "Refonte de sites",
-        description: "Modernisation de sites existants pour améliorer l'UX et la conversion.",
-        price: "100 000",
-        features: ["Audit complet", "Nouveau design", "Migration propre", "Formation incluse"],
-        featured: true
-      },
-      {
-        title: "Montage vidéo",
-        description: "Montage vidéo professionnel, motion design, spots publicitaires, clips et vidéos pour réseaux sociaux.",
-        features: ["Montage professionnel", "Motion design", "Color grading", "Habillage sonore"]
-      }
-    ]
-  }
-];
-
-const steps = [
-  { title: "Exprimez votre besoin", text: "Partagez vos objectifs, votre audience et vos contraintes." },
-  { title: "Recevez une proposition", text: "Une solution et un devis adaptés à votre projet et à votre budget." },
-  { title: "Lancez votre projet", text: "Conception, tests et livraison, avec un suivi à chaque étape." }
-];
+import { useContent } from '../content/useContent';
 
 export default function Services() {
-  const [activeId, setActiveId] = useState(categories[0].id);
+  const { services: { categories = [], steps = [] } } = useContent();
+  const [activeId, setActiveId] = useState(null);
   const goTo = useSectionNav();
-  const active = categories.find((c) => c.id === activeId);
+  const active = categories.find((c) => c.id === activeId) ?? categories[0];
 
   return (
     <section id="services" className="section section-dark">
@@ -85,8 +24,8 @@ export default function Services() {
               <button
                 key={category.id}
                 role="tab"
-                aria-selected={category.id === activeId}
-                className={`pill-tab${category.id === activeId ? ' active' : ''}`}
+                aria-selected={category.id === active?.id}
+                className={`pill-tab${category.id === active?.id ? ' active' : ''}`}
                 onClick={() => setActiveId(category.id)}
               >
                 {category.label}
@@ -105,7 +44,7 @@ export default function Services() {
             ))}
           </ol>
 
-          {active.services.map((service) => (
+          {(active?.services ?? []).map((service) => (
             <article key={service.title} className={`service-card${service.featured ? ' featured' : ''}`}>
               <h3 className="service-title display">{service.title}</h3>
               <p className="service-description">{service.description}</p>
@@ -123,7 +62,7 @@ export default function Services() {
               </div>
 
               <ul className="service-features">
-                {service.features.map((feature) => (
+                {(service.features ?? []).map((feature) => (
                   <li key={feature}>{feature}</li>
                 ))}
               </ul>

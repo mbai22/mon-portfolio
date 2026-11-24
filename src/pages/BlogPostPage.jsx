@@ -4,7 +4,8 @@ import { ChevronsRight } from 'lucide-react';
 import Eyebrow from '../components/Eyebrow';
 import { useSectionNav } from '../hooks/useSectionNav';
 import { usePageMeta, SITE_URL } from '../hooks/usePageMeta';
-import { getPost, formatDate, posts } from '../data/posts';
+import { formatDate } from '../data/posts';
+import { useContentStatus, usePosts } from '../content/useContent';
 
 function Block({ block }) {
   if (typeof block === 'string') return <p>{block}</p>;
@@ -21,22 +22,26 @@ function Block({ block }) {
 
 export default function BlogPostPage() {
   const { slug } = useParams();
-  const post = getPost(slug);
+  const posts = usePosts();
+  const { loaded } = useContentStatus();
+  const post = posts.find((p) => p.slug === slug);
   const goTo = useSectionNav();
   const path = `/blog/${slug}`;
+  // Uploaded covers are relative (/uploads/...); social networks need absolute URLs
+  const absImage = post?.image ? new URL(post.image, SITE_URL).href : undefined;
 
   usePageMeta(post ? {
     title: `${post.title} | Willy Dev`,
     description: post.description,
     path,
-    image: post.image,
+    image: absImage,
     type: 'article',
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'BlogPosting',
       headline: post.title,
       description: post.description,
-      image: [post.image],
+      image: absImage ? [absImage] : undefined,
       datePublished: post.date,
       dateModified: post.updated ?? post.date,
       inLanguage: 'fr-FR',
@@ -52,16 +57,16 @@ export default function BlogPostPage() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slug]);
 
-  if (!post) return <Navigate to="/" replace />;
+  if (!post) return loaded ? <Navigate to="/" replace /> : <main className="article-loading" aria-busy="true" />;
 
-  const others = posts.filter((p) => p.slug !== post.slug);
+  const others = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
 
   return (
     <main>
       <article>
         <header className="article-header section-darker">
           <div className="container article-container">
-            <Eyebrow>{post.category}</Eyebrow>
+            {post.category && <Eyebrow>{post.category}</Eyebrow>}
             <h1 className="article-title">{post.title}</h1>
             <p className="article-meta">
               Par Willy Dev · <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.readTime} de lecture
@@ -71,14 +76,14 @@ export default function BlogPostPage() {
 
         <div className="section-light article-main">
           <div className="container article-container">
-            <img
+            {post.image && <img
               className="article-cover"
               src={post.image}
               alt={post.imageAlt}
               width="1600"
               height="900"
               fetchPriority="high"
-            />
+            />}
             <div className="article-body">
               {post.body.map((block, i) => <Block key={i} block={block} />)}
             </div>
