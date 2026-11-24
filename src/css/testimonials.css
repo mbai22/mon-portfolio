@@ -63,10 +63,25 @@
   color: var(--muted-on-dark);
 }
 
+/* Tablette / petit portable : défilement horizontal au lieu d'une pile verticale */
 @media (max-width: 1024px) {
   .testimonials-grid {
-    grid-template-columns: 1fr;
-    max-width: 640px;
-    margin: 0 auto;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(300px, 46%);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 12px;
+    scrollbar-width: thin;
+  }
+
+  .testimonial-card {
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonials-grid {
+    grid-auto-columns: 85%;
   }
 }

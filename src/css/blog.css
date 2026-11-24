@@ -23,6 +23,11 @@
   color: var(--primary);
 }
 
+/* Blog section: lower images so the section stays compact */
+#blog .media-card-image {
+  aspect-ratio: 16 / 10;
+}
+
 .cards-grid-2 {
   grid-template-columns: repeat(2, 1fr);
 }

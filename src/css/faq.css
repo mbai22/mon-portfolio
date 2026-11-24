@@ -1,5 +1,6 @@
-.faq-section {
-  padding-top: 0;
+/* FAQ sits on a dark band between the light Blog and Contact sections */
+.faq-section .faq-item {
+  color: var(--ink);
 }
 
 .faq-grid {
@@ -28,7 +29,8 @@
   margin-top: 40px;
   padding: 28px;
   border-radius: var(--radius-lg);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-card);
+  border: 1px solid var(--line-on-dark);
   color: var(--white);
 }
 

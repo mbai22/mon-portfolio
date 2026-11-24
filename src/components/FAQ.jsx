@@ -39,7 +39,7 @@ export default function FAQ() {
   const goTo = useSectionNav();
 
   return (
-    <section id="faq" className="section section-light faq-section">
+    <section id="faq" className="section section-dark faq-section">
       <div className="container faq-grid">
         <div className="faq-intro">
           <Eyebrow>FAQ</Eyebrow>

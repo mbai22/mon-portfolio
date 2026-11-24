@@ -58,7 +58,7 @@ export default function Skills() {
   const { scrollRef, scroll } = useCarousel({ cardSelector: '.skill-card' });
 
   return (
-    <section id="skills" className="section section-darker">
+    <section id="skills" className="section section-darker skills-section">
       <div className="container">
         <div className="skills-head">
           <div className="skills-head-text">
