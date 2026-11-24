@@ -1,6 +1,9 @@
 // نصوص الواجهة بالعربية، مع نسخة عربية من الأسئلة الشائعة والخدمات المدمجة
 // (تُستخدم ما دامت هذه الأقسام لم تُعدَّل من لوحة الإدارة، وهي بالفرنسية).
+import pages from './pages/ar';
+
 export default {
+  ...pages,
   lang: { label: 'اللغة', fr: 'Français', en: 'English', ar: 'العربية' },
   nav: {
     home: 'الرئيسية', about: 'من أنا', skills: 'المهارات', services: 'الخدمات', portfolio: 'الأعمال',
@@ -31,7 +34,7 @@ export default {
     ctaEstimate: 'قدّر تكلفة مشروعي', ctaBook: 'احجز مكالمة', ctaAudit: 'فحص مجاني',
   },
   portfolio: { eyebrow: 'الأعمال', title: 'مشاريع تلبي احتياجات حقيقية', all: 'الكل', seeAll: 'شاهد كل الأعمال' },
-  testimonials: { eyebrow: 'آراء العملاء', title: 'ماذا يقول عملائي', stars: '{n} نجوم من 5' },
+  testimonials: { eyebrow: 'آراء العملاء', title: 'ماذا يقول عملائي', stars: '{n} نجوم من 5', verified: 'رأي موثَّق · عميل ويلي ديف' },
   blog: { eyebrow: 'المدونة والنصائح', title: 'نصائح وتجارب لمشاريعك على الويب' },
   faq: {
     eyebrow: 'الأسئلة الشائعة', title: 'أسئلة متكررة', helpTitle: 'لديك أسئلة أخرى؟',

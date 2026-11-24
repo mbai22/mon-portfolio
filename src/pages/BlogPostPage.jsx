@@ -4,8 +4,8 @@ import { ChevronsRight } from 'lucide-react';
 import Eyebrow from '../components/Eyebrow';
 import { useSectionNav } from '../hooks/useSectionNav';
 import { usePageMeta, SITE_URL } from '../hooks/usePageMeta';
-import { formatDate } from '../data/posts';
-import { useContentStatus, usePosts } from '../content/useContent';
+import { useContentStatus, useDateFormat, usePosts } from '../content/useContent';
+import { useI18n } from '../i18n/context';
 
 function Block({ block }) {
   if (typeof block === 'string') return <p>{block}</p>;
@@ -23,6 +23,8 @@ function Block({ block }) {
 export default function BlogPostPage() {
   const { slug } = useParams();
   const posts = usePosts();
+  const { t } = useI18n();
+  const formatDate = useDateFormat();
   const { loaded } = useContentStatus();
   const post = posts.find((p) => p.slug === slug);
   const goTo = useSectionNav();
@@ -69,7 +71,7 @@ export default function BlogPostPage() {
             {post.category && <Eyebrow>{post.category}</Eyebrow>}
             <h1 className="article-title">{post.title}</h1>
             <p className="article-meta">
-              Par Willy Dev · <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.readTime} de lecture
+              {t('post.by')} · <time dateTime={post.date}>{formatDate(post.date)}</time> · {t('post.read', { t: post.readTime })}
             </p>
           </div>
         </header>
@@ -88,7 +90,7 @@ export default function BlogPostPage() {
               {post.body.map((block, i) => <Block key={i} block={block} />)}
             </div>
             <a href="#contact" onClick={goTo('contact')} className="btn-pill article-cta">
-              Demander un devis gratuit
+              {t('post.quote')}
               <span className="circle-icon" aria-hidden="true"><ChevronsRight size={16} /></span>
             </a>
           </div>
@@ -97,7 +99,7 @@ export default function BlogPostPage() {
 
       <section className="section section-light article-more">
         <div className="container">
-          <h2 className="section-title article-more-title">À lire aussi</h2>
+          <h2 className="section-title article-more-title">{t('post.more')}</h2>
           <div className="cards-grid cards-grid-2">
             {others.map((p) => (
               <Link key={p.slug} to={`/blog/${p.slug}`} className="media-card">

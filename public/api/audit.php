@@ -32,7 +32,9 @@ if (!filter_var($url, FILTER_VALIDATE_URL) || !in_array(strtolower($parts['schem
 }
 $url = strtolower($parts['scheme']) . '://' . $host . ($parts['path'] ?? '/');
 
-$cacheName = 'audit-cache/' . substr(hash('sha256', $url), 0, 32) . '.json';
+// Google writes the recommendations in the visitor's language
+$lang = in_array($body['locale'] ?? '', ['fr', 'en', 'ar'], true) ? $body['locale'] : 'fr';
+$cacheName = 'audit-cache/' . substr(hash('sha256', $lang . '|' . $url), 0, 32) . '.json';
 $cached = read_data($cacheName, null);
 if (is_array($cached) && (time() - ($cached['at'] ?? 0)) < CACHE_HOURS * 3600) {
     json_out($cached['result'] + ['cached' => true]);
@@ -41,7 +43,7 @@ if (is_array($cached) && (time() - ($cached['at'] ?? 0)) < CACHE_HOURS * 3600) {
 rate_limit('audit', 4, 3600);
 @set_time_limit(150);
 
-$query = http_build_query(['url' => $url, 'strategy' => 'mobile', 'locale' => 'fr', 'key' => $key]);
+$query = http_build_query(['url' => $url, 'strategy' => 'mobile', 'locale' => $lang, 'key' => $key]);
 foreach (['performance', 'seo', 'accessibility', 'best-practices'] as $cat) {
     $query .= '&category=' . $cat;
 }

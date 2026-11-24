@@ -70,6 +70,11 @@ function sanitize_project(array $in, array $existing = []): array
         'deliverables' => $files,
         'notes' => clean_text($in['notes'] ?? '', 3000),
         'messages' => $existing['messages'] ?? [],
+        // Client review: written by the client, moderated by the admin (approved / rejected)
+        'review' => isset($existing['review']) && is_array($existing['review'])
+            ? array_merge($existing['review'], in_array($in['reviewStatus'] ?? '', ['pending', 'approved', 'rejected'], true)
+                ? ['status' => $in['reviewStatus']] : [])
+            : null,
         'createdAt' => $existing['createdAt'] ?? date(DATE_ATOM),
         'updatedAt' => date(DATE_ATOM),
     ];
@@ -116,6 +121,23 @@ if ($token !== '') {
             }
             unset($s);
             if (!$found) fail('Cette étape ne peut pas être validée.');
+        } elseif ($action === 'review') {
+            $steps = $all[$i]['steps'] ?? [];
+            $finished = $steps && !array_filter($steps, fn ($s) => $s['status'] !== 'done');
+            if (!$finished) fail('Vous pourrez laisser un avis une fois le projet terminé.');
+            if (($all[$i]['review']['status'] ?? '') === 'approved') fail('Votre avis est déjà publié, merci !');
+            $rating = max(1, min(5, (int) ($body['rating'] ?? 5)));
+            $text = clean_text($body['text'] ?? '', 800);
+            if (mb_strlen($text) < 15) fail('Écrivez quelques mots de plus (15 caractères minimum).');
+            $all[$i]['review'] = [
+                'rating' => $rating,
+                'text' => $text,
+                'author' => clean_text($body['author'] ?? $all[$i]['client'], 80) ?: $all[$i]['client'],
+                'role' => clean_text($body['role'] ?? '', 120),
+                'status' => 'pending',
+                'at' => date(DATE_ATOM),
+            ];
+            $note = "{$all[$i]['client']} a laissé un avis ($rating/5) :\n\n« $text »\n\nÀ valider dans l’admin pour le publier.";
         } else {
             fail('Action inconnue.');
         }

@@ -1,6 +1,9 @@
 // English interface text, plus English versions of the built-in FAQ and services
 // (used as long as those sections have not been edited in /admin, which is in French).
+import pages from './pages/en';
+
 export default {
+  ...pages,
   lang: { label: 'Language', fr: 'Français', en: 'English', ar: 'العربية' },
   nav: {
     home: 'Home', about: 'About', skills: 'Skills', services: 'Services', portfolio: 'Portfolio',
@@ -31,7 +34,7 @@ export default {
     ctaEstimate: 'Estimate my project', ctaBook: 'Book a call', ctaAudit: 'Free audit',
   },
   portfolio: { eyebrow: 'Work', title: 'Projects that meet real needs', all: 'All', seeAll: 'See the whole portfolio' },
-  testimonials: { eyebrow: 'Testimonials', title: 'What my clients say', stars: '{n} out of 5 stars' },
+  testimonials: { eyebrow: 'Testimonials', title: 'What my clients say', stars: '{n} out of 5 stars', verified: 'Verified review · Willy Dev client' },
   blog: { eyebrow: 'Blog & tips', title: 'Advice and lessons learned for your web projects' },
   faq: {
     eyebrow: 'FAQ', title: 'Frequently asked questions', helpTitle: 'More questions?',

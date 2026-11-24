@@ -4,5 +4,6 @@ Disallow: /send-email.php
 Disallow: /admin
 Disallow: /api/
 Disallow: /client/
+Disallow: /document/
 
 Sitemap: https://willydev.online/sitemap.xml

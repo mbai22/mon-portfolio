@@ -1,18 +1,20 @@
 import { useState } from 'react';
 import { MoveHorizontal } from 'lucide-react';
+import { useI18n } from '../i18n/context';
 
 // Drag (or use the arrow keys) to reveal the "after" image over the "before" one
 export function BeforeAfterSlider({ before, after, title }) {
   const [pos, setPos] = useState(50);
+  const { t } = useI18n();
 
   return (
     <div className="ba-slider" style={{ '--ba-pos': `${pos}%` }}>
-      <img src={before} alt={`${title}, avant`} className="ba-img" loading="lazy" draggable="false" />
+      <img src={before} alt={`${title}, ${t('pf.baBefore')}`} className="ba-img" loading="lazy" draggable="false" />
       <div className="ba-after" aria-hidden="true">
         <img src={after} alt="" className="ba-img" loading="lazy" draggable="false" />
       </div>
-      <span className="ba-tag ba-tag-before">Avant</span>
-      <span className="ba-tag ba-tag-after">Après</span>
+      <span className="ba-tag ba-tag-before">{t('pf.baBefore')}</span>
+      <span className="ba-tag ba-tag-after">{t('pf.baAfter')}</span>
       <span className="ba-handle" aria-hidden="true"><MoveHorizontal size={18} /></span>
       <input
         type="range"
@@ -22,7 +24,7 @@ export function BeforeAfterSlider({ before, after, title }) {
         value={pos}
         onChange={(e) => setPos(Number(e.target.value))}
         className="ba-range"
-        aria-label={`Comparer avant et après : ${title}`}
+        aria-label={t('pf.baCompare', { title })}
       />
     </div>
   );

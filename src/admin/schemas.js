@@ -141,6 +141,7 @@ export const schemas = {
       { name: 'content', label: 'Témoignage', type: 'textarea', rows: 5, required: true },
       { name: 'rating', label: 'Note', type: 'rating' },
       { name: 'image', label: 'Photo', type: 'image' },
+      { name: 'verified', label: 'Avis vérifié (badge « client Willy Dev »)', type: 'checkbox' },
     ],
   },
 

@@ -772,3 +772,28 @@
 .adm-code { margin-top: 8px; padding: 12px 14px; border-radius: 10px; background: var(--bg-secondary); color: #e8e8ef; font-size: 0.8125rem; overflow-x: auto; }
 .adm-steps code, .adm-card code { padding: 1px 5px; border-radius: 5px; background: var(--adm-bg); font-size: 0.85em; }
 .adm-pill svg { vertical-align: -2px; }
+
+.adm-review { margin-bottom: 18px; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--adm-border); background: #fffaf0; }
+.adm-review.approved { background: #effaf3; }
+.adm-review.rejected { opacity: 0.6; }
+.adm-review blockquote { margin: 6px 0; font-style: italic; }
+.adm-review-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+
+/* Quotes & invoices */
+.adm-details summary { cursor: pointer; margin-bottom: 0; }
+.adm-details[open] summary { margin-bottom: 16px; }
+.adm-doc-filter { padding: 10px 12px 0; margin-bottom: 0; }
+.adm-doc-unpaid { padding: 8px 14px 0; }
+.adm-doc-lines { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.adm-doc-line { display: grid; grid-template-columns: 1fr 70px 140px 120px 36px; gap: 6px; align-items: center; width: 100%; }
+.adm-doc-line.head { color: var(--adm-muted); font-size: 0.75rem; font-weight: 600; }
+.adm-doc-amount { text-align: right; font-size: 0.8125rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.adm-doc-total { margin: 4px 0 16px; font-size: 0.9375rem; }
+.adm-doc-actions { flex-wrap: wrap; }
+.adm-doc-preview { overflow-x: auto; padding: 16px; border-radius: 10px; background: var(--adm-bg); }
+.adm-doc-preview .doc-sheet { box-shadow: none; }
+
+@media (max-width: 700px) {
+  .adm-doc-line { grid-template-columns: 1fr 60px 1fr 36px; }
+  .adm-doc-line .adm-doc-amount, .adm-doc-line.head span:nth-child(4) { display: none; }
+}

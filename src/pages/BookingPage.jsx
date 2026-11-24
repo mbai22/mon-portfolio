@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { CalendarCheck, ChevronsRight, Clock, Loader2 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import WhatsAppIcon from '../components/WhatsAppIcon';
-import { useContent } from '../content/useContent';
+import { useDateFormat, useLocalizedSection } from '../content/useContent';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { trackEvent } from '../content/track';
 import { WHATSAPP_NUMBER } from '../data/social';
+import { useI18n } from '../i18n/context';
 
 // N'Djamena is UTC+1 all year (no daylight saving time)
 const OFFSET_MS = 3600 * 1000;
@@ -16,10 +17,12 @@ const slotEpoch = (day, time) => {
   const [hh, mm] = time.split(':').map(Number);
   return Date.UTC(y, m - 1, d, hh, mm) - OFFSET_MS;
 };
-const longDay = (day) => new Date(`${day}T12:00:00Z`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
 
 export default function BookingPage() {
-  const { booking } = useContent();
+  const booking = useLocalizedSection('booking');
+  const { t } = useI18n();
+  const fmt = useDateFormat();
+  const longDay = (day) => fmt(day, { weekday: 'long', day: 'numeric', month: 'long' });
   const [taken, setTaken] = useState(null);
   const [day, setDay] = useState(null);
   const [time, setTime] = useState(null);
@@ -79,9 +82,9 @@ export default function BookingPage() {
         body: JSON.stringify({ ...form, date: current.iso, time }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'La réservation n’a pas abouti. Réessayez ou écrivez-moi sur WhatsApp.');
+      if (!res.ok) throw new Error(data.error || t('booking.error'));
       trackEvent('booking');
-      setState({ status: 'done', error: '', when: `${longDay(current.iso)} à ${time}` });
+      setState({ status: 'done', error: '', when: `${longDay(current.iso)} ${t('booking.at')} ${time}` });
     } catch (err) {
       setState({ status: 'idle', error: err.message });
       if (/créneau/i.test(err.message)) setTime(null);
@@ -92,10 +95,10 @@ export default function BookingPage() {
     const wa = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Bonjour Willy, je viens de réserver un appel le ${state.when}. ${form.name}`)}`;
     return (
       <main>
-        <PageHeader eyebrow="Rendez-vous" title="C’est réservé !" text={`Votre appel découverte est prévu ${state.when} (heure de N'Djamena). Je vous contacte au ${form.phone}.`}>
+        <PageHeader eyebrow={t('booking.doneEyebrow')} title={t('booking.doneTitle')} text={t('booking.doneText', { when: state.when, phone: form.phone })}>
           <div className="tool-cta-links booking-done">
             <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-pill quote-send">
-              <WhatsAppIcon size={18} /> Me prévenir sur WhatsApp
+              <WhatsAppIcon size={18} /> {t('booking.notifyWa')}
               <span className="circle-icon"><ChevronsRight size={16} /></span>
             </a>
           </div>
@@ -106,24 +109,24 @@ export default function BookingPage() {
 
   return (
     <main>
-      <PageHeader eyebrow="Appel découverte" title="Réservez un appel gratuit" text={booking.intro} />
+      <PageHeader eyebrow={t('booking.eyebrow')} title={t('booking.title')} text={booking.intro} />
 
       <section className="section section-light tool-section">
         <div className="container booking-grid">
           <div>
             <fieldset className="tool-step">
-              <legend><span className="tool-step-num">1</span> Choisissez un jour</legend>
-              {!taken && <p className="tool-help"><Loader2 size={16} className="spin" /> Chargement des disponibilités…</p>}
-              {taken && days.length === 0 && <p className="tool-help">Aucun créneau libre pour le moment : écrivez-moi directement sur WhatsApp.</p>}
+              <legend><span className="tool-step-num">1</span> {t('booking.step1')}</legend>
+              {!taken && <p className="tool-help"><Loader2 size={16} className="spin" /> {t('booking.loading')}</p>}
+              {taken && days.length === 0 && <p className="tool-help">{t('booking.none')}</p>}
               <div className="booking-days">
                 {days.map((d) => {
                   const date = new Date(`${d.iso}T12:00:00Z`);
                   return (
                     <button key={d.iso} type="button" className={`booking-day${current?.iso === d.iso ? ' active' : ''}`}
                       onClick={() => { setDay(d.iso); setTime(null); }} aria-pressed={current?.iso === d.iso}>
-                      <span>{date.toLocaleDateString('fr-FR', { weekday: 'short', timeZone: 'UTC' })}</span>
+                      <span>{fmt(d.iso, { weekday: 'short' })}</span>
                       <strong>{date.getUTCDate()}</strong>
-                      <span>{date.toLocaleDateString('fr-FR', { month: 'short', timeZone: 'UTC' })}</span>
+                      <span>{fmt(d.iso, { month: 'short' })}</span>
                     </button>
                   );
                 })}
@@ -132,8 +135,8 @@ export default function BookingPage() {
 
             {current && (
               <fieldset className="tool-step">
-                <legend><span className="tool-step-num">2</span> Choisissez une heure</legend>
-                <p className="tool-help booking-day-label">{longDay(current.iso)} · heure de N'Djamena · {booking.duration || 15} min</p>
+                <legend><span className="tool-step-num">2</span> {t('booking.step2')}</legend>
+                <p className="tool-help booking-day-label">{longDay(current.iso)} · {t('booking.tz')} · {booking.duration || 15} min</p>
                 <div className="booking-slots">
                   {current.slots.map((s) => (
                     <button key={s.time} type="button" disabled={!s.free} className={`booking-slot${time === s.time ? ' active' : ''}`}
@@ -147,22 +150,22 @@ export default function BookingPage() {
           </div>
 
           <form className="tool-card booking-form" onSubmit={submit}>
-            <p className="booking-form-title display"><CalendarCheck size={20} /> {time && current ? `${longDay(current.iso)} à ${time}` : 'Vos coordonnées'}</p>
-            <label className="tool-field"><span>Nom *</span><input value={form.name} onChange={set('name')} required maxLength={80} autoComplete="name" /></label>
-            <label className="tool-field"><span>Téléphone / WhatsApp *</span><input value={form.phone} onChange={set('phone')} required maxLength={30} inputMode="tel" autoComplete="tel" placeholder="+235 …" /></label>
-            <label className="tool-field"><span>E-mail</span><input type="email" value={form.email} onChange={set('email')} maxLength={120} autoComplete="email" /></label>
-            <label className="tool-field"><span>Sujet</span>
+            <p className="booking-form-title display"><CalendarCheck size={20} /> {time && current ? `${longDay(current.iso)} ${t('booking.at')} ${time}` : t('booking.yourInfo')}</p>
+            <label className="tool-field"><span>{t('booking.name')}</span><input value={form.name} onChange={set('name')} required maxLength={80} autoComplete="name" /></label>
+            <label className="tool-field"><span>{t('booking.phone')}</span><input value={form.phone} onChange={set('phone')} required maxLength={30} inputMode="tel" autoComplete="tel" placeholder="+235 …" /></label>
+            <label className="tool-field"><span>{t('booking.email')}</span><input type="email" value={form.email} onChange={set('email')} maxLength={120} autoComplete="email" /></label>
+            <label className="tool-field"><span>{t('booking.topic')}</span>
               <select value={form.topic} onChange={set('topic')}>
-                <option value="">Choisir…</option>
+                <option value="">{t('booking.choose')}</option>
                 {(booking.topics || []).map((t) => <option key={t}>{t}</option>)}
               </select>
             </label>
-            <label className="tool-field"><span>Votre projet en quelques mots</span><textarea rows={3} value={form.message} onChange={set('message')} maxLength={1000} /></label>
+            <label className="tool-field"><span>{t('booking.message')}</span><textarea rows={3} value={form.message} onChange={set('message')} maxLength={1000} /></label>
             {/* Honeypot: hidden from people, filled by spam bots */}
             <input className="hp-field" tabIndex={-1} autoComplete="off" value={form.website} onChange={set('website')} aria-hidden="true" />
             {state.error && <p className="tool-error" role="alert">{state.error}</p>}
             <button className="btn-pill booking-submit" disabled={!time || state.status === 'sending'}>
-              {state.status === 'sending' ? 'Réservation…' : time ? 'Confirmer le rendez-vous' : 'Choisissez un créneau'}
+              {state.status === 'sending' ? t('booking.sending') : time ? t('booking.confirm') : t('booking.pick')}
               <span className="circle-icon"><ChevronsRight size={16} /></span>
             </button>
           </form>

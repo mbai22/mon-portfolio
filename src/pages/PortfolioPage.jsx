@@ -6,9 +6,11 @@ import ProjectCard from '../components/ProjectCard';
 import { useContent, useProjects } from '../content/useContent';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { useSectionNav } from '../hooks/useSectionNav';
+import { useI18n } from '../i18n/context';
 
 // Filter tabs only list categories that actually have work in them
 const usedCategories = (categories, works) => ['Tous', ...categories.filter((c) => works.some((w) => w.category === c))];
+// 'Tous' stays the internal value of the "all" filter; only its label is translated
 
 function useFilter(items, key, allLabel = 'Tous') {
   const [active, setActive] = useState(allLabel);
@@ -17,6 +19,7 @@ function useFilter(items, key, allLabel = 'Tous') {
 }
 
 function FilterTabs({ options, active, onChange }) {
+  const { t } = useI18n();
   return (
     <div className="pill-tabs">
       {options.map((option) => (
@@ -25,7 +28,7 @@ function FilterTabs({ options, active, onChange }) {
           onClick={() => onChange(option)}
           className={`pill-tab${active === option ? ' active' : ''}`}
         >
-          {option}
+          {option === 'Tous' ? t('pf.all') : option}
         </button>
       ))}
     </div>
@@ -61,6 +64,7 @@ function EmptyState({ icon, title, text }) {
 }
 
 function Lightbox({ work, onClose }) {
+  const { t } = useI18n();
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose();
     document.addEventListener('keydown', onKey);
@@ -73,7 +77,7 @@ function Lightbox({ work, onClose }) {
 
   return (
     <div className="pf-lightbox" role="dialog" aria-modal="true" aria-label={work.title} onClick={onClose}>
-      <button className="pf-lightbox-close" onClick={onClose} aria-label="Fermer">
+      <button className="pf-lightbox-close" onClick={onClose} aria-label={t('pf.close')}>
         <X size={22} />
       </button>
       <figure onClick={(e) => e.stopPropagation()}>
@@ -88,6 +92,7 @@ function Lightbox({ work, onClose }) {
 }
 
 function VideoCard({ video }) {
+  const { t } = useI18n();
   const [playing, setPlaying] = useState(false);
   const poster = video.poster ?? (video.youtubeId ? `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg` : undefined);
 
@@ -106,7 +111,7 @@ function VideoCard({ video }) {
             <video src={video.src} poster={poster} controls autoPlay playsInline />
           )
         ) : (
-          <button className="pf-video-poster" onClick={() => setPlaying(true)} aria-label={`Lire la vidéo : ${video.title}`}>
+          <button className="pf-video-poster" onClick={() => setPlaying(true)} aria-label={t('pf.play', { title: video.title })}>
             {poster && <img src={poster} alt="" loading="lazy" />}
             <span className="pf-video-play"><Play size={24} fill="currentColor" /></span>
           </button>
@@ -123,14 +128,15 @@ function VideoCard({ video }) {
 
 export default function PortfolioPage() {
   const { projects, filters } = useProjects();
+  const { t } = useI18n();
   const { designWorks, designCategories, videoWorks, videoCategories, beforeAfter = [] } = useContent();
   const designFilters = usedCategories(designCategories, designWorks);
   const videoFilters = usedCategories(videoCategories, videoWorks);
   const sections = [
-    { id: 'realisations-code', label: 'Développement', icon: Code2, count: projects.length },
-    { id: 'realisations-design', label: 'Design graphique', icon: PenTool, count: designWorks.length },
-    { id: 'realisations-video', label: 'Montage vidéo', icon: Clapperboard, count: videoWorks.length },
-    ...(beforeAfter.length ? [{ id: 'avant-apres', label: 'Avant / après', icon: SplitSquareHorizontal, count: beforeAfter.length }] : []),
+    { id: 'realisations-code', label: t('pf.sectionDev'), icon: Code2, count: projects.length },
+    { id: 'realisations-design', label: t('pf.sectionDesign'), icon: PenTool, count: designWorks.length },
+    { id: 'realisations-video', label: t('pf.sectionVideo'), icon: Clapperboard, count: videoWorks.length },
+    ...(beforeAfter.length ? [{ id: 'avant-apres', label: t('pf.sectionBa'), icon: SplitSquareHorizontal, count: beforeAfter.length }] : []),
   ];
   const code = useFilter(projects, 'type');
   const design = useFilter(designWorks, 'category');
@@ -157,17 +163,17 @@ export default function PortfolioPage() {
     <main>
       <header className="pf-hero section-darker">
         <div className="container section-head">
-          <Eyebrow>Portfolio</Eyebrow>
-          <h1 className="section-title">Toutes mes réalisations</h1>
+          <Eyebrow>{t('pf.eyebrow')}</Eyebrow>
+          <h1 className="section-title">{t('pf.title')}</h1>
           <p className="section-text">
-            Sites internet et applications web et mobiles, design graphique et montage vidéo : une sélection de projets réalisés pour mes clients.
+            {t('pf.text')}
           </p>
-          <nav className="pf-jump" aria-label="Sections du portfolio">
+          <nav className="pf-jump" aria-label={t('pf.jump')}>
             {sections.map((section) => (
               <a key={section.id} href={`#${section.id}`} onClick={scrollTo(section.id)} className="pf-jump-link">
                 <span className="pf-jump-icon"><section.icon size={18} /></span>
                 <span className="pf-jump-label">{section.label}</span>
-                <span className={`pf-jump-count${section.count ? '' : ' soon'}`}>{section.count || 'Bientôt'}</span>
+                <span className={`pf-jump-count${section.count ? '' : ' soon'}`}>{section.count || t('pf.soon')}</span>
               </a>
             ))}
           </nav>
@@ -177,9 +183,9 @@ export default function PortfolioPage() {
       <section id="realisations-code" className="section section-light pf-section">
         <div className="container">
           <SectionHead
-            eyebrow="Développement"
-            title="Sites internet et applications web & mobiles"
-            text="Sites vitrines, e-commerce, applications web et mobiles, tableaux de bord et API."
+            eyebrow={t('pf.devEyebrow')}
+            title={t('pf.devTitle')}
+            text={t('pf.devText')}
           >
             <FilterTabs options={filters} active={code.active} onChange={code.setActive} />
           </SectionHead>
@@ -194,9 +200,9 @@ export default function PortfolioPage() {
       <section id="realisations-design" className="section section-dark pf-section">
         <div className="container">
           <SectionHead
-            eyebrow="Design graphique"
-            title="Visuels, flyers et supports de communication"
-            text="Publications et couvertures pour les réseaux sociaux, flyers, cartes de visite et identités visuelles."
+            eyebrow={t('pf.designEyebrow')}
+            title={t('pf.designTitle')}
+            text={t('pf.designText')}
           >
             {designWorks.length > 0 && (
               <FilterTabs options={designFilters} active={design.active} onChange={design.setActive} />
@@ -209,7 +215,7 @@ export default function PortfolioPage() {
                   key={work.id}
                   className={`pf-design-item${work.category === 'Logo' ? ' is-logo' : ''}`}
                   onClick={() => setOpenWork(work)}
-                  aria-label={`Agrandir : ${work.title}`}
+                  aria-label={t('pf.zoom', { title: work.title })}
                 >
                   <img src={work.image} alt={`${work.title}, ${work.category.toLowerCase()} réalisé pour ${work.client}`} loading="lazy" />
                   <span className="pf-design-caption">
@@ -222,8 +228,8 @@ export default function PortfolioPage() {
           ) : (
             <EmptyState
               icon={<PenTool size={26} />}
-              title="Réalisations bientôt en ligne"
-              text="Les logos, identités visuelles et supports graphiques réalisés pour mes clients arrivent ici très bientôt."
+              title={t('pf.designEmptyTitle')}
+              text={t('pf.designEmptyText')}
             />
           )}
         </div>
@@ -232,9 +238,9 @@ export default function PortfolioPage() {
       <section id="realisations-video" className="section section-light pf-section">
         <div className="container">
           <SectionHead
-            eyebrow="Montage vidéo"
-            title="Spots, clips et vidéos pour les réseaux"
-            text="Montage, motion design, spots publicitaires et contenus courts pour Facebook, Instagram et TikTok."
+            eyebrow={t('pf.videoEyebrow')}
+            title={t('pf.videoTitle')}
+            text={t('pf.videoText')}
           >
             {videoWorks.length > 0 && (
               <FilterTabs options={videoFilters} active={video.active} onChange={video.setActive} />
@@ -249,13 +255,13 @@ export default function PortfolioPage() {
           ) : (
             <EmptyState
               icon={<Clapperboard size={26} />}
-              title="Vidéos bientôt en ligne"
-              text="Les spots publicitaires, clips et montages réalisés pour mes clients arrivent ici très bientôt."
+              title={t('pf.videoEmptyTitle')}
+              text={t('pf.videoEmptyText')}
             />
           )}
           <div className="cards-cta">
             <a href="/#contact" onClick={goTo('contact')} className="btn-pill">
-              Discutons de votre projet
+              {t('pf.cta')}
               <span className="circle-icon"><ChevronsRight size={16} /></span>
             </a>
           </div>
@@ -266,9 +272,9 @@ export default function PortfolioPage() {
         <section id="avant-apres" className="section section-dark pf-section">
           <div className="container">
             <SectionHead
-              eyebrow="Avant / après"
-              title="La différence, en un coup de curseur"
-              text="Faites glisser le curseur pour comparer la version d’origine et le résultat."
+              eyebrow={t('pf.baEyebrow')}
+              title={t('pf.baTitle')}
+              text={t('pf.baText')}
             />
             <BeforeAfterList items={beforeAfter} />
           </div>

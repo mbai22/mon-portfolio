@@ -2,6 +2,7 @@ import { useContext, useMemo } from 'react';
 import { ContentContext } from './store';
 import { normalizePost } from '../data/posts';
 import { useI18n } from '../i18n/context';
+import { translatedBooking, translatedEstimator } from '../i18n/contentLabels';
 
 export function useContent() {
   return useContext(ContentContext).content;
@@ -30,8 +31,18 @@ export function useLocalizedSection(name) {
   const { content, customized } = useContext(ContentContext);
   const { locale, t } = useI18n();
   if (locale === 'fr' || customized?.has(name)) return content[name];
+  if (name === 'estimator') return translatedEstimator(locale) || content[name];
+  if (name === 'booking') return translatedBooking(locale) || content[name];
   const translated = t(`content.${name}`);
   return typeof translated === 'object' ? translated : content[name];
+}
+
+// Dates in the visitor's language (Arabic keeps Western digits, as used in Chad)
+export function useDateFormat() {
+  const { t } = useI18n();
+  const locale = t('dateLocale');
+  return (iso, options = { day: 'numeric', month: 'long', year: 'numeric' }) =>
+    (iso ? new Date(`${String(iso).slice(0, 10)}T12:00:00`).toLocaleDateString(locale, options) : '');
 }
 
 export function useContentStatus() {

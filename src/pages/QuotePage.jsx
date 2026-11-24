@@ -2,15 +2,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { Check, ChevronsRight, Minus, Plus } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import WhatsAppIcon from '../components/WhatsAppIcon';
-import { useContent } from '../content/useContent';
+import { useLocalizedSection } from '../content/useContent';
 import { usePageMeta } from '../hooks/usePageMeta';
 import { trackEvent } from '../content/track';
 import { WHATSAPP_NUMBER } from '../data/social';
+import { useI18n } from '../i18n/context';
 
 const fcfa = (n) => `${new Intl.NumberFormat('fr-FR').format(Math.round(n / 5000) * 5000)} FCFA`;
 
 export default function QuotePage() {
-  const { estimator } = useContent();
+  const estimator = useLocalizedSection('estimator');
+  const { t } = useI18n();
   const types = estimator.projectTypes || [];
   const delays = estimator.delays || [];
 
@@ -47,7 +49,7 @@ export default function QuotePage() {
     if (!type) return { low: 0, high: 0, lines: [] };
     const out = [[type.label, Number(type.base) || 0]];
     const extraPages = type.perPage ? Math.max(0, pages - (type.includedPages || 0)) : 0;
-    if (extraPages) out.push([`${extraPages} page${extraPages > 1 ? 's' : ''} en plus`, extraPages * type.perPage]);
+    if (extraPages) out.push([t('quote.extraPages', { n: extraPages }), extraPages * type.perPage]);
     for (const id of options) {
       const o = available.find((x) => x.id === id);
       if (o) out.push([o.label, Number(o.price) || 0]);
@@ -59,7 +61,7 @@ export default function QuotePage() {
       total *= factor;
     }
     return { low: total, high: total * (1 + (Number(estimator.spread) || 0)), lines: out };
-  }, [type, pages, options, available, delay, estimator.spread]);
+  }, [type, pages, options, available, delay, estimator.spread, t]);
 
   const message = [
     `Bonjour Willy, je souhaite un devis${name.trim() ? ` (de la part de ${name.trim()})` : ''}.`,
@@ -78,20 +80,20 @@ export default function QuotePage() {
 
   return (
     <main>
-      <PageHeader eyebrow="Devis gratuit" title="Estimez le prix de votre projet" text={estimator.intro} />
+      <PageHeader eyebrow={t('quote.eyebrow')} title={t('quote.title')} text={estimator.intro} />
 
       <section className="section section-light tool-section">
         <div className="container quote-grid">
           <div className="quote-steps">
             <fieldset className="tool-step">
-              <legend><span className="tool-step-num">1</span> Quel projet ?</legend>
+              <legend><span className="tool-step-num">1</span> {t('quote.step1')}</legend>
               <div className="quote-types">
-                {types.map((t) => (
-                  <label key={t.id} className={`quote-type${t.id === type.id ? ' active' : ''}`}>
-                    <input type="radio" name="type" checked={t.id === type.id} onChange={() => pickType(t)} />
-                    <span className="quote-type-title display">{t.label}</span>
-                    <span className="quote-type-text">{t.description}</span>
-                    <span className="quote-type-price">Dès {fcfa(t.base)}</span>
+                {types.map((pt) => (
+                  <label key={pt.id} className={`quote-type${pt.id === type.id ? ' active' : ''}`}>
+                    <input type="radio" name="type" checked={pt.id === type.id} onChange={() => pickType(pt)} />
+                    <span className="quote-type-title display">{pt.label}</span>
+                    <span className="quote-type-text">{pt.description}</span>
+                    <span className="quote-type-price">{t('quote.from', { price: fcfa(pt.base) })}</span>
                   </label>
                 ))}
               </div>
@@ -99,19 +101,19 @@ export default function QuotePage() {
 
             {type.perPage > 0 && (
               <fieldset className="tool-step">
-                <legend><span className="tool-step-num">2</span> Combien de pages ?</legend>
+                <legend><span className="tool-step-num">2</span> {t('quote.step2')}</legend>
                 <div className="quote-counter">
-                  <button type="button" onClick={() => setPages((p) => Math.max(1, p - 1))} aria-label="Une page de moins"><Minus size={18} /></button>
-                  <output aria-live="polite"><strong>{pages}</strong> page{pages > 1 ? 's' : ''}</output>
-                  <button type="button" onClick={() => setPages((p) => Math.min(60, p + 1))} aria-label="Une page de plus"><Plus size={18} /></button>
+                  <button type="button" onClick={() => setPages((p) => Math.max(1, p - 1))} aria-label={t('quote.less')}><Minus size={18} /></button>
+                  <output aria-live="polite"><strong>{pages}</strong> {pages > 1 ? t('quote.pages') : t('quote.page')}</output>
+                  <button type="button" onClick={() => setPages((p) => Math.min(60, p + 1))} aria-label={t('quote.more')}><Plus size={18} /></button>
                 </div>
-                <p className="tool-help">{type.includedPages} pages comprises, puis {fcfa(type.perPage)} par page supplémentaire. Ex. : accueil, à propos, services, galerie, contact.</p>
+                <p className="tool-help">{t('quote.pagesHelp', { n: type.includedPages, price: fcfa(type.perPage) })}</p>
               </fieldset>
             )}
 
             {available.length > 0 && (
               <fieldset className="tool-step">
-                <legend><span className="tool-step-num">{type.perPage > 0 ? 3 : 2}</span> Des options ?</legend>
+                <legend><span className="tool-step-num">{type.perPage > 0 ? 3 : 2}</span> {t('quote.options')}</legend>
                 <div className="quote-options">
                   {available.map((o) => {
                     const on = options.includes(o.id);
@@ -131,7 +133,7 @@ export default function QuotePage() {
 
             {delays.length > 1 && (
               <fieldset className="tool-step">
-                <legend><span className="tool-step-num">{(type.perPage > 0 ? 3 : 2) + (available.length ? 1 : 0)}</span> Quel délai ?</legend>
+                <legend><span className="tool-step-num">{(type.perPage > 0 ? 3 : 2) + (available.length ? 1 : 0)}</span> {t('quote.delay')}</legend>
                 <div className="pill-tabs quote-delays">
                   {delays.map((d) => (
                     <button key={d.id} type="button" className={`pill-tab${d.id === delay.id ? ' active' : ''}`} onClick={() => setDelayId(d.id)}>
@@ -144,26 +146,26 @@ export default function QuotePage() {
           </div>
 
           <aside className="quote-summary" aria-live="polite">
-            <p className="quote-summary-label">Estimation indicative</p>
-            <p className="quote-summary-total display">{fcfa(low)}<span> à {fcfa(high)}</span></p>
+            <p className="quote-summary-label">{t('quote.estimate')}</p>
+            <p className="quote-summary-total display">{fcfa(low)}<span> {t('quote.to')} {fcfa(high)}</span></p>
             <ul className="quote-lines">
               {lines.map(([label, value]) => (
                 <li key={label}><span>{label}</span><span>{fcfa(value)}</span></li>
               ))}
             </ul>
             <label className="tool-field">
-              <span>Votre nom (facultatif)</span>
+              <span>{t('quote.name')}</span>
               <input value={name} onChange={(e) => setName(e.target.value)} maxLength={80} autoComplete="name" />
             </label>
             <label className="tool-field">
-              <span>Quelques mots sur le projet (facultatif)</span>
+              <span>{t('quote.details')}</span>
               <textarea value={details} onChange={(e) => setDetails(e.target.value)} rows={3} maxLength={600} />
             </label>
             <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn-pill quote-send" onClick={() => trackEvent('devis')}>
-              <WhatsAppIcon size={18} /> Recevoir mon devis sur WhatsApp
+              <WhatsAppIcon size={18} /> {t('quote.send')}
               <span className="circle-icon"><ChevronsRight size={16} /></span>
             </a>
-            <p className="tool-help">Estimation sans engagement. Le prix final dépend de vos besoins précis : je vous réponds avec un devis détaillé et gratuit.</p>
+            <p className="tool-help">{t('quote.note')}</p>
           </aside>
         </div>
       </section>

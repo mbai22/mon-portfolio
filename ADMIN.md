@@ -14,11 +14,19 @@ projets web, design graphique, vidéos, articles de blog, témoignages, FAQ et s
 | Audit gratuit de site (Google PageSpeed) | `/audit` | Clés & configuration | cache 12 h dans `willydev-data/audit-cache/` |
 | Assistant IA (Claude) dans une bulle | toutes | Clés & configuration | aucune conversation stockée |
 | Espace client privé (`/client/<lien secret>`) + e-mail | `/client/…` | Espace client | `willydev-data/clients.json` |
-| Site en français, anglais et arabe (droite à gauche) | accueil | — | choix du visiteur gardé dans son navigateur |
+| Avis clients vérifiés (note + avis en fin de projet, modéré) | `/client/…` | Espace client → Publier | `clients.json`, puis témoignages |
+| Devis & factures en FCFA, PDF, acceptation en ligne | `/document/<lien secret>` | Devis & factures | `willydev-data/documents.json`, `issuer.json` |
+| Alertes Telegram instantanées | — | Clés & configuration | — |
+| Site en français, anglais et arabe (droite à gauche) | toutes | — | choix du visiteur gardé dans son navigateur |
 
-Les traductions anglaise et arabe de la FAQ et des services sont dans `src/i18n/en.js` et `src/i18n/ar.js`.
-Dès qu'une de ces sections est modifiée dans l'admin (en français), c'est la version de l'admin qui s'affiche
-dans toutes les langues. Les pages Portfolio, Blog, Devis, Rendez-vous et Audit restent en français.
+Traductions : interface dans `src/i18n/{fr,en,ar}.js` et `src/i18n/pages/`, FAQ et services traduits dans les
+mêmes fichiers, libellés de l'estimateur et des rendez-vous dans `src/i18n/contentLabels.js`. Dès qu'une section est
+modifiée dans l'admin (en français), c'est la version de l'admin qui s'affiche dans toutes les langues. Restent en
+français : les contenus saisis dans l'admin (projets, articles, témoignages), les devis/factures (documents
+commerciaux) et l'admin lui-même.
+
+Le PDF des devis et factures passe par l'impression du navigateur (« Enregistrer au format PDF ») : seule la feuille
+A4 est imprimée.
 
 ## Clés d'API (assistant IA et audit)
 
@@ -30,6 +38,8 @@ Elles ne sont **jamais** dans le code ni dans Git. Le serveur les lit dans `will
 return [
     'anthropic_api_key' => '…',   // console.anthropic.com → API Keys (payant à l'usage)
     'pagespeed_api_key' => '…',   // Google Cloud → PageSpeed Insights API → Identifiants (gratuit)
+    'telegram_bot_token' => '…',  // Telegram → @BotFather → /newbot
+    'telegram_chat_id' => '…',    // affiché dans Clés & configuration après /start au bot
 ];
 ```
 

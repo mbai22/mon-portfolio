@@ -293,12 +293,41 @@ function clean_text($value, int $max): string
     return mb_substr($text, 0, $max);
 }
 
-// Notification e-mail to the site owner (same mailbox as the contact form)
+// Notification to the site owner: e-mail (same mailbox as the contact form)
+// plus an instant Telegram message when a bot is configured in willydev-secrets.php
 function notify_owner(string $subject, string $text): void
 {
     $to = admin_config()['notify_email'] ?? 'contact@willydev.online';
     $headers = "From: Willy Dev <no-reply@willydev.online>\r\nContent-Type: text/plain; charset=UTF-8\r\n";
     @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $text, $headers);
+    send_telegram("🔔 $subject\n\n$text");
+}
+
+// Returns true when Telegram accepted the message.
+// Secrets: 'telegram_bot_token' (from @BotFather) and 'telegram_chat_id' (your chat with the bot).
+function send_telegram(string $text): bool
+{
+    $token = secret('telegram_bot_token');
+    $chat = secret('telegram_chat_id');
+    if ($token === '' || $chat === '' || !preg_match('/^\d+:[\w-]+$/', $token)) {
+        return false;
+    }
+    $ch = curl_init("https://api.telegram.org/bot$token/sendMessage");
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_TIMEOUT => 8,
+        CURLOPT_CONNECTTIMEOUT => 4,
+        CURLOPT_POSTFIELDS => [
+            'chat_id' => $chat,
+            'text' => mb_substr($text, 0, 3900),
+            'disable_web_page_preview' => 'true',
+        ],
+    ]);
+    $raw = curl_exec($ch);
+    curl_close($ch);
+    $data = is_string($raw) ? json_decode($raw, true) : null;
+    return !empty($data['ok']);
 }
 
 function require_method(string ...$methods): void

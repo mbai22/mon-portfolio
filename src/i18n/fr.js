@@ -1,5 +1,8 @@
 // Textes de l'interface en français (langue d'origine du site)
+import pages from './pages/fr';
+
 export default {
+  ...pages,
   lang: { label: 'Langue', fr: 'Français', en: 'English', ar: 'العربية' },
   nav: {
     home: 'Accueil', about: 'À propos', skills: 'Compétences', services: 'Services', portfolio: 'Portfolio',
@@ -30,7 +33,7 @@ export default {
     ctaEstimate: 'Estimer mon projet', ctaBook: 'Réserver un appel', ctaAudit: 'Audit gratuit',
   },
   portfolio: { eyebrow: 'Réalisations', title: 'Des projets qui répondent à de vrais besoins', all: 'Tous', seeAll: 'Voir tout le portfolio' },
-  testimonials: { eyebrow: 'Témoignages', title: 'Ce que disent mes clients', stars: '{n} étoiles sur 5' },
+  testimonials: { eyebrow: 'Témoignages', title: 'Ce que disent mes clients', stars: '{n} étoiles sur 5', verified: 'Avis vérifié · client Willy Dev' },
   blog: { eyebrow: 'Blog & conseils', title: "Conseils et retours d'expérience pour vos projets web" },
   faq: {
     eyebrow: 'FAQ', title: 'Questions fréquentes', helpTitle: 'Encore des questions ?',

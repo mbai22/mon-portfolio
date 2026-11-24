@@ -1,8 +1,6 @@
 <?php
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+// Contact form. Shares the API helpers (rate limit, Telegram alert).
+require __DIR__ . '/api/_lib.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -56,13 +54,22 @@ $subjectLabels = [
     'other' => 'Autre',
 ];
 
-$subjectLabel = $subjectLabels[$subject] ?? $subject;
+rate_limit('contact', 5, 3600);
+
+// Never trust the form: no line breaks in headers, HTML escaped in the e-mail body
+$name = mb_substr(preg_replace('/[\r\n\t]+/', ' ', $name), 0, 80);
+$subjectLabel = $subjectLabels[$subject] ?? 'Autre';
+$plainMessage = mb_substr($message, 0, 5000);
+$telegramText = "Formulaire de contact : $subjectLabel\nDe : $name ($email)\n\n$plainMessage";
+$name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+$email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+$message = htmlspecialchars($plainMessage, ENT_QUOTES, 'UTF-8');
 
 $to = 'contact@willydev.online';
-$emailSubject = "[Portfolio] $subjectLabel - $name";
+$emailSubject = '=?UTF-8?B?' . base64_encode("[Portfolio] $subjectLabel - " . html_entity_decode($name, ENT_QUOTES, 'UTF-8')) . '?=';
 
-$headers = "From: $name <$email>\r\n";
-$headers .= "Reply-To: $email\r\n";
+$headers = "From: Site willydev.online <no-reply@willydev.online>\r\n";
+$headers .= "Reply-To: " . filter_var(trim($input['email'] ?? ''), FILTER_SANITIZE_EMAIL) . "\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
@@ -100,6 +107,8 @@ $htmlBody = "
 </html>";
 
 $success = mail($to, $emailSubject, $htmlBody, $headers);
+// Instant alert on the phone; counts as delivered even if the mail server refused
+$success = send_telegram("✉️ $telegramText") || $success;
 
 if ($success) {
     echo json_encode(['success' => true, 'message' => 'Message envoyé avec succès']);

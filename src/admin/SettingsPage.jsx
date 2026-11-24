@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle2, CircleAlert, Loader2 } from 'lucide-react';
+import { CheckCircle2, CircleAlert, Loader2, Send } from 'lucide-react';
 import { PageHead } from './pages';
+import { adminGet, adminSend } from './api';
 
 const FEATURES = [
   {
@@ -18,6 +19,50 @@ const FEATURES = [
     how: 'Gratuite : console.cloud.google.com → API et services → activez « PageSpeed Insights API » → Identifiants → Créer une clé API (restreignez-la à cette API).',
   },
 ];
+
+function TelegramCard() {
+  const [info, setInfo] = useState(null);
+  const [msg, setMsg] = useState('');
+  const [err, setErr] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+    adminGet('/api/telegram.php').then((d) => { if (!cancelled) setInfo(d); }).catch((e) => { if (!cancelled) setErr(e.message); });
+    return () => { cancelled = true; };
+  }, []);
+
+  const test = () => {
+    setMsg(''); setErr('');
+    adminSend('/api/telegram.php', 'POST', {}).then(() => setMsg('Message de test envoyé : regardez Telegram.')).catch((e) => setErr(e.message));
+  };
+
+  return (
+    <section className="adm-card">
+      <div className="adm-card-head">
+        <h2 className="adm-card-title">Alertes Telegram</h2>
+        {info && (info.configured
+          ? <span className="adm-pill ok"><CheckCircle2 size={12} /> Activé</span>
+          : <span className="adm-pill warn"><CircleAlert size={12} /> Non configuré</span>)}
+      </div>
+      <p className="adm-help">Recevez instantanément sur votre téléphone chaque rendez-vous, message de client, avis, devis accepté et formulaire de contact (en plus de l’e-mail). Gratuit.</p>
+      <ol className="adm-steps">
+        <li>Dans Telegram, ouvrez <strong>@BotFather</strong>, envoyez <code>/newbot</code>, choisissez un nom : il vous donne un <strong>jeton</strong> (ex. <code>123456:ABC…</code>).</li>
+        <li>Ouvrez votre nouveau bot et envoyez-lui <code>/start</code>.</li>
+        <li>Ajoutez <code>{"'telegram_bot_token' => '…'"}</code> dans <code>willydev-secrets.php</code> et importez-le (voir ci-dessous), puis rechargez cette page : votre identifiant de discussion apparaît ici.</li>
+        <li>Ajoutez aussi <code>{"'telegram_chat_id' => '…'"}</code> avec cet identifiant, réimportez le fichier, puis cliquez sur « Envoyer un test ».</li>
+      </ol>
+      {info?.hasToken && info.chats?.length > 0 && (
+        <p className="adm-help adm-mt">Discussions trouvées : {info.chats.map((c) => <code key={c.id}>{c.id}</code>)} {info.chats.map((c) => c.name).filter(Boolean).join(', ')}</p>
+      )}
+      {info?.hasToken && !info.chats?.length && !info.configured && <p className="adm-help adm-mt">Aucune discussion trouvée : envoyez /start à votre bot puis rechargez.</p>}
+      <div className="adm-form-foot">
+        {err && <span className="adm-field-error">{err}</span>}
+        {msg && <span className="adm-help">{msg}</span>}
+        <button type="button" className="adm-btn adm-btn-secondary" onClick={test} disabled={!info?.configured}><Send size={15} /> Envoyer un test</button>
+      </div>
+    </section>
+  );
+}
 
 export default function SettingsPage() {
   const [status, setStatus] = useState({});
@@ -54,6 +99,8 @@ export default function SettingsPage() {
         </table>
       </section>
 
+      <TelegramCard />
+
       <section className="adm-card">
         <h2 className="adm-card-title">Ajouter ou changer une clé</h2>
         <ol className="adm-steps">
@@ -62,6 +109,8 @@ export default function SettingsPage() {
 return [
     'anthropic_api_key' => 'COLLEZ-ICI-LA-CLE-ANTHROPIC',
     'pagespeed_api_key' => 'COLLEZ-ICI-LA-CLE-GOOGLE',
+    'telegram_bot_token' => 'COLLEZ-ICI-LE-JETON-DU-BOT',
+    'telegram_chat_id' => 'COLLEZ-ICI-VOTRE-IDENTIFIANT',
 ];`}</pre>
           </li>
           <li>Dans hPanel → <strong>Gestionnaire de fichiers</strong> → <code>public_html</code>, importez ce fichier.</li>

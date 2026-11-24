@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ArrowDown, ArrowUp, Copy, ExternalLink, Loader2, Plus, Save, Trash2, Upload } from 'lucide-react';
 import { PageHead } from './pages';
-import { adminGet, adminSend, uploadImage } from './api';
+import { adminGet, adminSend, getContent, saveSection, uploadImage } from './api';
+import { mergeContent } from '../content/store';
 
 const STATUSES = [
   ['todo', 'À venir'], ['doing', 'En cours'], ['review', 'À valider par le client'], ['done', 'Terminé'],
@@ -66,7 +67,7 @@ function FileRow({ item, set }) {
   );
 }
 
-function Editor({ initial, onSaved, onDeleted, onDirty }) {
+function Editor({ initial, onSaved, onDeleted, onDirty, onContentSaved }) {
   const [p, setP] = useState(initial);
   const [reply, setReply] = useState('');
   const [state, setState] = useState({ busy: false, msg: '', err: '' });
@@ -82,6 +83,25 @@ function Editor({ initial, onSaved, onDeleted, onDirty }) {
       const { project } = await adminSend('/api/clients.php', p.id ? 'PUT' : 'POST', { project: { ...p, reply } });
       setReply('');
       setState({ busy: false, msg: 'Enregistré', err: '' });
+      onSaved(project);
+    } catch (e) {
+      setState({ busy: false, msg: '', err: e.message });
+    }
+  };
+
+  // Approve: append the review to the site's testimonials (verified badge), then mark it published
+  const moderate = async (status) => {
+    setState({ busy: true, msg: '', err: '' });
+    try {
+      if (status === 'approved') {
+        const current = mergeContent(await getContent()).testimonials;
+        const r = p.review;
+        const next = [{ name: r.author || p.client, role: r.role || p.project, content: r.text, rating: r.rating, image: '', verified: true }, ...current];
+        await saveSection('testimonials', next);
+        onContentSaved('testimonials', next);
+      }
+      const { project } = await adminSend('/api/clients.php', 'PUT', { project: { ...p, reviewStatus: status } });
+      setState({ busy: false, msg: status === 'approved' ? 'Avis publié sur le site' : 'Avis refusé', err: '' });
       onSaved(project);
     } catch (e) {
       setState({ busy: false, msg: '', err: e.message });
@@ -117,6 +137,26 @@ function Editor({ initial, onSaved, onDeleted, onDirty }) {
         </div>
       )}
       {!p.token && <p className="adm-help">Le lien privé du client sera créé à l’enregistrement.</p>}
+
+      {p.review && (
+        <div className={`adm-review ${p.review.status}`}>
+          <p className="adm-label">
+            Avis du client · {'★'.repeat(p.review.rating)}{'☆'.repeat(5 - p.review.rating)} ·{' '}
+            {{ pending: 'à valider', approved: 'publié dans les témoignages', rejected: 'refusé' }[p.review.status]}
+          </p>
+          <blockquote>« {p.review.text} »</blockquote>
+          <p className="adm-help">{p.review.author}{p.review.role ? `, ${p.review.role}` : ''}</p>
+          {p.review.status === 'pending' && (
+            <div className="adm-review-actions">
+              <button type="button" className="adm-btn adm-btn-primary" disabled={state.busy || dirty} onClick={() => moderate('approved')}>
+                Publier dans les témoignages
+              </button>
+              <button type="button" className="adm-btn adm-btn-ghost danger" disabled={state.busy || dirty} onClick={() => moderate('rejected')}>Refuser</button>
+              {dirty && <span className="adm-help">Enregistrez d’abord vos modifications.</span>}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="adm-inline-fields">
         <label className="adm-field"><span className="adm-label">Client *</span><input className="adm-input" value={p.client} onChange={set('client')} /></label>
@@ -177,7 +217,7 @@ function Editor({ initial, onSaved, onDeleted, onDirty }) {
   );
 }
 
-export default function ClientsAdminPage({ onDirty }) {
+export default function ClientsAdminPage({ onDirty, onContentSaved }) {
   const [list, setList] = useState(null);
   const [error, setError] = useState('');
   const [current, setCurrent] = useState(null); // project object or blank()
@@ -235,7 +275,7 @@ export default function ClientsAdminPage({ onDirty }) {
           </ol>
         </div>
         {current ? (
-          <Editor key={key} initial={current} onSaved={onSaved} onDirty={onDirty}
+          <Editor key={key} initial={current} onSaved={onSaved} onDirty={onDirty} onContentSaved={onContentSaved}
             onDeleted={(id) => { setList((l) => l.filter((x) => x.id !== id)); setCurrent(null); }} />
         ) : <div className="adm-form-pane"><p className="adm-empty">Choisissez un projet ou créez-en un.</p></div>}
       </div>

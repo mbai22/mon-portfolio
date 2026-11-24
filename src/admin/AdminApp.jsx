@@ -2,16 +2,18 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   LayoutDashboard, Code2, PenTool, Clapperboard, Newspaper, MessageSquareQuote, HelpCircle,
   Briefcase, LogOut, ExternalLink, Loader2, Lock, Menu, X, ChevronRight,
-  BarChart3, Calculator, SplitSquareHorizontal, CalendarClock, FolderKanban, KeyRound,
+  BarChart3, Calculator, Receipt, SplitSquareHorizontal, CalendarClock, FolderKanban, KeyRound,
 } from 'lucide-react';
 import { getContent, getSession, login, logout } from './api';
 import { mergeContent } from '../content/store';
+import { useI18n } from '../i18n/context';
 import { useContentStatus } from '../content/useContent';
 import { CollectionPage, ServicesPage } from './pages';
 import StatsPage from './StatsPage';
 import EstimatorPage from './EstimatorPage';
 import BookingAdminPage from './BookingAdminPage';
 import ClientsAdminPage from './ClientsAdminPage';
+import DocumentsAdminPage from './DocumentsAdminPage';
 import SettingsPage from './SettingsPage';
 import './admin.css';
 
@@ -21,6 +23,7 @@ const NAV = [
   { group: 'Clients' },
   { id: 'bookings', label: 'Rendez-vous', icon: CalendarClock, sections: ['booking'] },
   { id: 'clients', label: 'Espace client', icon: FolderKanban },
+  { id: 'documents', label: 'Devis & factures', icon: Receipt },
   { id: 'estimator', label: 'Estimateur de devis', icon: Calculator, sections: ['estimator'] },
   { group: 'Portfolio' },
   { id: 'projects', label: 'Projets web', icon: Code2, sections: ['projects'] },
@@ -49,6 +52,13 @@ async function fetchSessionState() {
 }
 
 function usePageMetaAdmin() {
+  const { locale } = useI18n();
+  // The admin is in French, left to right, whatever language the visitor side uses
+  useEffect(() => {
+    document.documentElement.lang = 'fr';
+    document.documentElement.dir = 'ltr';
+  }, [locale]);
+
   useEffect(() => {
     const prevTitle = document.title;
     document.title = 'Administration | Willy Dev';
@@ -295,7 +305,8 @@ export default function AdminApp() {
     case 'stats': body = <StatsPage key="stats" />; break;
     case 'estimator': body = <EstimatorPage key="estimator" {...shared} />; break;
     case 'bookings': body = <BookingAdminPage key="bookings" {...shared} />; break;
-    case 'clients': body = <ClientsAdminPage key="clients" onDirty={onDirty} />; break;
+    case 'clients': body = <ClientsAdminPage key="clients" onDirty={onDirty} onContentSaved={onSaved} />; break;
+    case 'documents': body = <DocumentsAdminPage key="documents" onDirty={onDirty} />; break;
     case 'settings': body = <SettingsPage key="settings" />; break;
     default: body = <Overview content={content} customized={customized} go={go} />;
   }

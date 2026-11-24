@@ -1,4 +1,4 @@
-import { Star, Quote } from 'lucide-react';
+import { BadgeCheck, Star, Quote } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import { useContent } from '../content/useContent';
 import { useI18n } from '../i18n/context';
@@ -30,10 +30,13 @@ export default function Testimonials() {
               <blockquote className="testimonial-content">{testimonial.content}</blockquote>
 
               <figcaption className="testimonial-author">
-                <img src={testimonial.image} alt="" className="testimonial-avatar" loading="lazy" />
+                {testimonial.image
+                  ? <img src={testimonial.image} alt="" className="testimonial-avatar" loading="lazy" />
+                  : <span className="testimonial-avatar testimonial-initial" aria-hidden="true">{(testimonial.name || '?').charAt(0)}</span>}
                 <div>
                   <p className="testimonial-name">{testimonial.name}</p>
                   <p className="testimonial-role">{testimonial.role}</p>
+                  {testimonial.verified && <p className="testimonial-verified"><BadgeCheck size={13} /> {t('testimonials.verified')}</p>}
                 </div>
               </figcaption>
             </figure>

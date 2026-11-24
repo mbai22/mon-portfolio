@@ -24,6 +24,7 @@ const QuotePage = lazy(() => import('./pages/QuotePage'))
 const BookingPage = lazy(() => import('./pages/BookingPage'))
 const AuditPage = lazy(() => import('./pages/AuditPage'))
 const ClientPage = lazy(() => import('./pages/ClientPage'))
+const DocumentPage = lazy(() => import('./pages/DocumentPage'))
 
 // The assistant bubble is loaded in the browser only, after the page is shown:
 // it is not part of the prerendered home page (a lazy component there would
@@ -102,6 +103,14 @@ function Shell() {
     return (
       <Suspense fallback={<PageFallback />}>
         <ClientPage />
+      </Suspense>
+    )
+  }
+  // Private quote / invoice
+  if (pathname.startsWith('/document/')) {
+    return (
+      <Suspense fallback={<PageFallback />}>
+        <DocumentPage />
       </Suspense>
     )
   }
