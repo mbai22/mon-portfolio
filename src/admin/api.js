@@ -39,8 +39,8 @@ export async function getSession() {
   return data;
 }
 
-export async function login(password) {
-  const data = await call('/api/auth.php', { method: 'POST', body: { password } });
+export async function login(username, password) {
+  const data = await call('/api/auth.php', { method: 'POST', body: { username, password } });
   csrf = data.csrf || '';
   return data;
 }

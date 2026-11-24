@@ -57,7 +57,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (is_admin()) {
             json_out(['authenticated' => true, 'configured' => true, 'csrf' => $_SESSION['csrf']]);
         }
-        json_out(['authenticated' => false, 'configured' => $configured]);
+        json_out([
+            'authenticated' => false,
+            'configured' => $configured,
+            'needsUsername' => (string) (admin_config()['username'] ?? '') !== '',
+        ]);
 
     case 'POST':
         if (!$configured) {
@@ -69,10 +73,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         $body = read_json_body();
         $password = $body['password'] ?? '';
-        if (!is_string($password) || !password_verify($password, $hash)) {
+        $username = $body['username'] ?? '';
+        // Username is optional in the config; when set it must match (case and spaces ignored)
+        $expectedUser = (string) (admin_config()['username'] ?? '');
+        $normalize = fn ($u) => (function_exists("mb_strtolower") ? "mb_strtolower" : "strtolower")(preg_replace('/\s+/u', ' ', trim((string) $u)) ?? '');
+        $userOk = $expectedUser === '' || (is_string($username) && hash_equals($normalize($expectedUser), $normalize($username)));
+        $passOk = is_string($password) && password_verify($password, $hash);
+        if (!$userOk || !$passOk) {
             record_failure($ip);
             usleep(400000);
-            fail('Mot de passe incorrect.', 401);
+            fail('Identifiant ou mot de passe incorrect.', 401);
         }
         clear_failures($ip);
         start_admin_session();

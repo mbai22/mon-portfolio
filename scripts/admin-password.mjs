@@ -19,9 +19,19 @@ function askHidden(question) {
   });
 }
 
-const password = await askHidden('Nouveau mot de passe admin (12 caractères minimum) : ');
-if (password.length < 12) {
-  console.error('Mot de passe trop court : 12 caractères minimum.');
+const ask = (question) => new Promise((resolve) => {
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  rl.question(question, (answer) => { rl.close(); resolve(answer.trim()); });
+});
+
+const username = await ask('Nom d’utilisateur admin (laisser vide pour mot de passe seul) : ');
+if (username.includes("'") || username.includes('\\')) {
+  console.error('Le nom d’utilisateur ne peut pas contenir d’apostrophe ni de barre oblique inverse.');
+  process.exit(1);
+}
+const password = await askHidden('Nouveau mot de passe admin (10 caractères minimum) : ');
+if (password.length < 10) {
+  console.error('Mot de passe trop court : 10 caractères minimum.');
   process.exit(1);
 }
 if (password !== await askHidden('Confirmez le mot de passe : ')) {
@@ -41,6 +51,7 @@ writeFileSync(target, `<?php
 // never put it inside public_html. On Hostinger it goes in the folder that
 // CONTAINS public_html.
 return [
+    'username' => '${username}',
     'password_hash' => '${hash}',
 ];
 `);

@@ -46,7 +46,8 @@ function usePageMetaAdmin() {
   }, []);
 }
 
-function Login({ configured, onDone }) {
+function Login({ configured, needsUsername, onDone }) {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -56,7 +57,7 @@ function Login({ configured, onDone }) {
     setBusy(true);
     setError('');
     try {
-      await login(password);
+      await login(username, password);
       onDone();
     } catch (err) {
       setError(err.message);
@@ -76,13 +77,20 @@ function Login({ configured, onDone }) {
           </p>
         ) : (
           <>
+            {needsUsername && (
+              <label className="adm-field">
+                <span className="adm-label">Nom d’utilisateur</span>
+                <input className="adm-input" value={username} autoFocus autoComplete="username"
+                  onChange={(e) => setUsername(e.target.value)} required />
+              </label>
+            )}
             <label className="adm-field">
               <span className="adm-label">Mot de passe</span>
-              <input type="password" className="adm-input" value={password} autoFocus autoComplete="current-password"
+              <input type="password" className="adm-input" value={password} autoFocus={!needsUsername} autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)} required />
             </label>
             {error && <p className="adm-field-error" role="alert">{error}</p>}
-            <button className="adm-btn adm-btn-primary adm-btn-block" disabled={busy || !password}>
+            <button className="adm-btn adm-btn-primary adm-btn-block" disabled={busy || !password || (needsUsername && !username.trim())}>
               {busy ? <Loader2 size={16} className="adm-spin" /> : <Lock size={16} />} Se connecter
             </button>
           </>
@@ -239,7 +247,7 @@ export default function AdminApp() {
     await logout();
     dirtyRef.current.clear();
     setContent(null);
-    setSession({ authenticated: false, configured: true });
+    await loadSession();
   };
 
   if (session === null) {
@@ -250,7 +258,7 @@ export default function AdminApp() {
     return (
       <>
         {sessionError && <p className="adm-banner-error">{sessionError}</p>}
-        <Login configured={session.configured} onDone={loadSession} />
+        <Login configured={session.configured} needsUsername={session.needsUsername} onDone={loadSession} />
       </>
     );
   }

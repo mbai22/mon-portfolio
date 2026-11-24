@@ -31,8 +31,9 @@ domains/willydev.online/
    npm run admin:password
    ```
 
-   Choisissez un mot de passe d'au moins 12 caractères. Le script crée `willydev-admin.php` (ignoré par Git),
-   qui ne contient que l'empreinte (hash) du mot de passe, jamais le mot de passe lui-même.
+   Indiquez un nom d'utilisateur (facultatif, ni majuscules ni espaces multiples ne comptent à la connexion)
+   et un mot de passe d'au moins 10 caractères. Le script crée `willydev-admin.php` (ignoré par Git),
+   qui contient le nom d'utilisateur et l'empreinte (hash) du mot de passe, jamais le mot de passe lui-même.
 
 2. **Envoyer ce fichier sur Hostinger** : hPanel → Gestionnaire de fichiers → ouvrez `domains/willydev.online/`
    (le dossier qui **contient** `public_html`, pas `public_html` lui-même) → Importer `willydev-admin.php`.
@@ -46,8 +47,9 @@ Pour changer de mot de passe : relancez `npm run admin:password` et remplacez le
 
 ## Sécurité
 
-- Connexion par mot de passe (hash bcrypt), session de 8 h, cookie `HttpOnly` + `Secure` + `SameSite=Strict`.
-- Blocage de 15 minutes après 5 mots de passe erronés depuis la même adresse IP.
+- Connexion par nom d'utilisateur + mot de passe (hash bcrypt), session de 8 h,
+  cookie `HttpOnly` + `Secure` + `SameSite=Strict`.
+- Blocage de 15 minutes après 5 tentatives erronées depuis la même adresse IP.
 - Chaque modification exige un jeton anti-CSRF lié à la session.
 - Envoi d'images : JPG, PNG, WebP ou GIF uniquement (type vérifié sur le contenu réel du fichier), 8 Mo maximum.
 - `/admin` et `/api/` sont exclus des moteurs de recherche (`robots.txt` + balise `noindex`).
