@@ -24,7 +24,16 @@ export default function Hero() {
         </div>
 
         <div className="hero-photo">
-          <img src="/assets/img/willy-hero.webp" alt="Willy, développeur web et mobile, graphiste et monteur vidéo à N'Djamena" width="1334" height="2000" fetchPriority="high" />
+          {/* Keep srcSet/sizes in sync with the preload in index.html */}
+          <img
+            src="/assets/img/willy-hero.webp"
+            srcSet="/assets/img/willy-hero-828.webp 828w, /assets/img/willy-hero-1000.webp 1000w, /assets/img/willy-hero.webp 1334w"
+            sizes="(max-width: 768px) 67vh, (max-width: 1024px) 400px, 600px"
+            alt="Willy, développeur web et mobile, graphiste et monteur vidéo à N'Djamena"
+            width="1334"
+            height="2000"
+            fetchPriority="high"
+          />
         </div>
 
         <aside className="hero-right">

@@ -1,5 +1,5 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import './styles.css'
 import './css/navbar.css'
 import './css/hero.css'
@@ -29,10 +29,19 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   });
 }
 
-createRoot(document.getElementById('root')).render(
+const app = (
   <StrictMode>
     <I18nProvider>
       <App />
     </I18nProvider>
-  </StrictMode>,
+  </StrictMode>
 )
+const root = document.getElementById('root')
+
+// The home page is prerendered at build time (scripts/prerender.mjs): reuse that HTML.
+// Other pages are served from an empty shell (app.html) and rendered from scratch.
+if (root.hasChildNodes()) {
+  hydrateRoot(root, app)
+} else {
+  createRoot(root).render(app)
+}

@@ -67,12 +67,20 @@ function Shell() {
   return <PublicSite />
 }
 
+// Router-free part of the app, shared by the browser (BrowserRouter) and the
+// build-time prerender of the home page (StaticRouter, see src/entry-server.jsx)
+export function AppContent() {
+  return (
+    <ContentProvider>
+      <Shell />
+    </ContentProvider>
+  )
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <ContentProvider>
-        <Shell />
-      </ContentProvider>
+      <AppContent />
     </BrowserRouter>
   )
 }
