@@ -3,6 +3,40 @@
 L'espace **willydev.online/admin** permet de modifier le contenu du site sans toucher au code et sans redéployer :
 projets web, design graphique, vidéos, articles de blog, témoignages, FAQ et services (tarifs en FCFA).
 
+## Fonctionnalités
+
+| Fonctionnalité | Page publique | Dans l'admin | Données (hors `public_html`) |
+|---|---|---|---|
+| Statistiques de visite (sans cookie ni IP) | toutes | Statistiques | `willydev-data/stats/AAAA-MM.json` |
+| Estimateur de devis en FCFA, envoi sur WhatsApp | `/devis` | Estimateur de devis | `content.json` (section `estimator`) |
+| Curseur avant / après | `/portfolio` | Avant / après | `content.json` (section `beforeAfter`) |
+| Réservation d'appel découverte + e-mail | `/rendez-vous` | Rendez-vous | `willydev-data/bookings.json` |
+| Audit gratuit de site (Google PageSpeed) | `/audit` | Clés & configuration | cache 12 h dans `willydev-data/audit-cache/` |
+| Assistant IA (Claude) dans une bulle | toutes | Clés & configuration | aucune conversation stockée |
+| Espace client privé (`/client/<lien secret>`) + e-mail | `/client/…` | Espace client | `willydev-data/clients.json` |
+| Site en français, anglais et arabe (droite à gauche) | accueil | — | choix du visiteur gardé dans son navigateur |
+
+Les traductions anglaise et arabe de la FAQ et des services sont dans `src/i18n/en.js` et `src/i18n/ar.js`.
+Dès qu'une de ces sections est modifiée dans l'admin (en français), c'est la version de l'admin qui s'affiche
+dans toutes les langues. Les pages Portfolio, Blog, Devis, Rendez-vous et Audit restent en français.
+
+## Clés d'API (assistant IA et audit)
+
+Elles ne sont **jamais** dans le code ni dans Git. Le serveur les lit dans `willydev-secrets.php`, rangé à côté de
+`public_html` (même principe que `willydev-admin.php`) :
+
+```php
+<?php
+return [
+    'anthropic_api_key' => '…',   // console.anthropic.com → API Keys (payant à l'usage)
+    'pagespeed_api_key' => '…',   // Google Cloud → PageSpeed Insights API → Identifiants (gratuit)
+];
+```
+
+Importez ce fichier dans `public_html` avec le Gestionnaire de fichiers de hPanel : l'admin le déplace tout seul hors du
+dossier public au premier appel (page **Clés & configuration**, qui affiche aussi l'état de chaque clé).
+Sans clé, l'assistant reste masqué et la page `/audit` propose de demander l'audit sur WhatsApp.
+
 ## Comment ça marche
 
 - Le contenu « d'origine » est dans `src/data/*.js` (livré avec le site).

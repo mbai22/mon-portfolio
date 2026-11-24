@@ -1,5 +1,6 @@
-# Admin API: only the public endpoints are reachable; helpers stay private
+# Admin API: only the public endpoints are reachable; helpers and data files
+# whose name starts with "_" (_lib.php, _knowledge.json) stay private
 Options -Indexes
-<Files "_lib.php">
+<FilesMatch "^_">
   Require all denied
-</Files>
+</FilesMatch>

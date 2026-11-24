@@ -126,6 +126,31 @@ export function Field({ field, item, onChange, options }) {
     case 'date':
       control = <input id={id} type="date" className="adm-input" value={value || ''} onChange={(e) => set(e.target.value)} />;
       break;
+    case 'number':
+      control = (
+        <div className={field.suffix ? 'adm-prefixed adm-suffixed' : undefined}>
+          <input id={id} type="number" inputMode="decimal" className="adm-input" min={field.min} max={field.max} step={field.step || 1}
+            value={value ?? ''} onChange={(e) => set(e.target.value === '' ? '' : Number(e.target.value))} />
+          {field.suffix && <span>{field.suffix}</span>}
+        </div>
+      );
+      break;
+    case 'checklist': {
+      const list = options[field.options] || [];
+      const selected = Array.isArray(value) ? value : [];
+      control = (
+        <div className="adm-checklist" id={id}>
+          {list.map((o) => (
+            <label key={o.value} className="adm-check">
+              <input type="checkbox" checked={selected.includes(o.value)}
+                onChange={(e) => set(e.target.checked ? [...selected, o.value] : selected.filter((v) => v !== o.value))} />
+              <span>{o.label}</span>
+            </label>
+          ))}
+        </div>
+      );
+      break;
+    }
     case 'select':
       control = (
         <select id={id} className="adm-input" value={value || ''} onChange={(e) => set(e.target.value)}>

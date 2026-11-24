@@ -6,6 +6,8 @@ import { articles } from '../data/posts';
 import { testimonials } from '../data/testimonials';
 import { faq } from '../data/faq';
 import { services } from '../data/services';
+import { estimator } from '../data/estimator';
+import { booking } from '../data/booking';
 
 export const defaultContent = {
   projects,
@@ -17,4 +19,8 @@ export const defaultContent = {
   testimonials,
   faq,
   services,
+  estimator,
+  // Before/after comparisons for the portfolio page (added from /admin)
+  beforeAfter: [],
+  booking,
 };

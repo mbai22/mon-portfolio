@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Send, Mail, MapPin, Clock, ChevronsRight } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import { socialLinks, CONTACT_EMAIL } from '../data/social';
+import { useI18n } from '../i18n/context';
 
 const contactInfo = [
-  { icon: MapPin, label: "Localisation", value: "N'Djamena, Tchad" },
-  { icon: Mail, label: "Email", value: CONTACT_EMAIL },
-  { icon: Clock, label: "Disponibilité", value: "Lun - Sam, 9h - 20h" }
+  { icon: MapPin, label: 'contact.location', value: 'contact.locationValue' },
+  { icon: Mail, label: 'contact.email', value: null },
+  { icon: Clock, label: 'contact.availability', value: 'contact.availabilityValue' }
 ];
 
 const subjectOptions = [
@@ -22,6 +23,7 @@ const subjectOptions = [
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const { t } = useI18n();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
@@ -30,10 +32,10 @@ export default function Contact() {
 
   const validateField = (name, value) => {
     switch (name) {
-      case 'name': return value.trim().length >= 2 ? '' : 'Le nom doit contenir au moins 2 caractères';
-      case 'email': return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : 'Email invalide';
-      case 'message': return value.trim().length >= 10 ? '' : 'Le message doit contenir au moins 10 caractères';
-      case 'subject': return value ? '' : 'Veuillez sélectionner un sujet';
+      case 'name': return value.trim().length >= 2 ? '' : t('contact.errors.name');
+      case 'email': return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : t('contact.errors.email');
+      case 'message': return value.trim().length >= 10 ? '' : t('contact.errors.message');
+      case 'subject': return value ? '' : t('contact.errors.subject');
       default: return '';
     }
   };
@@ -80,7 +82,7 @@ export default function Contact() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Erreur lors de l'envoi");
+        throw new Error(data.error || t('contact.sendError'));
       }
 
       setSubmitted(true);
@@ -105,10 +107,10 @@ export default function Contact() {
     <section id="contact" className="section section-light contact-section">
       <div className="container contact-grid">
         <div className="contact-intro">
-          <Eyebrow>Contact</Eyebrow>
-          <h2 className="section-title">Travaillons ensemble</h2>
+          <Eyebrow>{t('contact.eyebrow')}</Eyebrow>
+          <h2 className="section-title">{t('contact.title')}</h2>
           <p className="section-text">
-            Prêt à transformer votre idée en projet web ? Contactez-moi pour discuter de vos besoins.
+            {t('contact.text')}
           </p>
 
           <ul className="contact-info-list">
@@ -118,8 +120,8 @@ export default function Contact() {
                   <item.icon size={18} />
                 </span>
                 <div>
-                  <p className="contact-info-label">{item.label}</p>
-                  <p className="contact-info-value">{item.value}</p>
+                  <p className="contact-info-label">{t(item.label)}</p>
+                  <p className="contact-info-value">{item.value ? t(item.value) : CONTACT_EMAIL}</p>
                 </div>
               </li>
             ))}
@@ -142,15 +144,15 @@ export default function Contact() {
         </div>
 
         <div className="contact-card">
-          <h3 className="contact-card-title display">Envoyer un message</h3>
+          <h3 className="contact-card-title display">{t('contact.formTitle')}</h3>
 
           {submitted ? (
             <div className="contact-success" role="status">
               <span className="contact-success-icon">
                 <Send size={28} />
               </span>
-              <h4 className="contact-success-title display">Message envoyé !</h4>
-              <p>Je vous répondrai dans les plus brefs délais.</p>
+              <h4 className="contact-success-title display">{t('contact.successTitle')}</h4>
+              <p>{t('contact.successText')}</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="contact-form" noValidate>
@@ -162,7 +164,7 @@ export default function Contact() {
 
               <div className="contact-form-row">
                 <div className="contact-form-group">
-                  <label className="contact-form-label" htmlFor="name">Nom complet</label>
+                  <label className="contact-form-label" htmlFor="name">{t('contact.name')}</label>
                   <input
                     id="name"
                     type="text"
@@ -171,12 +173,12 @@ export default function Contact() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={fieldClass('name')}
-                    placeholder="Jean Dupont"
+                    placeholder={t('contact.namePh')}
                   />
                   {touched.name && errors.name && <p className="contact-error-text">{errors.name}</p>}
                 </div>
                 <div className="contact-form-group">
-                  <label className="contact-form-label" htmlFor="email">Adresse email</label>
+                  <label className="contact-form-label" htmlFor="email">{t('contact.emailLabel')}</label>
                   <input
                     id="email"
                     type="email"
@@ -185,14 +187,14 @@ export default function Contact() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={fieldClass('email')}
-                    placeholder="jean@exemple.com"
+                    placeholder={t('contact.emailPh')}
                   />
                   {touched.email && errors.email && <p className="contact-error-text">{errors.email}</p>}
                 </div>
               </div>
 
               <div className="contact-form-group">
-                <label className="contact-form-label" htmlFor="subject">Sujet</label>
+                <label className="contact-form-label" htmlFor="subject">{t('contact.subject')}</label>
                 <select
                   id="subject"
                   name="subject"
@@ -202,14 +204,14 @@ export default function Contact() {
                   className={fieldClass('subject')}
                 >
                   {subjectOptions.map(opt => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    <option key={opt.value} value={opt.value}>{t(`contact.subjects.${opt.value}`)}</option>
                   ))}
                 </select>
                 {touched.subject && errors.subject && <p className="contact-error-text">{errors.subject}</p>}
               </div>
 
               <div className="contact-form-group">
-                <label className="contact-form-label" htmlFor="message">Message</label>
+                <label className="contact-form-label" htmlFor="message">{t('contact.message')}</label>
                 <textarea
                   id="message"
                   name="message"
@@ -218,16 +220,16 @@ export default function Contact() {
                   onBlur={handleBlur}
                   rows={5}
                   className={fieldClass('message')}
-                  placeholder="Décrivez votre projet en détail..."
+                  placeholder={t('contact.messagePh')}
                 />
                 <div className="contact-form-footer">
                   {touched.message && errors.message ? <p className="contact-error-text">{errors.message}</p> : <span />}
-                  <span className="contact-char-count">{formData.message.length} caractères</span>
+                  <span className="contact-char-count">{t('contact.chars', { n: formData.message.length })}</span>
                 </div>
               </div>
 
               <button type="submit" disabled={isSubmitting} className="btn-pill contact-submit">
-                {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
+                {isSubmitting ? t('contact.sending') : t('contact.send')}
                 <span className="circle-icon">
                   {isSubmitting ? <span className="contact-spinner animate-spin" /> : <ChevronsRight size={16} />}
                 </span>

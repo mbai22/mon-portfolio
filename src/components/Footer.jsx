@@ -2,44 +2,48 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, Mail } from 'lucide-react';
 import WhatsAppIcon from './WhatsAppIcon';
 import { useSectionNav } from '../hooks/useSectionNav';
-import { socialLinks, WHATSAPP_URL, CONTACT_EMAIL } from '../data/social';
+import { socialLinks, CONTACT_EMAIL } from '../data/social';
+import { useI18n } from '../i18n/context';
 
 const footerLinks = {
   navigation: [
-    { label: "Accueil", id: "hero" },
-    { label: "À propos", id: "about" },
-    { label: "Compétences", id: "skills" },
-    { label: "Services", id: "services" }
+    { label: 'nav.home', id: 'hero' },
+    { label: 'nav.about', id: 'about' },
+    { label: 'nav.skills', id: 'skills' },
+    { label: 'nav.services', id: 'services' }
   ],
   more: [
-    { label: "Portfolio", to: "/portfolio" },
-    { label: "Blog", id: "blog" },
-    { label: "FAQ", id: "faq" },
-    { label: "Contact", id: "contact" }
+    { label: 'nav.portfolio', to: '/portfolio' },
+    { label: 'footer.estimate', to: '/devis' },
+    { label: 'footer.book', to: '/rendez-vous' },
+    { label: 'footer.audit', to: '/audit' },
+    { label: 'nav.blog', id: 'blog' },
+    { label: 'nav.faq', id: 'faq' }
   ]
 };
 
 export default function Footer() {
   const goTo = useSectionNav();
+  const { t } = useI18n();
 
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer-cta">
-          <h2 className="footer-cta-title display">Prêt à lancer<br />votre projet ?</h2>
+          <h2 className="footer-cta-title display">{t('footer.ctaTitle1')}<br />{t('footer.ctaTitle2')}</h2>
 
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="footer-cta-card">
+          <Link to="/rendez-vous" className="footer-cta-card">
             <div className="footer-cta-card-text">
               <div className="footer-cta-icons" aria-hidden="true">
                 <span><WhatsAppIcon size={14} /></span>
                 <span><Mail size={14} /></span>
               </div>
-              <span className="display">Réservez un appel<br />découverte de 15 min</span>
+              <span className="display">{t('footer.ctaCard1')}<br />{t('footer.ctaCard2')}</span>
             </div>
             <span className="footer-cta-arrow" aria-hidden="true">
               <ArrowUpRight size={18} />
             </span>
-          </a>
+          </Link>
         </div>
 
         <div className="footer-card">
@@ -49,7 +53,7 @@ export default function Footer() {
                 <img src="/assets/logo-hero.png" alt="WillyDev" />
               </a>
               <p className="footer-description">
-                Développement d'applications web et mobiles, design graphique et montage vidéo à N'Djamena, au Tchad.
+                {t('footer.description')}
               </p>
               <div className="social-row footer-social">
                 {socialLinks.map((social) => (
@@ -68,42 +72,42 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="footer-title display">Navigation</h3>
+              <h3 className="footer-title display">{t('footer.navigation')}</h3>
               <ul className="footer-links">
                 {footerLinks.navigation.map((link) => (
                   <li key={link.id}>
-                    <a href={`#${link.id}`} onClick={goTo(link.id)}>{link.label}</a>
+                    <a href={`#${link.id}`} onClick={goTo(link.id)}>{t(link.label)}</a>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <h3 className="footer-title display">Plus</h3>
+              <h3 className="footer-title display">{t('footer.more')}</h3>
               <ul className="footer-links">
                 {footerLinks.more.map((link) => (
                   <li key={link.label}>
                     {link.to
-                      ? <Link to={link.to}>{link.label}</Link>
-                      : <a href={`#${link.id}`} onClick={goTo(link.id)}>{link.label}</a>}
+                      ? <Link to={link.to}>{t(link.label)}</Link>
+                      : <a href={`#${link.id}`} onClick={goTo(link.id)}>{t(link.label)}</a>}
                   </li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <h3 className="footer-title display">Contact</h3>
+              <h3 className="footer-title display">{t('footer.contact')}</h3>
               <ul className="footer-links">
                 <li><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
-                <li>N'Djamena, Tchad</li>
-                <li>Lun - Sam, 9h - 20h</li>
+                <li>{t('contact.locationValue')}</li>
+                <li>{t('footer.hours')}</li>
               </ul>
             </div>
           </div>
 
           <div className="footer-bottom">
-            <p>© {new Date().getFullYear()} WillyDev. Tous droits réservés.</p>
-            <p>Fait avec passion au Tchad</p>
+            <p>© {new Date().getFullYear()} WillyDev. {t('footer.rights')}</p>
+            <p>{t('footer.made')}</p>
           </div>
         </div>
       </div>

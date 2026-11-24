@@ -1,6 +1,7 @@
 import { Code2, Server, GitBranch, PenTool, Clapperboard, ChevronLeft, ChevronRight } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import { useCarousel } from '../hooks/useCarousel';
+import { useI18n } from '../i18n/context';
 
 const skillCategories = [
   {
@@ -56,20 +57,21 @@ const skillCategories = [
 
 export default function Skills() {
   const { scrollRef, scroll } = useCarousel({ cardSelector: '.skill-card' });
+  const { t } = useI18n();
 
   return (
     <section id="skills" className="section section-darker skills-section">
       <div className="container">
         <div className="skills-head">
           <div className="skills-head-text">
-            <Eyebrow>Compétences</Eyebrow>
-            <h2 className="section-title">Une boîte à outils complète</h2>
+            <Eyebrow>{t('skills.eyebrow')}</Eyebrow>
+            <h2 className="section-title">{t('skills.title')}</h2>
           </div>
           <div className="skills-arrows">
-            <button className="skills-arrow" onClick={() => scroll(-1)} aria-label="Précédent">
+            <button className="skills-arrow" onClick={() => scroll(-1)} aria-label={t('skills.prev')}>
               <ChevronLeft size={20} />
             </button>
-            <button className="skills-arrow skills-arrow-primary" onClick={() => scroll(1)} aria-label="Suivant">
+            <button className="skills-arrow skills-arrow-primary" onClick={() => scroll(1)} aria-label={t('skills.next')}>
               <ChevronRight size={20} />
             </button>
           </div>
@@ -82,7 +84,7 @@ export default function Skills() {
                 <span className="skill-card-icon">
                   <category.icon size={20} />
                 </span>
-                <h3 className="skill-card-title display">{category.name}</h3>
+                <h3 className="skill-card-title display">{category.name === 'Vidéo' ? t('skills.video') : category.name}</h3>
               </div>
               <ul className="skill-list">
                 {category.skills.map((skill) => (

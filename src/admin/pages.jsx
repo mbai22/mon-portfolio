@@ -1,63 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Check, Loader2, Plus, RotateCcw, Save, X } from 'lucide-react';
 import ListEditor from './ListEditor';
-import { schemas, slugify, validate, youtubeId } from './schemas';
-import { resetSection, saveSection } from './api';
-import { defaultContent } from '../content/defaults';
+import { schemas, slugify, validate } from './schemas';
+import { finalize, useDraft, useShownErrors } from './draft';
 
-const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-
-// Local draft of one content section + save / revert / reset helpers
-function useDraft(section, value, { onSaved, onDirty }) {
-  const [draft, setDraft] = useState(value);
-  const [saved, setSaved] = useState(value);
-  const dirty = !same(draft, saved);
-
-  useEffect(() => { onDirty(section, dirty); }, [section, dirty, onDirty]);
-  useEffect(() => () => onDirty(section, false), [section, onDirty]);
-
-  return {
-    draft,
-    setDraft,
-    dirty,
-    revert: () => setDraft(saved),
-    async save(data = draft) {
-      await saveSection(section, data);
-      setDraft(data);
-      setSaved(data);
-      onSaved(section, data);
-    },
-    async reset() {
-      await resetSection(section);
-      const original = defaultContent[section];
-      setDraft(original);
-      setSaved(original);
-      onSaved(section, original, true);
-    },
-  };
-}
-
-// Fill automatic values before saving (blog slug from title, YouTube id from a link)
-function finalize(schema, items) {
-  return items.map((item) => {
-    const out = { ...item };
-    for (const field of schema.fields) {
-      if (field.type === 'slug' && !out[field.name]) out[field.name] = slugify(out[field.from]);
-      if (field.type === 'youtube' && out[field.name]) out[field.name] = youtubeId(out[field.name]);
-      if (field.type === 'lines' && Array.isArray(out[field.name])) out[field.name] = out[field.name].map((l) => l.trim()).filter(Boolean);
-    }
-    for (const key of Object.keys(out)) if (out[key] === '' && !schema.fields.some((f) => f.name === key && f.required)) delete out[key];
-    return out;
-  });
-}
-
-// Errors are only shown once the user tried to save
-function useShownErrors(errors) {
-  const [attempted, setAttempted] = useState(false);
-  return { shown: attempted ? errors : [], onBlocked: () => setAttempted(true), reset: () => setAttempted(false) };
-}
-
-function SaveBar({ dirty, customized, errors, onSave, onRevert, onReset, onBlocked }) {
+export function SaveBar({ dirty, customized, errors, onSave, onRevert, onReset, onBlocked }) {
   const [state, setState] = useState('idle'); // idle | saving | saved | error
   const [message, setMessage] = useState('');
   const [tried, setTried] = useState(false);
@@ -114,7 +61,7 @@ function SaveBar({ dirty, customized, errors, onSave, onRevert, onReset, onBlock
   );
 }
 
-function PageHead({ title, description, children }) {
+export function PageHead({ title, description, children }) {
   return (
     <header className="adm-page-head">
       <div>
@@ -126,7 +73,7 @@ function PageHead({ title, description, children }) {
   );
 }
 
-function ChipsEditor({ label, values, onChange, used = [] }) {
+export function ChipsEditor({ label, values, onChange, used = [] }) {
   const [text, setText] = useState('');
   const add = () => {
     const v = text.trim();

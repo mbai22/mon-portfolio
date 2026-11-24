@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Code2, PenTool, Clapperboard, Play, X, ChevronsRight } from 'lucide-react';
+import { Code2, PenTool, Clapperboard, Play, X, ChevronsRight, SplitSquareHorizontal } from 'lucide-react';
 import Eyebrow from '../components/Eyebrow';
+import BeforeAfterList from '../components/BeforeAfter';
 import ProjectCard from '../components/ProjectCard';
 import { useContent, useProjects } from '../content/useContent';
 import { usePageMeta } from '../hooks/usePageMeta';
@@ -122,13 +123,14 @@ function VideoCard({ video }) {
 
 export default function PortfolioPage() {
   const { projects, filters } = useProjects();
-  const { designWorks, designCategories, videoWorks, videoCategories } = useContent();
+  const { designWorks, designCategories, videoWorks, videoCategories, beforeAfter = [] } = useContent();
   const designFilters = usedCategories(designCategories, designWorks);
   const videoFilters = usedCategories(videoCategories, videoWorks);
   const sections = [
     { id: 'realisations-code', label: 'Développement', icon: Code2, count: projects.length },
     { id: 'realisations-design', label: 'Design graphique', icon: PenTool, count: designWorks.length },
     { id: 'realisations-video', label: 'Montage vidéo', icon: Clapperboard, count: videoWorks.length },
+    ...(beforeAfter.length ? [{ id: 'avant-apres', label: 'Avant / après', icon: SplitSquareHorizontal, count: beforeAfter.length }] : []),
   ];
   const code = useFilter(projects, 'type');
   const design = useFilter(designWorks, 'category');
@@ -259,6 +261,19 @@ export default function PortfolioPage() {
           </div>
         </div>
       </section>
+
+      {beforeAfter.length > 0 && (
+        <section id="avant-apres" className="section section-dark pf-section">
+          <div className="container">
+            <SectionHead
+              eyebrow="Avant / après"
+              title="La différence, en un coup de curseur"
+              text="Faites glisser le curseur pour comparer la version d’origine et le résultat."
+            />
+            <BeforeAfterList items={beforeAfter} />
+          </div>
+        </section>
+      )}
 
       {openWork && <Lightbox work={openWork} onClose={() => setOpenWork(null)} />}
     </main>

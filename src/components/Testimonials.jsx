@@ -1,23 +1,25 @@
 import { Star, Quote } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import { useContent } from '../content/useContent';
+import { useI18n } from '../i18n/context';
 
 export default function Testimonials() {
   const { testimonials } = useContent();
+  const { t } = useI18n();
 
   return (
     <section id="testimonials" className="section section-dark">
       <div className="container">
         <div className="section-head">
-          <Eyebrow>Témoignages</Eyebrow>
-          <h2 className="section-title">Ce que disent mes clients</h2>
+          <Eyebrow>{t('testimonials.eyebrow')}</Eyebrow>
+          <h2 className="section-title">{t('testimonials.title')}</h2>
         </div>
 
         <div className="testimonials-grid">
           {testimonials.map((testimonial) => (
             <figure key={testimonial.name} className="testimonial-card">
               <div className="testimonial-top">
-                <div className="testimonial-rating" aria-label={`${testimonial.rating} étoiles sur 5`}>
+                <div className="testimonial-rating" aria-label={t('testimonials.stars', { n: testimonial.rating })}>
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} size={14} fill="currentColor" />
                   ))}

@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import { ArrowDown, ArrowRight } from 'lucide-react';
 import { useSectionNav } from '../hooks/useSectionNav';
 import { socialLinks } from '../data/social';
+import { useI18n } from '../i18n/context';
 
 export default function Hero() {
   const goTo = useSectionNav();
+  const { t } = useI18n();
 
   return (
     <section id="hero" className="hero">
@@ -12,13 +14,13 @@ export default function Hero() {
         <div className="hero-left">
           <span className="hero-line" aria-hidden="true" />
           <h1 className="hero-title">
-            Je suis Willy,<br />
-            Développeur Web & Mobile
+            {t('hero.title1')}<br />
+            {t('hero.title2')}
           </h1>
           <p className="hero-text">
-            Développement d'applications web et mobiles, design graphique et montage vidéo à N'Djamena : je donne vie à vos idées.
+            {t('hero.text')}
           </p>
-          <a href="#about" onClick={goTo('about')} className="hero-scroll" aria-label="Défiler vers la section À propos">
+          <a href="#about" onClick={goTo('about')} className="hero-scroll" aria-label={t('hero.scroll')}>
             <ArrowDown size={26} />
           </a>
         </div>
@@ -29,7 +31,7 @@ export default function Hero() {
             src="/assets/img/willy-hero.webp"
             srcSet="/assets/img/willy-hero-828.webp 828w, /assets/img/willy-hero-1000.webp 1000w, /assets/img/willy-hero.webp 1334w"
             sizes="(max-width: 768px) 67vh, (max-width: 1024px) 400px, 600px"
-            alt="Willy, développeur web et mobile, graphiste et monteur vidéo à N'Djamena"
+            alt={t('hero.alt')}
             width="1334"
             height="2000"
             fetchPriority="high"
@@ -38,23 +40,23 @@ export default function Hero() {
 
         <aside className="hero-right">
           <div className="hero-block">
-            <p className="hero-block-title">À propos</p>
-            <p>Développeur full stack, designer UI/UX et vidéaste basé à N'Djamena, au Tchad.</p>
+            <p className="hero-block-title">{t('hero.aboutTitle')}</p>
+            <p>{t('hero.aboutText')}</p>
             <a href="#about" onClick={goTo('about')} className="link-arrow">
-              En savoir plus <ArrowRight size={14} />
+              {t('hero.more')} <ArrowRight size={14} />
             </a>
           </div>
 
           <div className="hero-block">
-            <p className="hero-block-title">Mon travail</p>
-            <p>Sites internet, applications web et mobiles, design graphique et montage vidéo.</p>
+            <p className="hero-block-title">{t('hero.workTitle')}</p>
+            <p>{t('hero.workText')}</p>
             <Link to="/portfolio" className="link-arrow">
-              Voir le portfolio <ArrowRight size={14} />
+              {t('hero.seePortfolio')} <ArrowRight size={14} />
             </Link>
           </div>
 
           <div className="hero-block hero-follow">
-            <p className="hero-block-title">Suivez-moi</p>
+            <p className="hero-block-title">{t('hero.follow')}</p>
             <div className="social-row">
               {socialLinks.map((social) => (
                 <a

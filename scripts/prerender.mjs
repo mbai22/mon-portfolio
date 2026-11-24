@@ -13,8 +13,11 @@ const shell = readFileSync(path.join(dist, 'index.html'), 'utf8');
 const marker = '<div id="root"></div>';
 if (!shell.includes(marker)) throw new Error('prerender: <div id="root"></div> not found in dist/index.html');
 
-const { render } = await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href);
+const { render, knowledge } = await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href);
 const html = render('/');
+
+// Built-in content the website assistant answers from (api/chat.php; private, see api/.htaccess)
+writeFileSync(path.join(dist, 'api', '_knowledge.json'), JSON.stringify(knowledge));
 if (!html.includes('<main')) throw new Error('prerender: home page rendered without <main>');
 
 writeFileSync(path.join(dist, 'app.html'), shell);

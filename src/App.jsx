@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -16,9 +16,27 @@ import PortfolioPage from './pages/PortfolioPage'
 import BlogPostPage from './pages/BlogPostPage'
 import { usePageMeta } from './hooks/usePageMeta'
 import { ContentProvider } from './content/ContentContext'
+import { trackOutboundClicks, trackView } from './content/track'
 
-// The admin is its own bundle: visitors never download it
+// Separate bundles: loaded only when these pages are opened
 const AdminApp = lazy(() => import('./admin/AdminApp'))
+const QuotePage = lazy(() => import('./pages/QuotePage'))
+const BookingPage = lazy(() => import('./pages/BookingPage'))
+const AuditPage = lazy(() => import('./pages/AuditPage'))
+const ClientPage = lazy(() => import('./pages/ClientPage'))
+
+// The assistant bubble is loaded in the browser only, after the page is shown:
+// it is not part of the prerendered home page (a lazy component there would
+// make React discard the server HTML).
+function ChatBubble() {
+  const [Widget, setWidget] = useState(null)
+  useEffect(() => {
+    let cancelled = false
+    import('./components/ChatWidget').then((m) => { if (!cancelled) setWidget(() => m.default) })
+    return () => { cancelled = true }
+  }, [])
+  return Widget ? <Widget /> : null
+}
 
 function Home() {
   usePageMeta({ path: '/' })
@@ -38,19 +56,34 @@ function Home() {
   )
 }
 
+function PageFallback() {
+  return <main className="page-loading" aria-busy="true" />
+}
+
 function PublicSite() {
+  const { pathname } = useLocation()
+
+  useEffect(() => { trackView(pathname) }, [pathname])
+  useEffect(() => trackOutboundClicks(), [])
+
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/projets" element={<Navigate to="/portfolio" replace />} />
-        <Route path="/blog/:slug" element={<BlogPostPage />} />
-        <Route path="*" element={<Home />} />
-      </Routes>
+      <Suspense fallback={<PageFallback />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/projets" element={<Navigate to="/portfolio" replace />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/devis" element={<QuotePage />} />
+          <Route path="/rendez-vous" element={<BookingPage />} />
+          <Route path="/audit" element={<AuditPage />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </Suspense>
       <Footer />
       <WhatsAppWidget />
+      <ChatBubble />
     </>
   )
 }
@@ -61,6 +94,14 @@ function Shell() {
     return (
       <Suspense fallback={<div className="admin-boot" aria-busy="true" />}>
         <AdminApp />
+      </Suspense>
+    )
+  }
+  // Private project page for a client: no site navigation, no statistics
+  if (pathname.startsWith('/client/')) {
+    return (
+      <Suspense fallback={<PageFallback />}>
+        <ClientPage />
       </Suspense>
     )
   }

@@ -2,24 +2,38 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   LayoutDashboard, Code2, PenTool, Clapperboard, Newspaper, MessageSquareQuote, HelpCircle,
   Briefcase, LogOut, ExternalLink, Loader2, Lock, Menu, X, ChevronRight,
+  BarChart3, Calculator, SplitSquareHorizontal, CalendarClock, FolderKanban, KeyRound,
 } from 'lucide-react';
 import { getContent, getSession, login, logout } from './api';
 import { mergeContent } from '../content/store';
 import { useContentStatus } from '../content/useContent';
 import { CollectionPage, ServicesPage } from './pages';
+import StatsPage from './StatsPage';
+import EstimatorPage from './EstimatorPage';
+import BookingAdminPage from './BookingAdminPage';
+import ClientsAdminPage from './ClientsAdminPage';
+import SettingsPage from './SettingsPage';
 import './admin.css';
 
 const NAV = [
   { id: 'overview', label: 'Tableau de bord', icon: LayoutDashboard },
+  { id: 'stats', label: 'Statistiques', icon: BarChart3 },
+  { group: 'Clients' },
+  { id: 'bookings', label: 'Rendez-vous', icon: CalendarClock, sections: ['booking'] },
+  { id: 'clients', label: 'Espace client', icon: FolderKanban },
+  { id: 'estimator', label: 'Estimateur de devis', icon: Calculator, sections: ['estimator'] },
   { group: 'Portfolio' },
   { id: 'projects', label: 'Projets web', icon: Code2, sections: ['projects'] },
   { id: 'design', label: 'Design graphique', icon: PenTool, sections: ['designWorks', 'designCategories'] },
   { id: 'video', label: 'Montage vidéo', icon: Clapperboard, sections: ['videoWorks', 'videoCategories'] },
+  { id: 'beforeAfter', label: 'Avant / après', icon: SplitSquareHorizontal, sections: ['beforeAfter'] },
   { group: 'Contenus' },
   { id: 'blog', label: 'Blog', icon: Newspaper, sections: ['posts'] },
   { id: 'testimonials', label: 'Témoignages', icon: MessageSquareQuote, sections: ['testimonials'] },
   { id: 'faq', label: 'FAQ', icon: HelpCircle, sections: ['faq'] },
   { id: 'services', label: 'Services', icon: Briefcase, sections: ['services'] },
+  { group: 'Réglages' },
+  { id: 'settings', label: 'Clés & configuration', icon: KeyRound },
 ];
 const PAGES = NAV.filter((n) => n.id);
 
@@ -277,6 +291,12 @@ export default function AdminApp() {
     case 'testimonials': body = <CollectionPage key="testimonials" section="testimonials" {...shared} />; break;
     case 'faq': body = <CollectionPage key="faq" section="faq" {...shared} />; break;
     case 'services': body = <ServicesPage key="services" {...shared} />; break;
+    case 'beforeAfter': body = <CollectionPage key="beforeAfter" section="beforeAfter" {...shared} />; break;
+    case 'stats': body = <StatsPage key="stats" />; break;
+    case 'estimator': body = <EstimatorPage key="estimator" {...shared} />; break;
+    case 'bookings': body = <BookingAdminPage key="bookings" {...shared} />; break;
+    case 'clients': body = <ClientsAdminPage key="clients" onDirty={onDirty} />; break;
+    case 'settings': body = <SettingsPage key="settings" />; break;
     default: body = <Overview content={content} customized={customized} go={go} />;
   }
 

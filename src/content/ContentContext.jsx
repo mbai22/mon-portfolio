@@ -17,6 +17,8 @@ export function ContentProvider({ children }) {
 
   const value = useMemo(() => ({
     content: mergeContent(remote),
+    // sections saved from /admin (they replace the built-in content and its translations)
+    customized: new Set(Object.keys(remote || {})),
     loaded,
     reload: () => setVersion((v) => v + 1),
   }), [remote, loaded]);

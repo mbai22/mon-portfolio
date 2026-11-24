@@ -1,11 +1,12 @@
 import { ArrowRight } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import { useSectionNav } from '../hooks/useSectionNav';
+import { useI18n } from '../i18n/context';
 
 const stats = [
-  { number: "3", label: "Années d'expérience" },
-  { number: "15+", label: "Projets web livrés" },
-  { number: "10+", label: "Clients satisfaits" },
+  { number: "3", key: 'about.years' },
+  { number: "15+", key: 'about.projects' },
+  { number: "10+", key: 'about.clients' },
 ];
 
 const partners = [
@@ -19,41 +20,40 @@ const partners = [
 
 export default function About() {
   const goTo = useSectionNav();
+  const { t } = useI18n();
 
   return (
     <section id="about" className="section section-dark">
       <div className="container">
         <div className="about-grid">
           <div className="about-intro">
-            <Eyebrow>À propos</Eyebrow>
-            <h2 className="section-title">Des solutions digitales qui font la différence</h2>
+            <Eyebrow>{t('about.eyebrow')}</Eyebrow>
+            <h2 className="section-title">{t('about.title')}</h2>
             <p className="section-text">
-              Je suis <strong>Willy Dev</strong>, développeur web et mobile, graphiste et monteur vidéo basé à N'Djamena, au Tchad.
-              Je crée des sites internet et des applications web et mobiles performants, des identités visuelles soignées et des vidéos engageantes pour les marques et les entrepreneurs.
+              {t('about.before')}<strong>Willy Dev</strong>{t('about.after')}
             </p>
             <a href="#contact" onClick={goTo('contact')} className="link-arrow">
-              Discutons de votre projet <ArrowRight size={14} />
+              {t('about.cta')} <ArrowRight size={14} />
             </a>
           </div>
 
           <div className="about-side">
             <div className="about-stats">
               {stats.map((stat) => (
-                <div key={stat.label} className="about-stat">
+                <div key={stat.key} className="about-stat">
                   <span className="about-stat-number display">{stat.number}</span>
-                  <span className="about-stat-label">{stat.label}</span>
+                  <span className="about-stat-label">{t(stat.key)}</span>
                 </div>
               ))}
             </div>
             <p className="section-text">
-              Ma mission : transformer vos idées en solutions concrètes, que ce soit une plateforme web, une identité visuelle ou un contenu vidéo professionnel.
-              Je mise sur la qualité, la créativité et l'impact.
+              {t('about.mission')}
             </p>
           </div>
         </div>
 
         <div className="about-partners">
-          <h3 className="about-partners-title">Ils m'ont fait confiance</h3>
+          <h3 className="about-partners-title">{t('about.partners')}</h3>
           <ul className="about-partners-list">
             {partners.map((partner) => (
               <li key={partner.name}>

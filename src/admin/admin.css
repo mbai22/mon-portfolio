@@ -700,3 +700,75 @@
   .adm-image-preview { width: 100%; max-width: 260px; }
   .adm-inline-row { flex-direction: column; align-items: stretch; }
 }
+
+/* Statistics */
+.adm-stat.static { cursor: default; }
+.adm-stat.static:hover { transform: none; border-color: var(--adm-border); }
+
+.adm-chart { position: relative; }
+.adm-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.adm-chart-grid { stroke: var(--adm-border); stroke-width: 1; }
+.adm-chart-axis { fill: var(--adm-muted); font-size: 11px; font-family: var(--font-body); }
+.adm-chart-bar { fill: var(--primary); transition: fill 0.15s; }
+.adm-chart-bar.on { fill: var(--primary-dark); }
+
+.adm-chart-tip {
+  position: absolute;
+  top: -6px;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--white);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.adm-chart-tip span { color: var(--muted-on-dark); font-size: 0.75rem; }
+
+.adm-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.adm-table td, .adm-table th { padding: 9px 4px; border-bottom: 1px solid var(--adm-border); text-align: left; vertical-align: top; }
+.adm-table th { color: var(--adm-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.adm-table tr:last-child td { border-bottom: 0; }
+.adm-table .num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.adm-grid-2 > .adm-card { margin-bottom: 0; }
+.adm-grid-2 { margin-bottom: 20px; }
+
+.adm-suffixed span { order: 2; }
+.adm-checklist { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 2px 14px; }
+.adm-checklist .adm-check { margin-bottom: 6px; font-weight: 400; }
+
+.adm-card-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; }
+.adm-card-head .adm-check { margin-bottom: 16px; font-weight: 400; font-size: 0.8125rem; }
+.adm-table-wrap { overflow-x: auto; }
+.adm-table tr.is-muted td { opacity: 0.5; }
+.adm-table .adm-link { margin-top: 2px; font-size: 0.8125rem; }
+.adm-row-actions { display: flex; gap: 6px; justify-content: flex-end; white-space: nowrap; }
+.adm-pill { display: inline-block; padding: 3px 9px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+.adm-pill.ok { background: #e3f8e9; color: #17663a; }
+.adm-pill.warn { background: #fff3d6; color: #7a5300; }
+.adm-pill.muted { background: var(--adm-bg); color: var(--adm-muted); }
+
+/* Client space admin */
+.adm-share { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 18px; padding: 12px; border-radius: 10px; background: var(--adm-bg); }
+.adm-share code { flex: 1 1 100%; font-size: 0.8125rem; overflow-wrap: anywhere; }
+.adm-inline-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; align-items: end; }
+.adm-inline-fields .adm-btn { padding: 10px 12px; cursor: pointer; }
+.adm-subtitle { margin: 22px 0 8px; font-size: 0.9375rem; font-weight: 700; }
+.adm-rows { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+.adm-row { display: flex; gap: 8px; width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--adm-border); background: var(--adm-surface); }
+.adm-row-body { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.adm-row-tools { display: flex; flex-direction: column; gap: 2px; }
+.adm-row-tools button { padding: 3px; border-radius: 4px; color: var(--adm-muted); }
+.adm-row-tools button:not(:disabled):hover { color: var(--primary); }
+.adm-row-tools button:disabled { opacity: 0.25; }
+.adm-messages { padding: 10px; border-radius: 10px; background: var(--adm-bg); margin-bottom: 12px; }
+.adm-form-foot { display: flex; align-items: center; justify-content: flex-end; gap: 12px; padding-top: 14px; border-top: 1px solid var(--adm-border); }
+
+.adm-steps { padding-left: 20px; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; line-height: 1.55; }
+.adm-code { margin-top: 8px; padding: 12px 14px; border-radius: 10px; background: var(--bg-secondary); color: #e8e8ef; font-size: 0.8125rem; overflow-x: auto; }
+.adm-steps code, .adm-card code { padding: 1px 5px; border-radius: 5px; background: var(--adm-bg); font-size: 0.85em; }
+.adm-pill svg { vertical-align: -2px; }

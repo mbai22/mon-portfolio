@@ -1,6 +1,7 @@
 import { useContext, useMemo } from 'react';
 import { ContentContext } from './store';
 import { normalizePost } from '../data/posts';
+import { useI18n } from '../i18n/context';
 
 export function useContent() {
   return useContext(ContentContext).content;
@@ -21,6 +22,16 @@ export function usePosts() {
     () => posts.map(normalizePost).sort((a, b) => String(b.date).localeCompare(String(a.date))),
     [posts],
   );
+}
+
+// A content section in the visitor's language: the built-in translation (src/i18n/<lang>.js)
+// is used until the section is edited in /admin, after which the admin's version is shown.
+export function useLocalizedSection(name) {
+  const { content, customized } = useContext(ContentContext);
+  const { locale, t } = useI18n();
+  if (locale === 'fr' || customized?.has(name)) return content[name];
+  const translated = t(`content.${name}`);
+  return typeof translated === 'object' ? translated : content[name];
 }
 
 export function useContentStatus() {

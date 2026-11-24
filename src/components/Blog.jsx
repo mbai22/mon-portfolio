@@ -3,16 +3,18 @@ import { ChevronsRight } from 'lucide-react';
 import Eyebrow from './Eyebrow';
 import { formatDate } from '../data/posts';
 import { usePosts } from '../content/useContent';
+import { useI18n } from '../i18n/context';
 
 export default function Blog() {
   const posts = usePosts().slice(0, 6);
+  const { t } = useI18n();
 
   return (
     <section id="blog" className="section section-light">
       <div className="container">
         <div className="section-head">
-          <Eyebrow>Blog & conseils</Eyebrow>
-          <h2 className="section-title">Conseils et retours d'expérience pour vos projets web</h2>
+          <Eyebrow>{t('blog.eyebrow')}</Eyebrow>
+          <h2 className="section-title">{t('blog.title')}</h2>
         </div>
 
         <div className="cards-grid">

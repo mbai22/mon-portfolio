@@ -30,3 +30,8 @@ dist-ssr
 # Admin: local password config and edited content/uploads (never committed)
 willydev-admin.php
 willydev-data/
+# API keys (assistant IA, audit): never committed
+willydev-secrets.php
+
+# Generated at build time
+public/api/_knowledge.json

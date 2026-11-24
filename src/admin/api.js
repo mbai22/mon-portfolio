@@ -52,6 +52,10 @@ export async function logout() {
 
 export const getContent = () => call('/api/content.php');
 
+// Generic helpers for the other admin endpoints (statistics, bookings, client space…)
+export const adminGet = (path) => call(path);
+export const adminSend = (path, method, body) => call(path, { method, body });
+
 export const saveSection = (section, data) =>
   call('/api/content.php', { method: 'PUT', body: { section, data } });
 

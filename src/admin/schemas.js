@@ -202,3 +202,54 @@ export function validate(schema, items, isUnique) {
   }
   return errors;
 }
+
+// Quote estimator (page /devis)
+export const estimatorSchemas = {
+  type: {
+    itemLabel: 'type de projet',
+    display: (item) => ({ title: item.label, subtitle: `Dès ${new Intl.NumberFormat('fr-FR').format(item.base || 0)} FCFA` }),
+    create: () => ({ id: `type-${Date.now()}`, label: '', description: '', base: 0, includedPages: 0, perPage: 0 }),
+    fields: [
+      { name: 'label', label: 'Nom', type: 'text', required: true },
+      { name: 'description', label: 'Description courte', type: 'textarea', rows: 2 },
+      { name: 'base', label: 'Prix de départ', type: 'number', suffix: 'FCFA', min: 0, step: 5000, required: true },
+      { name: 'includedPages', label: 'Pages comprises', type: 'number', min: 0, help: 'Laissez 0 si le nombre de pages ne compte pas (application, logo, vidéo).' },
+      { name: 'perPage', label: 'Prix par page supplémentaire', type: 'number', suffix: 'FCFA', min: 0, step: 1000, help: '0 = pas de choix du nombre de pages pour ce type.' },
+    ],
+  },
+  option: {
+    itemLabel: 'option',
+    display: (item) => ({ title: item.label, subtitle: `+ ${new Intl.NumberFormat('fr-FR').format(item.price || 0)} FCFA` }),
+    create: () => ({ id: `option-${Date.now()}`, label: '', price: 0, types: [] }),
+    fields: [
+      { name: 'label', label: 'Nom', type: 'text', required: true },
+      { name: 'price', label: 'Prix', type: 'number', suffix: 'FCFA', min: 0, step: 5000, required: true },
+      { name: 'types', label: 'Proposée pour (aucune case = tous les projets)', type: 'checklist', options: 'projectTypeChoices' },
+    ],
+  },
+  delay: {
+    itemLabel: 'délai',
+    display: (item) => ({ title: item.label, subtitle: `× ${item.factor}` }),
+    create: () => ({ id: `delay-${Date.now()}`, label: '', factor: 1 }),
+    fields: [
+      { name: 'label', label: 'Nom', type: 'text', required: true },
+      { name: 'factor', label: 'Multiplicateur du prix', type: 'number', min: 0.5, max: 3, step: 0.05, required: true, help: '1 = prix normal, 1,3 = +30 %.' },
+    ],
+  },
+};
+
+// Before / after comparisons (portfolio page)
+schemas.beforeAfter = {
+  title: 'Avant / après',
+  description: 'Comparaisons à curseur affichées dans la page Portfolio : refontes de sites, retouches, logos modernisés… Utilisez deux images de même format.',
+  itemLabel: 'comparaison',
+  display: (item) => ({ title: item.title, subtitle: item.client, image: item.after }),
+  create: () => ({ id: `ba-${Date.now()}`, title: '', client: '', description: '', before: '', after: '' }),
+  fields: [
+    { name: 'title', label: 'Titre', type: 'text', required: true },
+    { name: 'client', label: 'Client', type: 'text' },
+    { name: 'description', label: 'Ce qui a changé', type: 'textarea', rows: 3 },
+    { name: 'before', label: 'Image « avant »', type: 'image', required: true },
+    { name: 'after', label: 'Image « après »', type: 'image', required: true },
+  ],
+};
